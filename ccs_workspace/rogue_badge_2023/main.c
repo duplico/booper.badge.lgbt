@@ -28,6 +28,10 @@
 // Accessory headers
 #include <driverlib.h>
 
+// CapTIvate
+#include "captivate.h"
+#include "CAPT_App.h"
+
 // Project headers
 #include <badge.h>
 
@@ -101,6 +105,18 @@ void dco_software_trim()
     while(CSCTL7 & (FLLUNLOCK0 | FLLUNLOCK1)); // Poll until FLL is locked
 }
 
+/// Prepare to write to FRAM by disabling interrupts and unlocking write access to INFOA.
+inline volatile void fram_unlock() {
+    __bic_SR_register(GIE);
+    SYSCFG0 = FRWPPW | PFWP;
+}
+
+/// Finish writing to FRAM by locking write access to INFOA and enabling interrupts.
+inline volatile void fram_lock() {
+    SYSCFG0 = FRWPPW | DFWP | PFWP;
+    __bis_SR_register(GIE);
+}
+
 /// Initialize clock signals and the three system clocks.
 /**
  ** We'll take the DCO to 8 MHz, and divide it by 1 for MCLK = 8MHz.
@@ -138,6 +154,27 @@ void init_clocks() {
     // default DCODIV as MCLK and SMCLK source; no need to modify CSCTL5.
 }
 
+/// Callback from CapTIvate for a change in the button state.
+void button_cb(tSensor *pSensor) {
+
+    if((pSensor->bSensorTouch == true) && (pSensor->bSensorPrevTouch == false))
+    {
+        // Button press
+        // button_state = 1;
+        // TODO: rtc_button_csecs = rtc_centiseconds;
+    }
+
+    if((pSensor->bSensorTouch == false) && (pSensor->bSensorPrevTouch == true))
+    {
+        // Button release
+        // if (button_state == 1) {
+        // TODO:    badge_button_press_short();
+        // }
+        // button_state = 0;
+    }
+}
+
+/// Make snafucated
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
@@ -147,7 +184,26 @@ int main(void)
 
 	// Mid-level drivers
 
+	// CapTIvate
+    MAP_CAPT_initUI(&g_uiApp);
+    MAP_CAPT_calibrateUI(&g_uiApp);
+    MAP_CAPT_registerCallback(&B1, &button_cb);
+
+    MAP_CAPT_stopTimer();
+    MAP_CAPT_clearTimer();
+    MAP_CAPT_selectTimerSource(CAPT_TIMER_SRC_ACLK);
+    MAP_CAPT_selectTimerSourceDivider(CAPT_TIMER_CLKDIV__1);
+    MAP_CAPT_writeTimerCompRegister(CAPT_MS_TO_CYCLES(g_uiApp.ui16ActiveModeScanPeriod));
+    MAP_CAPT_startTimer();
+    MAP_CAPT_enableISR(CAPT_TIMER_INTERRUPT);
+
 	// Application functionality
 
-	return 0;
+    // Set up WDT, and we're off to see the wizard.
+    WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
+
+	while (1) {
+	    // pat pat pat
+	    WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL;
+	}
 }
