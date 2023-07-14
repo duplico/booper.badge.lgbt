@@ -1,0 +1,29 @@
+#C:\Users\george\CapTIvateDesignCenter_1_83_00_08\CapTIvateDesignCenterWorkspace\UNTITLED/.plotProps/BTN00_BarPlot.props Plotter Data
+#Fri Jul 14 17:37:13 CDT 2023
+Signal.alias.Touch\ Threshold=
+Signal.alias.GRID=
+xlabel=Time
+Delta=on
+horiz_data_grid=true
+vert_data_grid=false
+ylabel=Channel Data
+Signal.alias.Lta=
+GRID=on
+labelFont=helvetica-BOLD-12
+Signal.alias.Count=
+xrangetype=false
+Lta=on
+xmin=-1.000000
+Count=on
+titleFont=helvetica-BOLD-24
+xmax=1.000000
+legendFont=helvetica-BOLD-14
+ymin=0.000000
+Prox\ Threshold=on
+ymax=1000.000000
+yrangetype=false
+graphtype=PtsCon
+Touch\ Threshold=on
+Signal.alias.Prox\ Threshold=
+persistence=2000
+Signal.alias.Delta=
