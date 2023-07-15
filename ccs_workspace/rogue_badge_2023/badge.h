@@ -17,4 +17,10 @@
 /// SMCLK rate in Hz.
 #define SMCLK_RATE_HZ 8000000
 
+extern uint8_t badge_brightness_level;
+extern volatile uint8_t f_time_loop;
+extern volatile uint8_t f_long_press;
+extern volatile uint8_t f_second;
+extern uint8_t button_state;
+
 #endif /* BADGE_H_ */

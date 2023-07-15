@@ -19,14 +19,12 @@
  ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
-// MSP430 main header
+// MSP430 headers
 #include <msp430fr2633.h>
-
-// C headers
-#include <stdint.h>
-
-// Accessory headers
 #include <driverlib.h>
+
+// System headers
+#include <stdint.h>
 
 // CapTIvate
 #include "captivate.h"
@@ -34,6 +32,17 @@
 
 // Project headers
 #include <badge.h>
+#include "rtc.h"
+
+/// Current button state (1 for pressed, 2 long-pressed, 0 not pressed).
+uint8_t button_state;
+
+/// Interrupt flag for the system clock tick.
+volatile uint8_t f_time_loop;
+/// Interrupt flag for the button being held for over 1 second.
+volatile uint8_t f_long_press;
+/// Interrupt flag that ticks every second.
+volatile uint8_t f_second;
 
 /// Perform the TI-recommended software trim of the DCO per TI demo code.
 void dco_software_trim()
@@ -179,12 +188,13 @@ int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
-	// Board basics
+	// Board basics initialization
 	init_clocks();
 
-	// Mid-level drivers
+	// Mid-level drivers initialization
+	rtc_init();
 
-	// CapTIvate
+	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
     MAP_CAPT_calibrateUI(&g_uiApp);
     MAP_CAPT_registerCallback(&B1, &button_cb);
@@ -197,13 +207,31 @@ int main(void)
     MAP_CAPT_startTimer();
     MAP_CAPT_enableISR(CAPT_TIMER_INTERRUPT);
 
-	// Application functionality
+	// Application functionality initialization
 
     // Set up WDT, and we're off to see the wizard.
     WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
 	while (1) {
-	    // pat pat pat
-	    WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL;
+
+	    // The 100 Hz loop
+	    if (f_time_loop) {
+	        // pat pat pat
+	        WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
+
+	        f_time_loop = 0;
+	    }
+
+	    // The 1 Hz loop
+	    if (f_second) {
+
+	        // TODO:
+//	        if (!(rtc_seconds % BADGE_CLOCK_WRITE_INTERVAL)) {
+//	            // Every BADGE_CLOCK_WRITE_INTERVAL seconds, write our time to the config.
+//	            badge_set_time(rtc_seconds, badge_clock_authority);
+//	        }
+
+	        f_second = 0;
+	    }
 	}
 }
