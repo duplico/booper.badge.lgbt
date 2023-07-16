@@ -24,6 +24,15 @@
 #include <msp430fr2633.h>
 
 #include "badge.h"
+#include "rtc.h"
+
+#pragma PERSISTENT(badge_conf)
+/// The main persistent badge configuration.
+volatile badge_conf_t badge_conf = (badge_conf_t){
+    .badge_id = BADGE_ID_UNASSIGNED,
+    .badges_seen = {0,},
+    .badges_seen_count = 1, // I've seen myself.
+};
 
 /// Callback for a long button press.
 void badge_button_press_long() {
