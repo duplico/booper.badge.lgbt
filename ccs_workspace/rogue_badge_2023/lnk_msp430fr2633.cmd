@@ -131,11 +131,6 @@ SECTIONS
 {
     GROUP(ALL_FRAM)
     {
-       GROUP(READ_WRITE_MEMORY)
-       {
-          .TI.persistent : {}                /* For #pragma persistent            */
-       }
-
        GROUP(READ_ONLY_MEMORY)
        {
           .cinit      : {}                   /* Initialization tables             */
@@ -172,6 +167,11 @@ SECTIONS
     .cio        : {} > RAM                /* C I/O buffer                      */
     .sysmem     : {} > RAM                /* Dynamic memory allocation area    */
     .stack      : {} > RAM (HIGH)         /* Software system stack             */
+
+     GROUP(READ_WRITE_MEMORY)
+     {
+        .TI.persistent : {}                /* For #pragma persistent            */
+     } > INFOA
 
     .infoA (NOLOAD) : {} > INFOA              /* MSP430 INFO FRAM  Memory segments */
 
