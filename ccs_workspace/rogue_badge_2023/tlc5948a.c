@@ -190,18 +190,6 @@ void tlc_init() {
     tlc_set_fun();
     // And our initial grayscale data:
     tlc_set_gs();
-
-    // Finally, we're going to configure the timer that outputs GSCLK.
-    //  We want this to go as fast as possible. (Meaning as fast as we can, as
-    //  its max, 33 MHz, is faster than our fastest possible source)
-    // We're going to use T0A3 for this, sourced from an undivided SMCLK.
-    //  (this should be our fastest source, since it can't use MCLK.)
-
-    TA0CTL = MC__STOP; // Make sure the timer is stopped.
-    TA0CCR0 = 1; // Reset timer at 1
-    TA0CCTL1 = OUTMOD_4; // Toggle mode.
-    TA0CCR1 = 1; // Toggle our output at 1
-    TA0CTL = TASSEL__SMCLK|MC_1; // Start it in up mode based on an undivided SMCLK.
 }
 
 /// SPI interrupt service routine for the peripheral connected to the LED driver.
