@@ -14,7 +14,11 @@
 
 #include <stdint.h>
 
-// Defines for pins:
+/****************************
+ * CONFIGURATION STARTS HERE
+ ****************************/
+
+// GPIO
 
 /// The DriverLib GPIO_PORT for the LATCH line.
 #define TLC_LATPORT GPIO_PORT_P1
@@ -25,6 +29,24 @@
 #define LAT_POUT    P1OUT
 /// The built-in pin bit in register LAT_POUT for the LATCH line.
 #define LAT_PBIT    BIT7
+
+// Peripherals
+/// The DriverLib EUSCI_BASE for the TLC port
+#define TLC_EUSCI_BASE EUSCI_A1_BASE
+/// CTLW0 register for the TLC eUSCI
+#define TLC_USCI_CTLW0 UCA1CTLW0
+/// Interrupt vector pragma for the TLC eUSCI
+#define TLC_USCI_VECTOR USCI_A1_VECTOR
+/// Interrupt vector register for the TLC eUSCI
+#define TLC_USCI_IV UCA1IV
+/// TX register for the TLC eUSCI
+#define TLC_USCI_TXBUF UCA1TXBUF
+/// RX register for the TLC eUSCI
+#define TLC_USCI_RXBUF UCA1RXBUF
+
+/**************************
+ * CONFIGURATION ENDS HERE
+ **************************/
 
 /// Idle state of the low-level SPI state machine.
 #define TLC_SEND_IDLE     0

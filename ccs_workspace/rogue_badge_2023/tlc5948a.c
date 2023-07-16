@@ -90,7 +90,7 @@ void tlc_set_gs() {
     while (tlc_send_type != TLC_SEND_IDLE);
     tlc_send_type = TLC_SEND_TYPE_GS;
     tlc_tx_index = 0;
-    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, TLC_THISISGS);
+    EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, TLC_THISISGS);
 }
 
 /// Send our current function data buffer to the hardware.
@@ -98,7 +98,7 @@ void tlc_set_fun() {
     while (tlc_send_type != TLC_SEND_IDLE);
     tlc_send_type = TLC_SEND_TYPE_FUN;
     tlc_tx_index = 0;
-    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, TLC_THISISFUN);
+    EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, TLC_THISISFUN);
 }
 
 /// Stage global brightness into dot correct if different from default.
@@ -137,16 +137,16 @@ uint8_t tlc_test_loopback(uint8_t test_pattern) {
     tlc_loopback_data_out = test_pattern;
     while (tlc_send_type != TLC_SEND_IDLE);
 
-    EUSCI_A_SPI_clearInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
-    EUSCI_A_SPI_enableInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
+    EUSCI_A_SPI_clearInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
+    EUSCI_A_SPI_enableInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
 
     tlc_send_type = TLC_SEND_TYPE_LB;
     tlc_tx_index = 0;
-    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, test_pattern);
+    EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, test_pattern);
     // Spin while we send and receive:
     while (tlc_send_type != TLC_SEND_IDLE);
 
-    EUSCI_A_SPI_disableInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
+    EUSCI_A_SPI_disableInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_RECEIVE_INTERRUPT);
 
     return tlc_loopback_data_in != (uint8_t) ((test_pattern << 7) | (test_pattern >> 1));
 }
@@ -165,9 +165,9 @@ void tlc_init() {
     LAT_POUT &= ~LAT_PBIT;
 
     // Configure our SPI peripheral to talk to the LED controller.
-    UCA0CTLW0 |= UCSWRST;  // Shut down USCI_A0,
+    TLC_USCI_CTLW0 |= UCSWRST;  // Shut down the eUSCI,
 
-    // And USCI_A0 peripheral:
+    // And our eUSCI peripheral:
     EUSCI_A_SPI_initMasterParam ini = {0};
     ini.clockPhase = EUSCI_A_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT;
     ini.clockPolarity = EUSCI_A_SPI_CLOCKPOLARITY_INACTIVITY_LOW;
@@ -176,13 +176,13 @@ void tlc_init() {
     ini.msbFirst = EUSCI_A_SPI_MSB_FIRST;
     ini.selectClockSource = EUSCI_A_SPI_CLOCKSOURCE_SMCLK;
     ini.spiMode = EUSCI_A_SPI_3PIN;
-    EUSCI_A_SPI_initMaster(EUSCI_A0_BASE, &ini);
+    EUSCI_A_SPI_initMaster(TLC_EUSCI_BASE, &ini);
 
-    UCA0CTLW0 &= ~UC7BIT;  //  put it in 8-bit mode out of caution.
-    UCA0CTLW0 &= ~UCSWRST; //  and enable it.
+    TLC_USCI_CTLW0 &= ~UC7BIT;  //  put it in 8-bit mode out of caution.
+    TLC_USCI_CTLW0 &= ~UCSWRST; //  and enable it.
 
-    EUSCI_A_SPI_clearInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
-    EUSCI_A_SPI_enableInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+    EUSCI_A_SPI_clearInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+    EUSCI_A_SPI_enableInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
 
     // Stage an un-blank configuration to the function data:
     tlc_stage_blank(0);
@@ -208,19 +208,19 @@ void tlc_init() {
 }
 
 /// SPI interrupt service routine for the peripheral connected to the LED driver.
-#pragma vector=USCI_A0_VECTOR
-__interrupt void EUSCI_A0_ISR(void)
+#pragma vector=TLC_USCI_VECTOR
+__interrupt void TLC_EUSCI_ISR(void)
 {
-    switch (__even_in_range(UCA0IV, 4)) {
+    switch (__even_in_range(TLC_USCI_IV, 4)) {
     //Vector 2 - RXIFG
     case 2:
         // We received some garbage sent to us while we were sending.
         if (tlc_send_type == TLC_SEND_TYPE_LB) {
             // We're only interested in it if we're doing a loopback test.
-            tlc_loopback_data_in = EUSCI_B_SPI_receiveData(EUSCI_A0_BASE);
+            tlc_loopback_data_in = EUSCI_B_SPI_receiveData(TLC_EUSCI_BASE);
             __no_operation();
         } else {
-            EUSCI_B_SPI_receiveData(EUSCI_A0_BASE); // Throw it away.
+            EUSCI_B_SPI_receiveData(TLC_EUSCI_BASE); // Throw it away.
         }
         break; // End of RXIFG ///////////////////////////////////////////////////////
 
@@ -235,37 +235,37 @@ __interrupt void EUSCI_A0_ISR(void)
                 channel_gs = tlc_gs_data[tlc_tx_index/2];
                 __no_operation();
                 if (tlc_tx_index & 0x01) { // odd; less significant byte
-                    UCA0TXBUF = (channel_gs & 0xff);
+                    TLC_USCI_TXBUF = (channel_gs & 0xff);
                 } else { // even; more significant byte
-                    UCA0TXBUF = (channel_gs >> 8) & 0xff;
+                    TLC_USCI_TXBUF = (channel_gs >> 8) & 0xff;
                 }
             }
             tlc_tx_index++;
         } else if (tlc_send_type == TLC_SEND_TYPE_FUN) {
             if (tlc_tx_index == 18) { // after 18 we have to switch to 7-bit mode.
-                UCA0CTLW0 |= UCSWRST;
-                UCA0CTLW0 |= UC7BIT;
-                UCA0CTLW0 &= ~UCSWRST;
-                EUSCI_A_SPI_clearInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
-                EUSCI_A_SPI_enableInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+                TLC_USCI_CTLW0 |= UCSWRST;
+                TLC_USCI_CTLW0 |= UC7BIT;
+                TLC_USCI_CTLW0 &= ~UCSWRST;
+                EUSCI_A_SPI_clearInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+                EUSCI_A_SPI_enableInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
             } else if (tlc_tx_index == 34) {
                 LAT_POUT |= LAT_PBIT; LAT_POUT &= ~LAT_PBIT; // Pulse LAT
-                UCA0CTLW0 |= UCSWRST;
-                UCA0CTLW0 &= ~UC7BIT;
-                UCA0CTLW0 &= ~UCSWRST;
-                EUSCI_A_SPI_clearInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
-                EUSCI_A_SPI_enableInterrupt(EUSCI_A0_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+                TLC_USCI_CTLW0 |= UCSWRST;
+                TLC_USCI_CTLW0 &= ~UC7BIT;
+                TLC_USCI_CTLW0 &= ~UCSWRST;
+                EUSCI_A_SPI_clearInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
+                EUSCI_A_SPI_enableInterrupt(TLC_EUSCI_BASE, EUSCI_A_SPI_TRANSMIT_INTERRUPT);
                 tlc_send_type = TLC_SEND_IDLE;
                 break;
             }
-            EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, fun_base[tlc_tx_index]);
+            EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, fun_base[tlc_tx_index]);
             tlc_tx_index++;
         } else if (tlc_send_type == TLC_SEND_TYPE_LB) { // Loopback for POST
             if (tlc_tx_index == 33) {
                 tlc_send_type = TLC_SEND_IDLE;
                 break;
             }
-            EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, tlc_loopback_data_out);
+            EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, tlc_loopback_data_out);
             tlc_tx_index++;
         } else {
             tlc_send_type = TLC_SEND_IDLE; // probably shouldn't reach.
