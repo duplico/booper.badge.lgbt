@@ -18,6 +18,12 @@
  * CONFIGURATION STARTS HERE
  ****************************/
 
+// Functionality
+/// Default global brightness correct for LEDs.
+#define TLC_BC 0x00 // 25%
+/// Default dot-correct for all LEDs
+#define TLC_DC 0x01
+
 // GPIO
 
 /// The DriverLib GPIO_PORT for the LATCH line.
@@ -31,6 +37,7 @@
 #define LAT_PBIT    BIT7
 
 // Peripherals
+
 /// The DriverLib EUSCI_BASE for the TLC port
 #define TLC_EUSCI_BASE EUSCI_A1_BASE
 /// CTLW0 register for the TLC eUSCI

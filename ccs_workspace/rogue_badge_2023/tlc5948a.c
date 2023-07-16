@@ -77,12 +77,10 @@ uint8_t fun_base[] = {
         TLC_BC,
         // HERE WE SWITCH TO 7-BIT SPI.
         // The following index is 18:
-        0x7F,
-        TLC_DC_BLU, TLC_DC_GRN, TLC_DC_RED,
-        TLC_DC_BLU, TLC_DC_GRN, TLC_DC_RED,
-        TLC_DC_BLU, TLC_DC_GRN, TLC_DC_RED,
-        TLC_DC_BLU, TLC_DC_GRN, TLC_DC_RED,
-        TLC_DC_BLU, TLC_DC_GRN, TLC_DC_RED,
+        TLC_DC, TLC_DC, TLC_DC, TLC_DC, // 16 7-byte DC values
+        TLC_DC, TLC_DC, TLC_DC, TLC_DC,
+        TLC_DC, TLC_DC, TLC_DC, TLC_DC,
+        TLC_DC, TLC_DC, TLC_DC, TLC_DC
 };
 
 /// Send our current grayscale buffer to the hardware.
@@ -109,13 +107,13 @@ void tlc_set_fun() {
  ** constant current of the LEDs. This lets our PWM grayscale action
  ** look consistent across brightness correction levels. We still
  ** retain the ability to do per-color dot correction with the
- ** preprocessor defines that start with TLC_DC_.
+ ** preprocessor defines that start with TLC_DC.
  */
 void tlc_stage_dc_mult(uint8_t mult) {
     for (uint8_t i=0; i<15; i+=3) {
-        fun_base[19+i + 0] = TLC_DC_BLU * mult;
-        fun_base[19+i + 1] = TLC_DC_GRN * mult;
-        fun_base[19+i + 2] = TLC_DC_RED * mult;
+        fun_base[19+i + 0] = TLC_DC * mult;
+        fun_base[19+i + 1] = TLC_DC * mult;
+        fun_base[19+i + 2] = TLC_DC * mult;
     }
 }
 
@@ -192,7 +190,6 @@ void tlc_init() {
     tlc_set_fun();
     // And our initial grayscale data:
     tlc_set_gs();
-
 
     // Finally, we're going to configure the timer that outputs GSCLK.
     //  We want this to go as fast as possible. (Meaning as fast as we can, as
