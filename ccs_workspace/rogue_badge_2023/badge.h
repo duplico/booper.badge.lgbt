@@ -17,10 +17,16 @@
 /// SMCLK rate in Hz.
 #define SMCLK_RATE_HZ 8000000
 
+/// Number of csecs for a button long-press
+#define BUTTON_LONG_PRESS_CSECS 150
+
 extern uint8_t badge_brightness_level;
 extern volatile uint8_t f_time_loop;
-extern volatile uint8_t f_long_press;
+extern volatile uint8_t f_button_press_long;
 extern volatile uint8_t f_second;
-extern uint8_t button_state;
+extern volatile uint8_t button_state;
+
+void badge_button_press_long();
+void badge_button_press_short();
 
 #endif /* BADGE_H_ */

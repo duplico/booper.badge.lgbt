@@ -34,13 +34,13 @@
 #include <badge.h>
 #include "rtc.h"
 
-/// Current button state (1 for pressed, 2 long-pressed, 0 not pressed).
-uint8_t button_state;
+/// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
+volatile uint8_t button_state;
 
 /// Interrupt flag for the system clock tick.
 volatile uint8_t f_time_loop;
 /// Interrupt flag for the button being held for over 1 second.
-volatile uint8_t f_long_press;
+volatile uint8_t f_button_press_long;
 /// Interrupt flag that ticks every second.
 volatile uint8_t f_second;
 
@@ -169,17 +169,18 @@ void button_cb(tSensor *pSensor) {
     if((pSensor->bSensorTouch == true) && (pSensor->bSensorPrevTouch == false))
     {
         // Button press
-        // button_state = 1;
-        // TODO: rtc_button_csecs = rtc_centiseconds;
+         button_state = 1;
+         rtc_button_csecs = 0;
     }
 
     if((pSensor->bSensorTouch == false) && (pSensor->bSensorPrevTouch == true))
     {
         // Button release
-        // if (button_state == 1) {
-        // TODO:    badge_button_press_short();
-        // }
-        // button_state = 0;
+         if (button_state == 1) {
+             // Only fire if it's not being long-pressed.
+             badge_button_press_short();
+         }
+         button_state = 0;
     }
 }
 
@@ -213,25 +214,46 @@ int main(void)
     WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
 	while (1) {
-
 	    // The 100 Hz loop
 	    if (f_time_loop) {
+            f_time_loop = 0;
+
 	        // pat pat pat
 	        WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
-
-	        f_time_loop = 0;
 	    }
 
 	    // The 1 Hz loop
 	    if (f_second) {
+            f_second = 0;
 
 	        // TODO:
 //	        if (!(rtc_seconds % BADGE_CLOCK_WRITE_INTERVAL)) {
 //	            // Every BADGE_CLOCK_WRITE_INTERVAL seconds, write our time to the config.
 //	            badge_set_time(rtc_seconds, badge_clock_authority);
 //	        }
+	    }
 
-	        f_second = 0;
+	    if (f_button_press_long) {
+            f_button_press_long = 0;
+
+	        badge_button_press_long();
+	    }
+
+	    // Check whether CapTIvate needs to be serviced.
+	    if (g_bConvTimerFlag) {
+            g_bConvTimerFlag = 0;
+
+	        CAPT_updateUI(&g_uiApp);
+	    }
+
+	    // Enter sleep mode if we have no unserviced flags.
+	    if (
+	            !f_time_loop &&
+	            !f_second &&
+	            !f_button_press_long &&
+	            !g_bConvTimerFlag
+	    ) {
+	        __bis_SR_register(LPM0_bits); // TODO: Select LPM to use
 	    }
 	}
 }

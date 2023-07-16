@@ -34,7 +34,7 @@
 #include "badge.h"
 
 /// The number of system ticks the button has been held down so far.
-uint8_t rtc_button_csecs = 0;
+volatile uint16_t rtc_button_csecs = 0;
 /// System ticks this, which wraps from 99 to 0.
 volatile uint8_t rtc_centiseconds = 0;
 /// Number of seconds so far; persisted in `badge_conf.clock`.
@@ -66,19 +66,28 @@ void rtc_init() {
 __interrupt void RTC_ISR(void) {
     // Called when the RTC overflows (100 times per second)
     if (RTCIV == RTCIV_RTCIF) {
+        // Tick our 100 Hz time loop, first.
         rtc_centiseconds++;
         f_time_loop = 1;
 
-        if (button_state && rtc_centiseconds == rtc_button_csecs) {
-            f_long_press = 1;
+        // Handle long pressing of buttons.
+        if (button_state == 1) { // Not already long pressed
+            rtc_button_csecs++;
+            if (rtc_button_csecs == BUTTON_LONG_PRESS_CSECS) {
+                f_button_press_long = 1;
+                button_state = 2;
+                rtc_button_csecs = 0;
+            }
         }
 
+        // Tick our 1 Hz time loop if needed.
         if (rtc_centiseconds == 100) {
             rtc_seconds++;
             f_second = 1;
             rtc_centiseconds = 0;
         }
 
-        LPM0_EXIT;
+        // Exit LPM.
+        LPM0_EXIT; // TODO: Select appropriate LPM
     }
 }
