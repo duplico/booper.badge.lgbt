@@ -33,6 +33,7 @@
 // Project headers
 #include <badge.h>
 #include "rtc.h"
+#include "tlc5948a.h"
 
 /// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
 volatile uint8_t button_state;
@@ -194,6 +195,7 @@ int main(void)
 
 	// Mid-level drivers initialization
 	rtc_init();
+	tlc_init();
 
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
