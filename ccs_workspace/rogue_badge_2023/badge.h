@@ -44,7 +44,6 @@ typedef struct {
 } badge_conf_t;
 
 extern volatile badge_conf_t badge_conf;
-extern uint8_t badge_clock_authority;
 
 extern uint8_t badge_brightness_level;
 extern volatile uint8_t f_time_loop;
@@ -57,6 +56,5 @@ inline volatile void fram_lock();
 
 void badge_button_press_long();
 void badge_button_press_short();
-inline void badge_set_time(uint32_t clock, uint8_t authority);
 
 #endif /* BADGE_H_ */

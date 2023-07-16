@@ -34,19 +34,6 @@ volatile badge_conf_t badge_conf = (badge_conf_t){
     .badges_seen_count = 1, // I've seen myself.
 };
 
-/// Whether this badge thinks it has an authoritative clock.
-uint8_t badge_clock_authority = 0; // Intentionally clears on power cycle.
-
-/// Set the current time in our persistent config.
-inline void badge_set_time(uint32_t clock, uint8_t authority) {
-    rtc_seconds = clock;
-    badge_clock_authority = authority;
-
-    fram_unlock();
-    badge_conf.clock = clock;
-    fram_lock();
-}
-
 /// Callback for a long button press.
 void badge_button_press_long() {
     // TODO
