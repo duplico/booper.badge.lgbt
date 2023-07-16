@@ -28,6 +28,8 @@
 /// Callback for a long button press.
 void badge_button_press_long() {
     // TODO
+
+    button_state = 1; // Allow repeated long presses
 }
 
 /// Callback for a short button press.
