@@ -34,6 +34,7 @@
 #include <badge.h>
 #include "rtc.h"
 #include "tlc5948a.h"
+#include "rfm75.h"
 
 /// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
 volatile uint8_t button_state;
@@ -295,6 +296,10 @@ int main(void)
 	        badge_button_press_long();
 	    }
 
+	    if (f_rfm75_interrupt) {
+	        rfm75_deferred_interrupt();
+	    }
+
 	    // Check whether CapTIvate needs to be serviced.
 	    if (g_bConvTimerFlag) {
             g_bConvTimerFlag = 0;
@@ -307,6 +312,7 @@ int main(void)
 	            !f_time_loop &&
 	            !f_second &&
 	            !f_button_press_long &&
+	            !f_rfm75_interrupt &&
 	            !g_bConvTimerFlag
 	    ) {
 	        __bis_SR_register(LPM0_bits); // TODO: Select LPM to use
