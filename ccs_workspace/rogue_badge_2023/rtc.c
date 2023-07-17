@@ -60,7 +60,7 @@ inline void rtc_set_time(uint32_t clock, uint8_t authority) {
  ** per second.
  */
 void rtc_init() {
-//    rtc_seconds = badge_conf.clock; // TODO
+    rtc_seconds = badge_conf.clock;
 
     RTCMOD = 80; // Count the clock to 80 before resetting.
 
@@ -101,6 +101,6 @@ __interrupt void RTC_ISR(void) {
         }
 
         // Exit LPM.
-        LPM0_EXIT; // TODO: Select appropriate LPM
+        LPM0_EXIT;
     }
 }

@@ -40,7 +40,6 @@ typedef struct {
     uint8_t badges_seen[BADGES_SEEN_BUFFER_LEN_BYTES];
     /// Counter of badges seen generally
     uint8_t badges_seen_count;
-    // TODO: Add badge pairing with synchronized button presses?
 } badge_conf_t;
 
 extern volatile badge_conf_t badge_conf;

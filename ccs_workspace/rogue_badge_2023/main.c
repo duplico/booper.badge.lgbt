@@ -315,7 +315,7 @@ int main(void)
 	            !f_rfm75_interrupt &&
 	            !g_bConvTimerFlag
 	    ) {
-	        __bis_SR_register(LPM0_bits); // TODO: Select LPM to use
+	        __bis_SR_register(LPM0_bits);
 	    }
 	}
 }

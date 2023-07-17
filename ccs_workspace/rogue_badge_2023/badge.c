@@ -36,17 +36,13 @@ volatile badge_conf_t badge_conf = (badge_conf_t){
 
 /// Callback for a long button press.
 void badge_button_press_long() {
-    // TODO
-
     button_state = 1; // Allow repeated long presses
 }
 
 /// Callback for a short button press.
 void badge_button_press_short() {
-    // TODO
 }
 
 /// Initialize the badge application behavior.
 void badge_init() {
-    // TODO
 }

@@ -8,8 +8,6 @@
  ** \copyright (c) 2018-2023 George Louthan @duplico. MIT License.
  */
 
-// TODO: Complete the documentation
-
 #include <string.h>
 #include <stdint.h>
 
@@ -387,7 +385,6 @@ void rfm75_io_init() {
     CSN_HIGH_END; // initialize deselected.
     CE_DEACTIVATE; // initialize deactivated.
 
-    // TODO: Fix this, if needed:
     // Setup USCI
     RFM75_UCxCTLW0 |= UCSWRST;
     RFM75_UCxBRW = 1; // Clock scaler: if SMCLK isn't 1 MHz this much change.
@@ -517,7 +514,6 @@ void rfm75_init(uint16_t unicast_address, rfm75_rx_callback_fn* rx_callback,
                     CONFIG_MASK_MAX_RT + CONFIG_EN_CRC +
                     CONFIG_CRCO_2BYTE + CONFIG_PWR_UP +
                     CONFIG_PRIM_RX);
-    //  Wait for 2ms // TODO: use the frequency define here
     __delay_cycles(1000);
     __delay_cycles(1000);
     //  Operate the bank1 register, writing a 1 to bit 25 of register 04
