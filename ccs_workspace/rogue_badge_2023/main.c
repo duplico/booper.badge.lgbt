@@ -172,23 +172,22 @@ void init_clocks() {
 void init_io() {
     // Per datasheet S4.6, p20, unused pins should be switched to outputs.
 
-    // IO:
-    // P1.0     UCB0 CSN    (SEL 00; DIR 1) // TODO: GPIO or UCB0STE?
-    // P1.1     UCB0CLK     (SEL 10; DIR 1) // TODO
-    // P1.2     UCB0SIMO    (SEL 00; DIR 1) // TODO
-    // P1.3     UCB0SOMI    (SEL 00; DIR 1) // TODO
-    // P1.4        (SEL 01; DIR 1)
-    // P1.5        (SEL 01; DIR 0)
-    // P1.6        (SEL 01; DIR 1)
-    // P1.7     SMCLK out   (SEL 00; DIR 1) // TODO
+    // P1.0     GPIO CSN    (SEL 00; DIR 1) Initially HIGH
+    // P1.1     UCB0CLK     (SEL 01; DIR 1)
+    // P1.2     UCB0SIMO    (SEL 01; DIR 1)
+    // P1.3     UCB0SOMI    (SEL 01; DIR 0)
+    // P1.4     Unused      (SEL 00; DIR 1)
+    // P1.5     GPIO CE     (SEL 00; DIR 1) Initially LOW
+    // P1.6     GPIO IRQ    (SEL 00; DIR 0)
+    // P1.7     SMCLK out   (SEL 10; DIR 1)
 
     // P2.0     Unused      (SEL 00; DIR 1)
     // P2.1     Unused      (SEL 00; DIR 1)
     // P2.2     Unused      (SEL 00; DIR 1)
     // P2.3     Unused      (SEL 00; DIR 1)
-    // P2.4     UCA1CLK     (SEL 00; DIR 0; REN 1; OUT 1) // TODO
-    // P2.5     UCA1SOMI    (SEL 01; DIR 0) // TODO
-    // P2.6     UCA1SIMO    (SEL 01; DIR 1) // TODO
+    // P2.4     UCA1CLK     (SEL 01; DIR 1)
+    // P2.5     UCA1SOMI    (SEL 01; DIR 0)
+    // P2.6     UCA1SIMO    (SEL 01; DIR 1)
     // P2.7     Unused      (SEL 00; DIR 1)
 
     // P3.0 is DONTCARE for CAP0.0
@@ -196,18 +195,18 @@ void init_io() {
     // P3.2     Unused      (SEL 00; DIR 1)
 
     // P1
-    P1DIR =     0b11011111;
-    P1SEL0 =    0b01110000; // LSB
-    P1SEL1 =    0b00000010; // MSB
-    P1REN =     0x00;
-    P1OUT =     0x00;
+    P1DIR =     0b10110111;
+    P1SEL0 =    0b00001110; // LSB
+    P1SEL1 =    0b10000000; // MSB
+    P1REN =     0b00000000;
+    P1OUT =     0b00000001;
 
     // P2
-    P2DIR =     0b11001111;
-    P2SEL0 =    0b01100000; // LSB
+    P2DIR =     0b11011111;
+    P2SEL0 =    0b01110000; // LSB
     P2SEL1 =    0b00000000; // MSB
-    P2REN =     0b00010000;
-    P2OUT =     0b00010000;
+    P2REN =     0b00000000;
+    P2OUT =     0b00000000;
 
     // Init P3 as unused
     P3DIR = 0xFF;
@@ -248,6 +247,7 @@ int main(void)
 	
 	// Board basics initialization
 	init_clocks();
+	init_io();
 
 	// Mid-level drivers initialization
 	rtc_init();

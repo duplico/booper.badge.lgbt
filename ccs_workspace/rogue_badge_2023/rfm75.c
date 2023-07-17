@@ -385,21 +385,9 @@ uint8_t rfm75_post() {
 /// Initialize the GPIO and peripheral pins required for the RFM75.
 void rfm75_io_init() {
     // TODO: Reconcile this with the GPIO setup in main.c
-    // CSN
-    RFM75_CSN_DIR |= RFM75_CSN_PIN;
     CSN_HIGH_END; // initialize deselected.
-    // CE (1.6):
-    RFM75_CE_DIR |= RFM75_CE_PIN;
     CE_DEACTIVATE; // initialize deactivated.
-    // IRQ (1.7):
-    RFM75_IRQ_DIR &= ~RFM75_IRQ_PIN;
-    RFM75_IRQ_REN &= ~RFM75_IRQ_PIN;
-    RFM75_IRQ_SEL0 &= ~RFM75_IRQ_PIN;
-    RFM75_IRQ_SEL1 &= ~RFM75_IRQ_PIN;
-    // Pins for the USCI:
-    GPIO_setAsPeripheralModuleFunctionOutputPin(RFM75_USCI_PORT,
-                                                RFM75_USCI_PINS,
-                                                GPIO_PRIMARY_MODULE_FUNCTION);
+
     // Setup USCI
     RFM75_UCxCTLW0 |= UCSWRST;
     RFM75_UCxBRW = 1; // Clock scaler: if SMCLK isn't 1 MHz this much change.
