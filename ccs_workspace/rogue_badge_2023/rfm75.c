@@ -384,7 +384,6 @@ uint8_t rfm75_post() {
 
 /// Initialize the GPIO and peripheral pins required for the RFM75.
 void rfm75_io_init() {
-    // TODO: Reconcile this with the GPIO setup in main.c
     CSN_HIGH_END; // initialize deselected.
     CE_DEACTIVATE; // initialize deactivated.
 
