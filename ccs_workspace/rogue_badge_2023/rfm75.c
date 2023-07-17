@@ -387,6 +387,7 @@ void rfm75_io_init() {
     CSN_HIGH_END; // initialize deselected.
     CE_DEACTIVATE; // initialize deactivated.
 
+    // TODO: Fix this, if needed:
     // Setup USCI
     RFM75_UCxCTLW0 |= UCSWRST;
     RFM75_UCxBRW = 1; // Clock scaler: if SMCLK isn't 1 MHz this much change.
