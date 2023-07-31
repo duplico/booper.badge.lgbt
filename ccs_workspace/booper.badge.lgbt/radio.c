@@ -1,0 +1,134 @@
+/// App-level driver for HopeRF RFM75 module.
+/**
+ **
+ **
+ ** \file radio.c
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2018-2023 George Louthan @duplico. MIT License.
+ */
+#include <stdint.h>
+
+#include <msp430fr2633.h>
+
+#include "badge.h"
+#include "util.h"
+#include "radio.h"
+#include "rfm75.h"
+#include "rtc.h"
+
+/// An **incredibly wasteful** array of all badges and bases we can currently see.
+badge_info_t ids_in_range[BADGES_IN_SYSTEM] = {0};
+/// The current radio packet we're sending (or just sent).
+radio_proto_t curr_packet_tx;
+
+uint8_t progress_tx_id = 0;
+uint8_t s_need_progress_tx = 0;
+
+uint16_t rx_cnt[FREQ_NUM] = {0,};
+
+#pragma PERSISTENT(radio_frequency)
+uint8_t radio_frequency = FREQ_MIN;
+#pragma PERSISTENT(radio_frequency_done)
+uint8_t radio_frequency_done = 0;
+
+uint8_t validate(radio_proto_t *msg, uint8_t len) {
+    if (len != sizeof(radio_proto_t)) {
+        // PROBLEM
+        return 0;
+    }
+
+    // Check for bad ID:
+    if (msg->badge_id >= BADGES_IN_SYSTEM) // TODO: Base?
+        return 0;
+
+    // Finally, verify the CRC:
+    return (crc16_check_buffer((uint8_t *) msg, len-2));
+}
+
+void set_badge_in_range(uint16_t id, uint8_t *name) {
+    if (!ids_in_range[id].intervals_left) {
+        // This badge is not currently in range.
+    }
+    // Mark it as recently seen.
+    ids_in_range[id].intervals_left = RADIO_WINDOW_BEACON_COUNT;
+}
+
+void radio_handle_beacon(uint16_t id) {
+    // We've received a radio beacon.
+    // TODO: Handle it
+}
+
+/// Called when the transmission of `curr_packet` has either finished or failed.
+void radio_tx_done(uint8_t ack) {
+    switch(curr_packet_tx.msg_type) {
+        case RADIO_MSG_TYPE_BEACON:
+            // We just sent a beacon.
+            // There's no state that needs to be cleared at this point.
+            break;
+    }
+}
+
+void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
+    radio_proto_t *msg = (radio_proto_t *) data;
+
+    // TODO: frequency setting:
+    if (!radio_frequency_done) {
+        rx_cnt[radio_frequency - FREQ_MIN]++;
+    }
+
+    if (!validate(msg, len)) {
+        // fail
+        return;
+    }
+
+    // TODO: Handle clock setting, beyond this:
+//    if (!bad) {
+//        if (payload->time.authoritative || payload->time.time > qc_clock.time) {
+//            // We adjust our time if the remote clock authoritative,
+//            //  or if it's not authoritative but has been on longer.
+//            qc_clock.authoritative = payload->time.authoritative;
+//            qc_clock.time = payload->time.time;
+//        }
+//    }
+
+    switch(msg->msg_type) {
+    case RADIO_MSG_TYPE_BEACON:
+        // Handle a beacon.
+        radio_handle_beacon(msg->badge_id);
+        break;
+    }
+}
+
+/// Do our regular radio and queerdar interval actions.
+/**
+ * This function MUST NOT be called if we are in a state where the radio is
+ * not allowed to initiate a transmission, because it will ALWAYS call
+ * `rfm75_tx()`. That guard MUST be done outside of this function, because
+ * this function has MANY side effects. Use rfm75_tx_avail() for this.
+ */
+void radio_interval() {
+    for (uint16_t i=0; i<BADGES_IN_SYSTEM; i++) {
+        ids_in_range[i].intervals_left--;
+        // TODO: Do we need to do anything about badges aging out?
+    }
+
+    // Also, at each radio interval, we do need to do a beacon.
+    curr_packet_tx.proto_version = RADIO_PROTO_VER;
+    curr_packet_tx.badge_id = badge_conf.badge_id;
+    curr_packet_tx.msg_type = RADIO_MSG_TYPE_BEACON;
+    curr_packet_tx.clock = rtc_seconds;
+    curr_packet_tx.clock_authority = rtc_clock_authority;
+    curr_packet_tx.msg_payload = 0;
+    crc16_append_buffer((uint8_t *)&curr_packet_tx, sizeof(radio_proto_t)-2);
+
+    // Send our beacon.
+    rfm75_tx(RFM75_BROADCAST_ADDR, 1, (uint8_t *)&curr_packet_tx,
+             RFM75_PAYLOAD_SIZE);
+}
+
+void radio_init(uint16_t addr) {
+    rfm75_init(addr, &radio_rx_done, &radio_tx_done);
+    rfm75_post();
+    rfm75_write_reg(0x05, radio_frequency);
+}

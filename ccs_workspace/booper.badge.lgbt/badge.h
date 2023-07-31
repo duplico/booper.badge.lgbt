@@ -1,7 +1,7 @@
 /// mini.badge.lgbt 2023 main header file.
 /**
  ** This header contains the core configuration and functionality declarations
- ** and definitions for the Queercon 2022 badge.
+ ** and definitions for the booper.badge.lgbt badge.
  **
  ** \file badge.h
  ** \author George Louthan
@@ -20,8 +20,11 @@
 /// Number of csecs for a button long-press
 #define BUTTON_LONG_PRESS_CSECS 150
 
+/// Number of possible badges in the system
+#define BADGES_IN_SYSTEM 120
+// TODO: This isn't great:
 /// Number of bytes in the bitfield of all badge IDs
-#define BADGES_SEEN_BUFFER_LEN_BYTES 18
+#define BADGES_SEEN_BUFFER_LEN_BYTES BADGES_IN_SYSTEM / 8 + 1
 /// Valid badge ID but indicating it hasn't been assigned by a controller.
 #define BADGE_ID_UNASSIGNED 250
 
