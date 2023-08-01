@@ -99,7 +99,7 @@ void tlc_set_fun() {
     EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, TLC_THISISFUN);
 }
 
-// TODO:
+// TODO: This only works with a 1 or 0 right now.
 /// Stage global brightness into dot correct if different from default.
 /**
  ** This is designed to give us a greater range of hardware brightness
@@ -110,13 +110,13 @@ void tlc_set_fun() {
  ** retain the ability to do per-color dot correction with the
  ** preprocessor defines that start with TLC_DC.
  */
-//void tlc_stage_dc_mult(uint8_t mult) {
-//    for (uint8_t i=0; i<15; i+=3) {
-//        fun_base[19+i + 0] = TLC_DC * mult;
-//        fun_base[19+i + 1] = TLC_DC * mult;
-//        fun_base[19+i + 2] = TLC_DC * mult;
-//    }
-//}
+void tlc_stage_dc_mult(uint8_t mult) {
+    for (uint8_t i=0; i<15; i+=3) {
+        fun_base[19+i + 0] = TLC_DC * mult;
+        fun_base[19+i + 1] = TLC_DC * mult;
+        fun_base[19+i + 2] = TLC_DC * mult;
+    }
+}
 
 /// Set or unset the blank bit in the function data, but don't send it yet.
 void tlc_stage_blank(uint8_t blank) {
@@ -185,13 +185,7 @@ void tlc_init() {
 
     // Stage an un-blank configuration to the function data:
     tlc_stage_blank(0);
-//    tlc_stage_dc_mult(1); // TODO
-
-
-    for (uint8_t i=0; i<16; i++) {
-        tlc_gs_data[i] = 0x8888;
-//        tlc_gs_data[i] = 0xffff;
-    }
+    tlc_stage_dc_mult(1);
 
     // And our initial grayscale data:
     tlc_set_gs();
