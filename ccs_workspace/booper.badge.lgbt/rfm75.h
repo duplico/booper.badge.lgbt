@@ -13,8 +13,9 @@
 
 #include <stdint.h>
 #include <msp430.h>
+#include "radio.h"
 
-#define RFM75_PAYLOAD_SIZE 22
+#define RFM75_PAYLOAD_SIZE sizeof(radio_proto_t)
 #define UNICAST_LSB 0
 #define BROADCAST_LSB 0xEE
 #define RFM75_BROADCAST_ADDR 0xffff

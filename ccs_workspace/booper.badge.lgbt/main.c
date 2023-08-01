@@ -34,6 +34,7 @@
 #include <badge.h>
 #include "rtc.h"
 #include "tlc5948a.h"
+#include "radio.h"
 #include "rfm75.h"
 
 /// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
@@ -263,6 +264,7 @@ int main(void)
 	// Mid-level drivers initialization
 	rtc_init();
 	tlc_init();
+	radio_init(badge_conf.badge_id);
 
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
@@ -282,6 +284,9 @@ int main(void)
     // Set up WDT, and we're off to see the wizard.
     WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
+    uint8_t my_beacon_tick = badge_conf.badge_id % 8;
+    uint8_t s_beacon = 0;
+
 	while (1) {
 	    // The 100 Hz loop
 	    if (f_time_loop) {
@@ -298,6 +303,11 @@ int main(void)
 	        if (!(rtc_seconds % BADGE_CLOCK_WRITE_INTERVAL)) {
 	            // Every BADGE_CLOCK_WRITE_INTERVAL seconds, write our time to the config.
 	            rtc_set_time(rtc_seconds, rtc_clock_authority);
+	        }
+
+	        if (rtc_seconds % 8 == my_beacon_tick) {
+	            // Time to send a radio beacon
+	            s_beacon = 1;
 	        }
 	    }
 
@@ -316,6 +326,16 @@ int main(void)
             g_bConvTimerFlag = 0;
 
 	        CAPT_updateUI(&g_uiApp);
+	    }
+
+	    // TODO: Decouple beacon SENDING from beacon DECREMENTING?
+	    if (s_beacon) {
+	        // It's been 8 seconds, time to process the queerdar.
+	        // TODO: Need to query rfm75_tx_avail() before calling radio_interval().
+	        if (rfm75_tx_avail()) {
+	            s_beacon = 0;
+	            radio_interval();
+	        }
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.
