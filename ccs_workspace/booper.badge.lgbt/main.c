@@ -264,6 +264,7 @@ int main(void)
 	// Mid-level drivers initialization
 	rtc_init();
 	tlc_init();
+	radio_init(badge_conf.badge_id);
 
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
@@ -331,6 +332,10 @@ int main(void)
 	    if (s_beacon) {
 	        // It's been 8 seconds, time to process the queerdar.
 	        // TODO: Need to query rfm75_tx_avail() before calling radio_interval().
+	        if (rfm75_tx_avail()) {
+	            s_beacon = 0;
+	            radio_interval();
+	        }
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.

@@ -28,9 +28,9 @@ uint8_t s_need_progress_tx = 0;
 uint16_t rx_cnt[FREQ_NUM] = {0,};
 
 #pragma PERSISTENT(radio_frequency)
-uint8_t radio_frequency = FREQ_MIN;
+uint8_t radio_frequency = FREQ_MIN + FREQ_NUM / 2;
 #pragma PERSISTENT(radio_frequency_done)
-uint8_t radio_frequency_done = 0;
+uint8_t radio_frequency_done = 1; // TODO
 
 uint8_t validate(radio_proto_t *msg, uint8_t len) {
     if (len != sizeof(radio_proto_t)) {
@@ -39,7 +39,7 @@ uint8_t validate(radio_proto_t *msg, uint8_t len) {
     }
 
     // Check for bad ID:
-    if (msg->badge_id >= BADGES_IN_SYSTEM) // TODO: Base?
+    if (msg->badge_id >= BADGES_IN_SYSTEM && msg->badge_id != BADGE_ID_UNASSIGNED) // TODO: Base?
         return 0;
 
     // Finally, verify the CRC:
