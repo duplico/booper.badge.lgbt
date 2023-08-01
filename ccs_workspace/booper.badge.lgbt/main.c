@@ -23,12 +23,12 @@
 #include <msp430fr2633.h>
 #include <driverlib.h>
 
-// System headers
-#include <stdint.h>
-
 // CapTIvate
 #include "captivate.h"
 #include "CAPT_App.h"
+
+// System headers
+#include <stdint.h>
 
 // Project headers
 #include <badge.h>
@@ -162,7 +162,7 @@ void init_clocks() {
 
     CSCTL4 = SELMS__DCOCLKDIV | SELA__REFOCLK; // set default REFO(~32768Hz) as ACLK source, ACLK = 32768Hz
 
-    // default DCODIV as MCLK and SMCLK source; no need to modify CSCTL5.
+    // default DCODIV as MCLK and SMCLK source, SMCLKOFF=0; no need to modify CSCTL5.
 }
 
 /// Apply the initial configuration of the GPIO and peripheral pins.
@@ -191,7 +191,7 @@ void init_io() {
     // P2.7     Unused      (SEL 00; DIR 1)
 
     // P3.0 is DONTCARE for CAP0.0
-    // P3.1     Unused      (SEL 00; DIR 1)
+    // P3.1     TLC LAT     (SEL 00; DIR 1) Initially LOW
     // P3.2     Unused      (SEL 00; DIR 1)
 
     // P1
@@ -208,7 +208,7 @@ void init_io() {
     P2REN =     0b00000000;
     P2OUT =     0b00000000;
 
-    // Init P3 as unused
+    // P3
     P3DIR = 0xFF;
     P3SEL0 = 0x00;
     P3SEL1 = 0x00;
@@ -249,6 +249,8 @@ int main(void)
 	init_clocks();
 	init_io();
 
+	__bis_SR_register(GIE);
+
 	// Mid-level drivers initialization
 	rtc_init();
 	tlc_init();
@@ -256,7 +258,7 @@ int main(void)
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
     MAP_CAPT_calibrateUI(&g_uiApp);
-    MAP_CAPT_registerCallback(&B1, &button_cb);
+    MAP_CAPT_registerCallback(&BTN00, &button_cb);
 
     MAP_CAPT_stopTimer();
     MAP_CAPT_clearTimer();
