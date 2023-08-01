@@ -1,7 +1,7 @@
 LENGTH = 90;
-WIDTH = 12.7;
-LINES = 6;
-BASE = 35;
+WIDTH = 6;
+LINES = 5;
+BASE = 25;
 STAMP_HEIGHT = 1;
 
 cube([90, WIDTH, BASE]);
