@@ -13,9 +13,8 @@
 
 #include <driverlib.h>
 
+#include "badge.h"
 #include "rfm75.h"
-
-void delay_millis(unsigned long mils);
 
 // Handy generic pin twiddling:
 #define CSN_LOW_START RFM75_CSN_OUT &= ~RFM75_CSN_PIN
@@ -514,8 +513,8 @@ void rfm75_init(uint16_t unicast_address, rfm75_rx_callback_fn* rx_callback,
                     CONFIG_MASK_MAX_RT + CONFIG_EN_CRC +
                     CONFIG_CRCO_2BYTE + CONFIG_PWR_UP +
                     CONFIG_PRIM_RX);
-    __delay_cycles(1000);
-    __delay_cycles(1000);
+    __delay_cycles(1000 * MCLK_FREQ_MHZ);
+    __delay_cycles(1000 * MCLK_FREQ_MHZ);
     //  Operate the bank1 register, writing a 1 to bit 25 of register 04
     // uint8_t bank1_config_0x00[][4][4]
     uint8_t bank1_config_toggle[4] = {0};
@@ -524,11 +523,11 @@ void rfm75_init(uint16_t unicast_address, rfm75_rx_callback_fn* rx_callback,
     rfm75_write_reg_buf(0x04, bank1_config_toggle, 4);
 
     //  Wait 20us
-    __delay_cycles(20);
+    __delay_cycles(20 * MCLK_FREQ_MHZ);
     //  Operate the bank1 register, writing a 0 to bit 25 of register 04
     rfm75_write_reg_buf(0x04, bank1_config_0x00[4], 4);
     //  Wait for 0.5ms.
-    __delay_cycles(500);
+    __delay_cycles(500 * MCLK_FREQ_MHZ);
     //  Then normal launch.
 
     // Go back to the normal bank (0):

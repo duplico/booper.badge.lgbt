@@ -20,21 +20,22 @@
 
 // Functionality
 /// Default global brightness correct for LEDs.
-#define TLC_BC 0x00 // 25%
+//#define TLC_BC 0x00 // 25%
+#define TLC_BC 0x7f // 100%
 /// Default dot-correct for all LEDs
-#define TLC_DC 0x01
+#define TLC_DC 0x7f
 
 // GPIO
 
 /// The DriverLib GPIO_PORT for the LATCH line.
-#define TLC_LATPORT GPIO_PORT_P1
+#define TLC_LATPORT GPIO_PORT_P3
 /// The pin for the LATCH line, DriverLib style.
-#define TLC_LATPIN  GPIO_PIN7
+#define TLC_LATPIN  GPIO_PIN1
 
 /// The built-in register PxOUT for the LATCH line.
-#define LAT_POUT    P1OUT
+#define LAT_POUT    P3OUT
 /// The built-in pin bit in register LAT_POUT for the LATCH line.
-#define LAT_PBIT    BIT7
+#define LAT_PBIT    BIT1
 
 // Peripherals
 
@@ -71,7 +72,7 @@ void tlc_init();
 uint8_t tlc_test_loopback(uint8_t);
 void tlc_set_gs();
 void tlc_set_fun();
-void tlc_stage_dc_mult(uint8_t mult);
+//void tlc_stage_dc_mult(uint8_t mult);
 void tlc_stage_bc(uint8_t bc);
 void tlc_stage_blank(uint8_t);
 
