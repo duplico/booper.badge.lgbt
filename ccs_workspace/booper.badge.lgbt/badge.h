@@ -12,6 +12,8 @@
 #ifndef BADGE_H_
 #define BADGE_H_
 
+#include "stdint.h"
+
 /// MCLK rate in MHZ.
 #define MCLK_FREQ_MHZ 8
 /// SMCLK rate in Hz.

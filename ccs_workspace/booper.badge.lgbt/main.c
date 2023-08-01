@@ -29,6 +29,7 @@
 
 // System headers
 #include <stdint.h>
+#include <stdlib.h>
 
 // Project headers
 #include <badge.h>
@@ -36,6 +37,7 @@
 #include "tlc5948a.h"
 #include "radio.h"
 #include "rfm75.h"
+#include "leds.h"
 
 /// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
 volatile uint8_t button_state;
@@ -252,19 +254,10 @@ int main(void)
 
 	__bis_SR_register(GIE);
 
-	// TODO: temporarily make happy eyes
-	tlc_gs_data[3] = 0x0fff;
-	tlc_gs_data[5] = 0x0fff;
-	tlc_gs_data[6] = 0x0fff;
-
-	tlc_gs_data[8] = 0x0fff;
-	tlc_gs_data[9] = 0x0fff;
-	tlc_gs_data[11] = 0x0fff;
-
 	// Mid-level drivers initialization
 	rtc_init();
-	tlc_init();
 	radio_init(badge_conf.badge_id);
+	leds_init();
 
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
@@ -286,6 +279,7 @@ int main(void)
 
     uint8_t my_beacon_tick = badge_conf.badge_id % 8;
     uint8_t s_beacon = 0;
+    uint8_t next_blink = 1;
 
 	while (1) {
 	    // The 100 Hz loop
@@ -294,6 +288,8 @@ int main(void)
 
 	        // pat pat pat
 	        WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
+
+	        leds_timestep();
 	    }
 
 	    // The 1 Hz loop
@@ -308,6 +304,13 @@ int main(void)
 	        if (rtc_seconds % 8 == my_beacon_tick) {
 	            // Time to send a radio beacon
 	            s_beacon = 1;
+	        }
+
+	        if (!next_blink) {
+	            leds_blink_or_bling();
+	            next_blink = rand() % 5; // TODO: Config define for this
+	        } else {
+	            next_blink--;
 	        }
 	    }
 
