@@ -251,6 +251,15 @@ int main(void)
 
 	__bis_SR_register(GIE);
 
+	// TODO: temporarily make happy eyes
+	tlc_gs_data[3] = 0x0fff;
+	tlc_gs_data[5] = 0x0fff;
+	tlc_gs_data[6] = 0x0fff;
+
+	tlc_gs_data[8] = 0x0fff;
+	tlc_gs_data[9] = 0x0fff;
+	tlc_gs_data[11] = 0x0fff;
+
 	// Mid-level drivers initialization
 	rtc_init();
 	tlc_init();
