@@ -99,6 +99,7 @@ void tlc_set_fun() {
     EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, TLC_THISISFUN);
 }
 
+// TODO:
 /// Stage global brightness into dot correct if different from default.
 /**
  ** This is designed to give us a greater range of hardware brightness
@@ -109,22 +110,22 @@ void tlc_set_fun() {
  ** retain the ability to do per-color dot correction with the
  ** preprocessor defines that start with TLC_DC.
  */
-void tlc_stage_dc_mult(uint8_t mult) {
-    for (uint8_t i=0; i<15; i+=3) {
-        fun_base[19+i + 0] = TLC_DC * mult;
-        fun_base[19+i + 1] = TLC_DC * mult;
-        fun_base[19+i + 2] = TLC_DC * mult;
-    }
-}
+//void tlc_stage_dc_mult(uint8_t mult) {
+//    for (uint8_t i=0; i<15; i+=3) {
+//        fun_base[19+i + 0] = TLC_DC * mult;
+//        fun_base[19+i + 1] = TLC_DC * mult;
+//        fun_base[19+i + 2] = TLC_DC * mult;
+//    }
+//}
 
 /// Set or unset the blank bit in the function data, but don't send it yet.
 void tlc_stage_blank(uint8_t blank) {
     if (blank) {
         fun_base[17] |= BIT7;
-        fun_base[16] &= ~BIT1;
+        fun_base[16] &= ~BIT1; // TODO
     } else {
         fun_base[17] &= ~BIT7;
-        fun_base[16] |= BIT1;
+        fun_base[16] |= BIT1; // TODO
     }
 }
 
@@ -170,7 +171,7 @@ void tlc_init() {
     ini.clockPhase = EUSCI_A_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT;
     ini.clockPolarity = EUSCI_A_SPI_CLOCKPOLARITY_INACTIVITY_LOW;
     ini.clockSourceFrequency = SMCLK_RATE_HZ;
-    ini.desiredSpiClock = 1000000;
+    ini.desiredSpiClock = 1000000; // TODO: I reduced this
     ini.msbFirst = EUSCI_A_SPI_MSB_FIRST;
     ini.selectClockSource = EUSCI_A_SPI_CLOCKSOURCE_SMCLK;
     ini.spiMode = EUSCI_A_SPI_3PIN;
@@ -184,11 +185,19 @@ void tlc_init() {
 
     // Stage an un-blank configuration to the function data:
     tlc_stage_blank(0);
-    tlc_stage_dc_mult(1);
+//    tlc_stage_dc_mult(1); // TODO
 
+
+    for (uint8_t i=0; i<16; i++) {
+        tlc_gs_data[i] = 0x8888;
+//        tlc_gs_data[i] = 0xffff;
+    }
+
+    // And our initial grayscale data:
+    tlc_set_gs();
     // Send our initial function data:
     tlc_set_fun();
-    // And our initial grayscale data:
+    // And our initial grayscale data: // TODO
     tlc_set_gs();
 }
 
@@ -202,10 +211,10 @@ __interrupt void TLC_EUSCI_ISR(void)
         // We received some garbage sent to us while we were sending.
         if (tlc_send_type == TLC_SEND_TYPE_LB) {
             // We're only interested in it if we're doing a loopback test.
-            tlc_loopback_data_in = EUSCI_B_SPI_receiveData(TLC_EUSCI_BASE);
+            tlc_loopback_data_in = EUSCI_A_SPI_receiveData(TLC_EUSCI_BASE);
             __no_operation();
         } else {
-            EUSCI_B_SPI_receiveData(TLC_EUSCI_BASE); // Throw it away.
+            EUSCI_A_SPI_receiveData(TLC_EUSCI_BASE); // Throw it away.
         }
         break; // End of RXIFG ///////////////////////////////////////////////////////
 
