@@ -30,7 +30,11 @@ uint8_t eye_anim_curr_loops;
 uint8_t eye_anim_curr_frame;
 /// The number of LED timesteps remaining in the current animation frame.
 uint8_t eye_anim_curr_ticks;
+/// Whether to blink between the end of this animation and ambient eyes.
+uint8_t eye_anim_blink_transition;
 
+/// Number of LED timesteps remaining in the current blink animation
+uint8_t eye_blinking = 0;
 
 // Dot-scanner animations
 /// Current scan speed, where 0 is off but otherwise higher is slower. 80 = about 1 second.
@@ -65,6 +69,14 @@ void leds_load_gs() {
     tlc_set_gs();
 }
 
+void do_blink() {
+    eye_blinking = 30;
+    // TODO: Dynamically decide this:
+    leds_eyes_curr[0] = BLINK_RIGHT;
+    leds_eyes_curr[1] = BLINK_LEFT;
+    leds_load_gs();
+}
+
 void leds_timestep() {
     uint8_t update_eyes = 0;
 
@@ -95,8 +107,19 @@ void leds_timestep() {
         update_eyes = 1;
     }
 
-    // Are we animating?
-    if (eye_anim_curr) {
+
+    if (eye_blinking) {
+        // Tick down the blink timer.
+        eye_blinking--;
+
+        // If it's done, and there's no animation going, restore ambient.
+        if (!eye_blinking && !eye_anim_curr) {
+            leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
+            leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
+            update_eyes = 1;
+        }
+        // If there is an animation going, it will return on the next LED timestep.
+    } else if (eye_anim_curr) {
         // Yes.
         // Are we done with the current frame?
         if (eye_anim_curr_ticks >= eye_anim_curr[eye_anim_curr_frame].dur) {
@@ -110,21 +133,32 @@ void leds_timestep() {
                 eye_anim_curr_ticks = 0;
                 leds_eyes_curr[0] = eye_anim_curr[eye_anim_curr_frame].eyes[0];
                 leds_eyes_curr[1] = eye_anim_curr[eye_anim_curr_frame].eyes[1];
+                // Update the eyes.
+                update_eyes = 1;
             } else if (eye_anim_curr[eye_anim_curr_frame].last_frame) {
                 // Yes, and there are no (more) loops to do.
                 eye_anim_curr = 0x0000;
-                leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
-                leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
+                if (eye_anim_blink_transition) {
+                    do_blink();
+                    // Don't update the eyes.
+                    update_eyes = 0;
+                } else {
+                    leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
+                    leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
+                    // Update the eyes.
+                    update_eyes = 1;
+                }
             } else {
                 // Not done with the animation, so load next frame.
                 eye_anim_curr_frame++;
                 leds_eyes_curr[0] = eye_anim_curr[eye_anim_curr_frame].eyes[0];
                 leds_eyes_curr[1] = eye_anim_curr[eye_anim_curr_frame].eyes[1];
+                // Update the eyes.
+                update_eyes = 1;
             }
-            // Update the eyes.
-            update_eyes = 1;
         } else {
             // Not done with the current frame. Nothing to do.
+            // Note that we may also be blinking here.
         }
         // Regardless, we increment the ticks.
         eye_anim_curr_ticks++;
@@ -135,16 +169,20 @@ void leds_timestep() {
     }
 }
 
-// TODO: we should always build in a blink to transition animations?
 void leds_anim_start(eye_anim_frame_t *animation, uint8_t blink_transition, uint8_t loops) {
     eye_anim_curr = animation;
     eye_anim_curr_frame = 0;
     eye_anim_curr_ticks = 0;
     eye_anim_curr_loops = loops;
+    eye_anim_blink_transition = blink_transition;
 
     leds_eyes_curr[0] = animation[0].eyes[0];
     leds_eyes_curr[1] = animation[0].eyes[1];
-    leds_load_gs();
+    if (blink_transition) {
+        do_blink();
+    } else {
+        leds_load_gs();
+    }
 }
 
 void leds_blink_or_bling() {
@@ -160,7 +198,7 @@ void leds_blink_or_bling() {
         }
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1, 0);
     } else {
-        leds_anim_start(anim_blink, 0, 0);
+        do_blink();
     }
 }
 
