@@ -23,12 +23,12 @@
 #include <msp430fr2633.h>
 #include <driverlib.h>
 
-// System headers
-#include <stdint.h>
-
 // CapTIvate
 #include "captivate.h"
 #include "CAPT_App.h"
+
+// System headers
+#include <stdint.h>
 
 // Project headers
 #include <badge.h>
@@ -258,7 +258,7 @@ int main(void)
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
     MAP_CAPT_calibrateUI(&g_uiApp);
-    MAP_CAPT_registerCallback(&B1, &button_cb);
+    MAP_CAPT_registerCallback(&BTN00, &button_cb);
 
     MAP_CAPT_stopTimer();
     MAP_CAPT_clearTimer();
