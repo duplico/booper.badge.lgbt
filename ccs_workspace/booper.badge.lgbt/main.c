@@ -262,7 +262,7 @@ int main(void)
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
     MAP_CAPT_calibrateUI(&g_uiApp);
-    MAP_CAPT_registerCallback(&BTN00, &button_cb);
+    MAP_CAPT_registerCallback(&B1, &button_cb);
 
     MAP_CAPT_stopTimer();
     MAP_CAPT_clearTimer();
