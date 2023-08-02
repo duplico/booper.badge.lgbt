@@ -102,6 +102,24 @@ eye_anim_t anim_dirshifty = (eye_anim_t) {
     .loop_count = 3,
 };
 
+
+eye_anim_frame_t anim_lookaround_frames[] = {
+    (eye_anim_frame_t) {
+        {DIAG_UL, DIAG_UL},
+        32,
+    },
+    (eye_anim_frame_t) {
+        {DIAG_LR, DIAG_LR},
+        32,
+    },
+};
+
+eye_anim_t anim_lookaround = (eye_anim_t) {
+    .frames = anim_lookaround_frames,
+    .length = 2,
+    .loop_count = 4,
+};
+
 eye_anim_t *animations[] = {
     &anim_shifty,
     &anim_dafuq,
@@ -109,4 +127,5 @@ eye_anim_t *animations[] = {
     &anim_happywink,
     &anim_wink,
     &anim_dirshifty,
+    &anim_lookaround,
 };

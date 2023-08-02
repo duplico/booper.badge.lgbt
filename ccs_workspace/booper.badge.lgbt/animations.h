@@ -8,7 +8,7 @@
 #ifndef ANIMATIONS_H_
 #define ANIMATIONS_H_
 
-#define ANIMATION_COUNT 6
+#define ANIMATION_COUNT 7
 
 extern eye_anim_t *animations[];
 

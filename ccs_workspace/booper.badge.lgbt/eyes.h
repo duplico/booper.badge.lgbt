@@ -47,6 +47,11 @@ typedef enum {
 #define BLINK_WIDE (eye_t)  {0,0,1,0,0,0,0,1}
 #define BLINK_MIDDLE (eye_t) {0,0,0,1,0,0,0,0}
 
+#define DIAG_UL (eye_t) {1,1,0,0,0,0,0,0}
+#define DIAG_LL (eye_t) {0,1,1,0,0,0,0,0}
+#define DIAG_UR (eye_t) {0,0,0,0,0,1,1,0}
+#define DIAG_LR (eye_t) {0,0,0,0,0,0,1,1}
+
 extern eye_t *EYES_DISP[];
 
 #endif /* EYES_H_ */
