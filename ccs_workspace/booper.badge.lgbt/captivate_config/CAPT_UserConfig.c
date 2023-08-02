@@ -75,7 +75,7 @@ tElement B1_E00 =
 {
     .ui8RxPin = 1,
     .ui8RxBlock = 0,
-    .ui8TouchThreshold = 10,
+    .ui8TouchThreshold = 90,
     .pRawCount = B1_E00_RawCnts,
     .pTuning = B1_E00_Tuning,
 };
