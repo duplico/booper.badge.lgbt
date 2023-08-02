@@ -70,7 +70,7 @@ void leds_load_gs() {
 }
 
 void do_blink() {
-    eye_blinking = 30;
+    eye_blinking = BLINK_TICKS;
     leds_eyes_curr[0] = EYE_OFF;
     leds_eyes_curr[1] = EYE_OFF;
 
@@ -92,6 +92,8 @@ void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
     eye_anim_curr_ticks = 0;
     eye_anim_curr_loops = eye_anim_curr->loop_count;
     eye_anim_blink_transition = blink_transition;
+
+    eye_blinking = 0; // Clear any current blink
 
     if (blink_transition) {
         do_blink();
@@ -220,9 +222,6 @@ void leds_blink_or_bling() {
     } else {
         do_blink();
     }
-}
-
-void leds_boop() {
 }
 
 void leds_init() {
