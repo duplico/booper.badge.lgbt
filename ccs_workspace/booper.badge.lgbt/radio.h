@@ -37,10 +37,6 @@ typedef struct {
     uint8_t msg_type;
     /// Optionally-used 1-byte message payload
     uint8_t msg_payload;
-    /// This badge's clock authority.
-    uint8_t clock_authority;
-    /// This badge's time clock, in seconds since Wednesday at noon Vegas time.
-    uint32_t clock;
     uint16_t crc16;
 } radio_proto_t;
 

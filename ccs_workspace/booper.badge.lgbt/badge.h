@@ -42,8 +42,6 @@
 typedef struct {
     /// The badge's ID, between 0 and BADGE_ID_UNASSIGNED, inclusive.
     uint16_t badge_id;
-    /// This badge's time clock, in seconds since Wednesday at noon Vegas time.
-    uint32_t clock;
     /// Bitfield tracking badge IDs seen.
     uint8_t badges_seen[BADGES_SEEN_BUFFER_LEN_BYTES];
     /// Counter of badges seen generally
