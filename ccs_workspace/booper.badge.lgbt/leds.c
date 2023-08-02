@@ -71,9 +71,18 @@ void leds_load_gs() {
 
 void do_blink() {
     eye_blinking = 30;
-    // TODO: Dynamically decide this:
-    leds_eyes_curr[0] = BLINK_RIGHT;
-    leds_eyes_curr[1] = BLINK_LEFT;
+    leds_eyes_curr[0] = EYE_OFF;
+    leds_eyes_curr[1] = EYE_OFF;
+
+    for (uint8_t eye=0; eye<2; eye++) {
+        if (EYES_DISP[leds_eyes_ambient][eye].bl || EYES_DISP[leds_eyes_ambient][eye].l || EYES_DISP[leds_eyes_ambient][eye].tl) {
+            leds_eyes_curr[eye].bl = 1;
+        }
+        if (EYES_DISP[leds_eyes_ambient][eye].br || EYES_DISP[leds_eyes_ambient][eye].r || EYES_DISP[leds_eyes_ambient][eye].tr) {
+            leds_eyes_curr[eye].br = 1;
+        }
+    }
+
     leds_load_gs();
 }
 
@@ -190,13 +199,13 @@ void leds_blink_or_bling() {
     if (eye_anim_curr)
         return;
 
-    if (rand() % 8 == 0) {
+    if (rand() % 4 == 0) { // TODO: values
         // bling
-        if (rand() % 8 == 0) {
-            // change ambient
-            leds_eyes_ambient = rand() % EYES_COUNT;
-        }
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1, 0);
+        if (rand() % 1 == 0) { // TODO: values
+            // change ambient
+            leds_eyes_ambient = rand() % EYES_SAD; //  EYES_COUNT; // TODO
+        }
     } else {
         do_blink();
     }
