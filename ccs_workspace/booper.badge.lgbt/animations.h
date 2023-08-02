@@ -14,5 +14,6 @@ extern eye_anim_t *animations[];
 
 extern eye_anim_t anim_shifty;
 extern eye_anim_t anim_boop;
+extern eye_anim_t anim_new_badge;
 
 #endif /* ANIMATIONS_H_ */

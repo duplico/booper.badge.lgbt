@@ -38,7 +38,7 @@ uint8_t eye_blinking = 0;
 
 // Dot-scanner animations
 /// Current scan speed, where 0 is off but otherwise higher is slower. 80 = about 1 second.
-uint16_t leds_scan_speed = 24;
+uint16_t leds_scan_speed = 0; // 8..80 inclusive is a good range here.
 /// The brightness of the scan dots, although this can be overridden by leds_eyes_curr.
 uint16_t leds_dot_level[] = {0x0000, 0x0000};
 /// Which eye's scan dot is currently on (and fading out).
@@ -60,9 +60,11 @@ void leds_load_gs() {
         if (leds_eyes_curr[eye].dot) {
             // If the current eye setup says it should be on, then force it on.
             tlc_gs_data[eye*8 + 4] = leds_brightness;
-        } else {
+        } else if (leds_scan_speed) {
             // Otherwise, follow their dot level variable.
             tlc_gs_data[eye*8 + 4] = leds_dot_level[eye];
+        } else {
+            tlc_gs_data[eye*8 + 4] = 0x0000;
         }
     }
 
@@ -106,6 +108,10 @@ void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
 
 void leds_boop() {
     leds_anim_start(&anim_boop, 0);
+}
+
+void leds_newbadge(uint8_t type) {
+    leds_anim_start(&anim_new_badge, 1);
 }
 
 void leds_timestep() {

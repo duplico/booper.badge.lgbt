@@ -61,7 +61,11 @@ extern volatile uint8_t button_state;
 inline volatile void fram_unlock();
 inline volatile void fram_lock();
 
+void badge_update_queerdar_count(uint8_t badges_nearby);
+void badge_set_seen(uint8_t id);
 void badge_button_press_long();
 void badge_button_press_short();
+
+void badge_init();
 
 #endif /* BADGE_H_ */

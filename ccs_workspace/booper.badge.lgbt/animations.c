@@ -160,3 +160,53 @@ eye_anim_t anim_boop = (eye_anim_t) {
     .length = 4,
     .loop_count = 10,
 };
+
+#define BIGSPIN_FRAMERATE 3
+eye_anim_frame_t anim_bigspin_frames[] = {
+    (eye_anim_frame_t) {
+        {ONLY_L, EYE_OFF},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {ONLY_LL, EYE_OFF},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {ONLY_LR, EYE_OFF},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {EYE_OFF, ONLY_LL},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {EYE_OFF, ONLY_LR},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {EYE_OFF, ONLY_R},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {EYE_OFF, ONLY_UR},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {EYE_OFF, ONLY_UL},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {ONLY_UR, EYE_OFF},
+        BIGSPIN_FRAMERATE,
+    },
+    (eye_anim_frame_t) {
+        {ONLY_UL, EYE_OFF},
+        BIGSPIN_FRAMERATE,
+    },
+};
+
+eye_anim_t anim_new_badge = (eye_anim_t) {
+    .frames = anim_bigspin_frames,
+    .length = 10,
+    .loop_count = 6,
+};
