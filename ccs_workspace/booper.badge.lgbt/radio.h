@@ -18,14 +18,14 @@
 
 #define RADIO_PROTO_VER 1
 
-#define RADIO_WINDOW_BEACON_COUNT 8
+// We beacon every 8 seconds, so our sliding window will be 112*8 seconds = about 15 minutes
+#define RADIO_WINDOW_BEACON_COUNT 112
 
 #define FREQ_MIN 14
 #define FREQ_NUM 6
 
 typedef struct {
-    uint8_t connect_intervals : 2;
-    uint8_t intervals_left : 4;
+    uint8_t intervals_left : 8;
 } badge_info_t;
 
 typedef struct {

@@ -32,7 +32,7 @@
 #include <stdlib.h>
 
 // Project headers
-#include <badge.h>
+#include "badge.h"
 #include "rtc.h"
 #include "tlc5948a.h"
 #include "radio.h"
@@ -252,6 +252,8 @@ int main(void)
 	init_clocks();
 	init_io();
 
+	badge_init();
+
 	__bis_SR_register(GIE);
 
 	// Mid-level drivers initialization
@@ -331,10 +333,8 @@ int main(void)
 	        CAPT_updateUI(&g_uiApp);
 	    }
 
-	    // TODO: Decouple beacon SENDING from beacon DECREMENTING?
 	    if (s_beacon) {
 	        // It's been 8 seconds, time to process the queerdar.
-	        // TODO: Need to query rfm75_tx_avail() before calling radio_interval().
 	        if (rfm75_tx_avail()) {
 	            s_beacon = 0;
 	            radio_interval();
