@@ -26,6 +26,8 @@ typedef enum {
  *  2 7
  */
 
+#define EYE_OFF (eye_t) {0,0,0,0,0,0,0,0}
+
 #define CIRCLE_LEFT (eye_t) {1, 1, 1, 1, 0, 0, 0, 0}
 #define CIRCLE_RIGHT (eye_t) {0, 0, 0, 1, 0, 1, 1, 1}
 #define CIRCLE_BIG (eye_t) {1,1,1,0,0,1,1,1}
