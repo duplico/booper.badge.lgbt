@@ -30,11 +30,6 @@
 /// Valid badge ID but indicating it hasn't been assigned by a controller.
 #define BADGE_ID_UNASSIGNED 250
 
-/// Badge clock write interval in seconds. preferably a power of 2.
-#define BADGE_CLOCK_WRITE_INTERVAL 16
-/// Seconds a remote badge needs to be in the future to accept its clock.
-#define BADGE_CLOCK_DRIFT_ALLOWED_SECONDS 300
-
 /// Duration of a blink in csec ticks.
 #define BLINK_TICKS 30
 
