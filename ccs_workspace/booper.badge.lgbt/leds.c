@@ -23,7 +23,7 @@ eye_t leds_eyes_curr[2] = {0, }; // Start all off
 /// The ambient eye display to return to after an animation completes.
 uint8_t leds_eyes_ambient = EYES_NORMAL;
 /// The current animation, or null if there is no current animation.
-eye_anim_frame_t *eye_anim_curr = 0x0000;
+eye_anim_t *eye_anim_curr = 0x0000;
 /// The number of loops left to do in the current animation.
 uint8_t eye_anim_curr_loops;
 /// The current frame number of the current animation.
@@ -131,20 +131,20 @@ void leds_timestep() {
     } else if (eye_anim_curr) {
         // Yes.
         // Are we done with the current frame?
-        if (eye_anim_curr_ticks >= eye_anim_curr[eye_anim_curr_frame].dur) {
+        if (eye_anim_curr_ticks >= eye_anim_curr->frames[eye_anim_curr_frame].dur) {
             // Yes, done with the current frame.
             eye_anim_curr_ticks = 0;
             // Is this the last frame?
-            if (eye_anim_curr[eye_anim_curr_frame].last_frame && eye_anim_curr_loops) {
+            if (eye_anim_curr_frame == eye_anim_curr->length && eye_anim_curr_loops) {
                 // Yes, but we have loops left to do.
                 eye_anim_curr_loops--;
                 eye_anim_curr_frame = 0;
                 eye_anim_curr_ticks = 0;
-                leds_eyes_curr[0] = eye_anim_curr[eye_anim_curr_frame].eyes[0];
-                leds_eyes_curr[1] = eye_anim_curr[eye_anim_curr_frame].eyes[1];
+                leds_eyes_curr[0] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[0];
+                leds_eyes_curr[1] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[1];
                 // Update the eyes.
                 update_eyes = 1;
-            } else if (eye_anim_curr[eye_anim_curr_frame].last_frame) {
+            } else if (eye_anim_curr_frame == eye_anim_curr->length) {
                 // Yes, and there are no (more) loops to do.
                 eye_anim_curr = 0x0000;
                 if (eye_anim_blink_transition) {
@@ -160,8 +160,8 @@ void leds_timestep() {
             } else {
                 // Not done with the animation, so load next frame.
                 eye_anim_curr_frame++;
-                leds_eyes_curr[0] = eye_anim_curr[eye_anim_curr_frame].eyes[0];
-                leds_eyes_curr[1] = eye_anim_curr[eye_anim_curr_frame].eyes[1];
+                leds_eyes_curr[0] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[0];
+                leds_eyes_curr[1] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[1];
                 // Update the eyes.
                 update_eyes = 1;
             }
@@ -178,15 +178,15 @@ void leds_timestep() {
     }
 }
 
-void leds_anim_start(eye_anim_frame_t *animation, uint8_t blink_transition, uint8_t loops) {
+void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
     eye_anim_curr = animation;
     eye_anim_curr_frame = 0;
     eye_anim_curr_ticks = 0;
-    eye_anim_curr_loops = loops;
+    eye_anim_curr_loops = eye_anim_curr->loop_count;
     eye_anim_blink_transition = blink_transition;
 
-    leds_eyes_curr[0] = animation[0].eyes[0];
-    leds_eyes_curr[1] = animation[0].eyes[1];
+    leds_eyes_curr[0] = animation->frames[0].eyes[0];
+    leds_eyes_curr[1] = animation->frames[0].eyes[1];
     if (blink_transition) {
         do_blink();
     } else {
@@ -201,10 +201,10 @@ void leds_blink_or_bling() {
 
     if (rand() % 4 == 0) { // TODO: values
         // bling
-        leds_anim_start(animations[rand() % ANIMATION_COUNT], 1, 0);
+        leds_anim_start(animations[rand() % ANIMATION_COUNT], 1);
         if (rand() % 1 == 0) { // TODO: values
             // change ambient
-            leds_eyes_ambient = rand() % EYES_SAD; //  EYES_COUNT; // TODO
+            leds_eyes_ambient = rand() % EYES_COUNT;
         }
     } else {
         do_blink();

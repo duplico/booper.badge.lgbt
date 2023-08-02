@@ -24,8 +24,13 @@ typedef struct {
 typedef struct {
     eye_t eyes[2];
     uint8_t dur;
-    uint8_t last_frame;
 } eye_anim_frame_t;
+
+typedef struct {
+    eye_anim_frame_t *frames;
+    uint8_t loop_count;
+    uint8_t length;
+} eye_anim_t;
 
 extern uint16_t leds_scan_speed;
 
