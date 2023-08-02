@@ -298,11 +298,6 @@ int main(void)
 	    if (f_second) {
             f_second = 0;
 
-	        if (!(rtc_seconds % BADGE_CLOCK_WRITE_INTERVAL)) {
-	            // Every BADGE_CLOCK_WRITE_INTERVAL seconds, write our time to the config.
-	            rtc_set_time(rtc_seconds, rtc_clock_authority);
-	        }
-
 	        if (rtc_seconds % 8 == my_beacon_tick) {
 	            // Time to send a radio beacon
 	            s_beacon = 1;

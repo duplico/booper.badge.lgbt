@@ -91,16 +91,6 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
         return;
     }
 
-    // TODO: Handle clock setting, beyond this:
-//    if (!bad) {
-//        if (payload->time.authoritative || payload->time.time > qc_clock.time) {
-//            // We adjust our time if the remote clock authoritative,
-//            //  or if it's not authoritative but has been on longer.
-//            qc_clock.authoritative = payload->time.authoritative;
-//            qc_clock.time = payload->time.time;
-//        }
-//    }
-
     switch(msg->msg_type) {
     case RADIO_MSG_TYPE_BEACON:
         // Handle a beacon.
@@ -134,8 +124,6 @@ void radio_interval() {
     curr_packet_tx.proto_version = RADIO_PROTO_VER;
     curr_packet_tx.badge_id = badge_conf.badge_id;
     curr_packet_tx.msg_type = RADIO_MSG_TYPE_BEACON;
-    curr_packet_tx.clock = rtc_seconds;
-    curr_packet_tx.clock_authority = rtc_clock_authority;
     curr_packet_tx.msg_payload = 0;
     crc16_append_buffer((uint8_t *)&curr_packet_tx, sizeof(radio_proto_t)-2);
 
