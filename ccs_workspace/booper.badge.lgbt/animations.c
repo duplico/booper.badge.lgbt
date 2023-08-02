@@ -28,11 +28,11 @@ eye_anim_t anim_shifty = (eye_anim_t) {
 eye_anim_frame_t anim_dafuq_frames[] = {
     (eye_anim_frame_t) {
         {CIRCLE_RIGHT, CIRCLE_BIG},
-        50,
+        80,
     },
     (eye_anim_frame_t) {
         {CIRCLE_BIG, CIRCLE_LEFT},
-        50,
+        80,
     },
 };
 

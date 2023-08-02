@@ -202,16 +202,19 @@ void leds_blink_or_bling() {
     if (eye_anim_curr)
         return;
 
-    if (rand() % 4 == 0) { // TODO: values
+    if (rand() % 8 == 0) { // TODO: values
         // Make an animated face!
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1);
-        if (rand() % 1 == 0) { // TODO: values
+        if (rand() % 8 == 0) { // TODO: values
             // Decide to change our ambient face
             leds_eyes_ambient = rand() % EYES_COUNT;
         }
     } else {
         do_blink();
     }
+}
+
+void leds_boop() {
 }
 
 void leds_init() {
