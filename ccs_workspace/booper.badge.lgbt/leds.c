@@ -126,6 +126,10 @@ void leds_timestep() {
             leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
             leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
             update_eyes = 1;
+        } else if (eye_anim_curr) {
+            leds_eyes_curr[0] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[0];
+            leds_eyes_curr[1] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[1];
+            update_eyes = 1;
         }
         // If there is an animation going, it will return on the next LED timestep.
     } else if (eye_anim_curr) {
@@ -135,7 +139,7 @@ void leds_timestep() {
             // Yes, done with the current frame.
             eye_anim_curr_ticks = 0;
             // Is this the last frame?
-            if (eye_anim_curr_frame == eye_anim_curr->length && eye_anim_curr_loops) {
+            if (eye_anim_curr_frame+1 == eye_anim_curr->length && eye_anim_curr_loops) {
                 // Yes, but we have loops left to do.
                 eye_anim_curr_loops--;
                 eye_anim_curr_frame = 0;
@@ -144,7 +148,7 @@ void leds_timestep() {
                 leds_eyes_curr[1] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[1];
                 // Update the eyes.
                 update_eyes = 1;
-            } else if (eye_anim_curr_frame == eye_anim_curr->length) {
+            } else if (eye_anim_curr_frame+1 == eye_anim_curr->length) {
                 // Yes, and there are no (more) loops to do.
                 eye_anim_curr = 0x0000;
                 if (eye_anim_blink_transition) {
@@ -167,7 +171,6 @@ void leds_timestep() {
             }
         } else {
             // Not done with the current frame. Nothing to do.
-            // Note that we may also be blinking here.
         }
         // Regardless, we increment the ticks.
         eye_anim_curr_ticks++;
@@ -200,10 +203,10 @@ void leds_blink_or_bling() {
         return;
 
     if (rand() % 4 == 0) { // TODO: values
-        // bling
+        // Make an animated face!
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1);
         if (rand() % 1 == 0) { // TODO: values
-            // change ambient
+            // Decide to change our ambient face
             leds_eyes_ambient = rand() % EYES_COUNT;
         }
     } else {
