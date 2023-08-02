@@ -35,6 +35,9 @@
 /// Seconds a remote badge needs to be in the future to accept its clock.
 #define BADGE_CLOCK_DRIFT_ALLOWED_SECONDS 300
 
+/// Duration of a blink in csec ticks.
+#define BLINK_TICKS 30
+
 /// Badge config struct definition
 typedef struct {
     /// The badge's ID, between 0 and BADGE_ID_UNASSIGNED, inclusive.
