@@ -36,6 +36,7 @@ extern uint16_t leds_scan_speed;
 
 void leds_timestep();
 void leds_blink_or_bling();
+void leds_boop();
 void leds_init();
 
 #endif /* LEDS_H_ */

@@ -86,6 +86,26 @@ void do_blink() {
     leds_load_gs();
 }
 
+void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
+    eye_anim_curr = animation;
+    eye_anim_curr_frame = 0;
+    eye_anim_curr_ticks = 0;
+    eye_anim_curr_loops = eye_anim_curr->loop_count;
+    eye_anim_blink_transition = blink_transition;
+
+    if (blink_transition) {
+        do_blink();
+    } else {
+        leds_eyes_curr[0] = animation->frames[0].eyes[0];
+        leds_eyes_curr[1] = animation->frames[0].eyes[1];
+        leds_load_gs();
+    }
+}
+
+void leds_boop() {
+    leds_anim_start(&anim_boop, 0);
+}
+
 void leds_timestep() {
     uint8_t update_eyes = 0;
 
@@ -117,21 +137,25 @@ void leds_timestep() {
     }
 
 
-    if (eye_blinking) {
-        // Tick down the blink timer.
-        eye_blinking--;
+    if (eye_blinking == 1) {
+        // Just finished a blink
+        eye_blinking = 0;
 
-        // If it's done, and there's no animation going, restore ambient.
-        if (!eye_blinking && !eye_anim_curr) {
+        // Restore either the ambient eyes or the first frame of the animation.
+        if (!eye_anim_curr) {
+            // Ambient
             leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
             leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
             update_eyes = 1;
-        } else if (eye_anim_curr) {
+        } else {
+            // Animation
             leds_eyes_curr[0] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[0];
             leds_eyes_curr[1] = eye_anim_curr->frames[eye_anim_curr_frame].eyes[1];
             update_eyes = 1;
         }
-        // If there is an animation going, it will return on the next LED timestep.
+    } else if (eye_blinking) {
+        // Tick down the blink timer.
+        eye_blinking--;
     } else if (eye_anim_curr) {
         // Yes.
         // Are we done with the current frame?
@@ -177,22 +201,6 @@ void leds_timestep() {
     }
 
     if (update_eyes) {
-        leds_load_gs();
-    }
-}
-
-void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
-    eye_anim_curr = animation;
-    eye_anim_curr_frame = 0;
-    eye_anim_curr_ticks = 0;
-    eye_anim_curr_loops = eye_anim_curr->loop_count;
-    eye_anim_blink_transition = blink_transition;
-
-    leds_eyes_curr[0] = animation->frames[0].eyes[0];
-    leds_eyes_curr[1] = animation->frames[0].eyes[1];
-    if (blink_transition) {
-        do_blink();
-    } else {
         leds_load_gs();
     }
 }

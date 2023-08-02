@@ -52,6 +52,14 @@ typedef enum {
 #define DIAG_UR (eye_t) {0,0,0,0,0,1,1,0}
 #define DIAG_LR (eye_t) {0,0,0,0,0,0,1,1}
 
+#define ONLY_UL (eye_t) {1,0,0,0,0,0,0,0}
+#define ONLY_L  (eye_t) {0,1,0,0,0,0,0,0}
+#define ONLY_LL (eye_t) {0,0,1,0,0,0,0,0}
+#define ONLY_M  (eye_t) {0,0,0,1,0,0,0,0}
+#define ONLY_UR (eye_t) {0,0,0,0,0,1,0,0}
+#define ONLY_R  (eye_t) {0,0,0,0,0,0,1,0}
+#define ONLY_LR (eye_t) {0,0,0,0,0,0,0,1}
+
 extern eye_t *EYES_DISP[];
 
 #endif /* EYES_H_ */

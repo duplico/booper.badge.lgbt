@@ -126,6 +126,7 @@ void badge_button_press_long() {
 
 /// Callback for a short button press.
 void badge_button_press_short() {
+    leds_boop();
 }
 
 /// Initialize the badge application behavior.

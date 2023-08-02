@@ -129,3 +129,34 @@ eye_anim_t *animations[] = {
     &anim_dirshifty,
     &anim_lookaround,
 };
+
+/*       4 (dot)
+ *  0 5
+ * 1 3 6
+ *  2 7
+ */
+
+eye_anim_frame_t anim_boop_frames[] = {
+   (eye_anim_frame_t) {
+       {ONLY_M, ONLY_L},
+       5,
+   },
+   (eye_anim_frame_t) {
+       {ONLY_UR, ONLY_UL},
+       5,
+   },
+   (eye_anim_frame_t) {
+       {ONLY_R, ONLY_M},
+       5,
+   },
+   (eye_anim_frame_t) {
+       {ONLY_LR, ONLY_LL},
+       5,
+   },
+};
+
+eye_anim_t anim_boop = (eye_anim_t) {
+    .frames = anim_boop_frames,
+    .length = 4,
+    .loop_count = 10,
+};

@@ -12,7 +12,7 @@
 
 extern eye_anim_t *animations[];
 
-extern eye_anim_frame_t anim_blink[];
-extern eye_anim_frame_t anim_shifty[];
+extern eye_anim_t anim_shifty;
+extern eye_anim_t anim_boop;
 
 #endif /* ANIMATIONS_H_ */
