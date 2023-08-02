@@ -91,16 +91,6 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
         return;
     }
 
-    // TODO: Handle clock setting, beyond this:
-//    if (!bad) {
-//        if (payload->time.authoritative || payload->time.time > qc_clock.time) {
-//            // We adjust our time if the remote clock authoritative,
-//            //  or if it's not authoritative but has been on longer.
-//            qc_clock.authoritative = payload->time.authoritative;
-//            qc_clock.time = payload->time.time;
-//        }
-//    }
-
     switch(msg->msg_type) {
     case RADIO_MSG_TYPE_BEACON:
         // Handle a beacon.
