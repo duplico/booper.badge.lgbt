@@ -33,6 +33,11 @@ uint8_t eye_anim_curr_ticks;
 /// Whether to blink between the end of this animation and ambient eyes.
 uint8_t eye_anim_blink_transition;
 
+/// The temporary ambient eyes
+eye_t leds_eyes_ambient_temp[2] = {0, };
+/// How many more ticks to show the temporary ambient eyes
+uint16_t leds_eyes_ambient_temp_ticks = 0;
+
 /// Number of LED timesteps remaining in the current blink animation
 uint8_t eye_blinking = 0;
 
@@ -43,6 +48,14 @@ uint16_t leds_scan_speed = 0; // 8..80 inclusive is a good range here.
 uint16_t leds_dot_level[] = {0x0000, 0x0000};
 /// Which eye's scan dot is currently on (and fading out).
 uint8_t scan_dot_curr = 0;
+
+eye_t eye_ambient(uint8_t eye_index) {
+    if (leds_eyes_ambient_temp_ticks) {
+        return leds_eyes_ambient_temp[eye_index];
+    }
+
+    return EYES_DISP[leds_eyes_ambient][eye_index];
+}
 
 /// Stage the eye data into the TLC grayscale data, and send it to the LED driver.
 void leds_load_gs() {
@@ -77,10 +90,10 @@ void do_blink() {
     leds_eyes_curr[1] = EYE_OFF;
 
     for (uint8_t eye=0; eye<2; eye++) {
-        if (EYES_DISP[leds_eyes_ambient][eye].bl || EYES_DISP[leds_eyes_ambient][eye].l || EYES_DISP[leds_eyes_ambient][eye].tl) {
+        if (eye_ambient(eye).bl || eye_ambient(eye).l || eye_ambient(eye).tl) {
             leds_eyes_curr[eye].bl = 1;
         }
-        if (EYES_DISP[leds_eyes_ambient][eye].br || EYES_DISP[leds_eyes_ambient][eye].r || EYES_DISP[leds_eyes_ambient][eye].tr) {
+        if (eye_ambient(eye).br || eye_ambient(eye).r || eye_ambient(eye).tr) {
             leds_eyes_curr[eye].br = 1;
         }
     }
@@ -108,6 +121,9 @@ void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
 
 void leds_boop() {
     if (eye_anim_curr != &anim_boop) {
+        leds_eyes_ambient_temp[0] = HAPPY_RIGHT;
+        leds_eyes_ambient_temp[1] = HAPPY_LEFT;
+        leds_eyes_ambient_temp_ticks = 800; // TODO: define for this.
         leds_anim_start(&anim_boop, 0);
     }
 }
@@ -154,8 +170,8 @@ void leds_timestep() {
         // Restore either the ambient eyes or the first frame of the animation.
         if (!eye_anim_curr) {
             // Ambient
-            leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
-            leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
+            leds_eyes_curr[0] = eye_ambient(0);
+            leds_eyes_curr[1] = eye_ambient(1);
             update_eyes = 1;
         } else {
             // Animation
@@ -167,7 +183,7 @@ void leds_timestep() {
         // Tick down the blink timer.
         eye_blinking--;
     } else if (eye_anim_curr) {
-        // Yes.
+        // We're not blinking, but we are animating.
         // Are we done with the current frame?
         if (eye_anim_curr_ticks >= eye_anim_curr->frames[eye_anim_curr_frame].dur) {
             // Yes, done with the current frame.
@@ -190,8 +206,8 @@ void leds_timestep() {
                     // Don't update the eyes.
                     update_eyes = 0;
                 } else {
-                    leds_eyes_curr[0] = EYES_DISP[leds_eyes_ambient][0];
-                    leds_eyes_curr[1] = EYES_DISP[leds_eyes_ambient][1];
+                    leds_eyes_curr[0] = eye_ambient(0);
+                    leds_eyes_curr[1] = eye_ambient(1);
                     // Update the eyes.
                     update_eyes = 1;
                 }
@@ -208,6 +224,15 @@ void leds_timestep() {
         }
         // Regardless, we increment the ticks.
         eye_anim_curr_ticks++;
+    } else {
+        // We're just ambient.
+        // Are we temp-ambient?
+        if (leds_eyes_ambient_temp_ticks == 1) {
+            leds_eyes_ambient_temp_ticks = 0;
+            // TODO: do we need to do anything here?
+        } else if (leds_eyes_ambient_temp_ticks) {
+            leds_eyes_ambient_temp_ticks--;
+        }
     }
 
     if (update_eyes) {
