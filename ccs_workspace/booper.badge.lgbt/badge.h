@@ -40,6 +40,11 @@
 #define BADGE_BRIGHTNESS_1 0x0900
 #define BADGE_BRIGHTNESS_2 0xf000
 
+#define BADGE_POST_ERR_NONE 0
+#define BADGE_POST_ERR_NOID 1
+#define BADGE_POST_ERR_NORF 2
+#define BADGE_POST_ERR_FREQ 3
+
 /// Badge config struct definition
 typedef struct {
     /// The badge's ID, between 0 and BADGE_ID_UNASSIGNED, inclusive.
@@ -48,6 +53,8 @@ typedef struct {
     uint8_t badges_seen[BADGES_SEEN_BUFFER_LEN_BYTES];
     /// Counter of badges seen generally
     uint8_t badges_seen_count;
+    /// Has my setup been completed?
+    uint8_t bootstrapped;
 } badge_conf_t;
 
 extern volatile badge_conf_t badge_conf;
@@ -61,8 +68,8 @@ extern volatile uint8_t button_state;
 
 extern uint8_t badge_boop_radio_cooldown;
 
-inline volatile void fram_unlock();
-inline volatile void fram_lock();
+volatile void fram_unlock();
+volatile void fram_lock();
 
 void badge_update_queerdar_count(uint8_t badges_nearby);
 void badge_set_seen(uint8_t id);
