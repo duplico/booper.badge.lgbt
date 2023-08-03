@@ -72,6 +72,7 @@ void badge_set_seen(uint8_t id) {
     uint8_t seen = check_id_buf(id, (uint8_t *) badge_conf.badges_seen);
 
     if (seen) {
+        leds_queerdar_alert(LEDS_QUEERDAR_OLDBADGE);
         return;
     }
 
@@ -86,7 +87,7 @@ void badge_set_seen(uint8_t id) {
 
     fram_lock();
 
-    leds_newbadge(0);
+    leds_queerdar_alert(LEDS_QUEERDAR_NEWBADGE);
 }
 
 /// Set badge ID in the configuration.
@@ -124,5 +125,5 @@ void badge_button_press_short() {
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(8);
+    badge_set_id(6);
 }

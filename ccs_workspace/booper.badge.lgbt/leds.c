@@ -128,8 +128,18 @@ void leds_boop() {
     }
 }
 
-void leds_newbadge(uint8_t type) {
-    leds_anim_start(&anim_new_badge, 1);
+void leds_queerdar_alert(uint8_t type) {
+    switch(type) {
+    case LEDS_QUEERDAR_NEWBADGE:
+        leds_anim_start(&anim_new_badge, 1);
+        break;
+    case LEDS_QUEERDAR_OLDBADGE:
+        leds_anim_start(&anim_seen_badge, 1);
+        break;
+    case LEDS_QUEERDAR_PAIRBADGE:
+        // TODO: Implement
+        break;
+    }
 }
 
 void leds_timestep() {
