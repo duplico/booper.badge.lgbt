@@ -28,6 +28,8 @@
 #include "util.h"
 #include "leds.h"
 
+uint8_t badge_boop_radio_cooldown = 0;
+
 #pragma PERSISTENT(badge_conf)
 /// The main persistent badge configuration.
 volatile badge_conf_t badge_conf = (badge_conf_t){
@@ -113,10 +115,14 @@ void badge_button_press_long() {
 /// Callback for a short button press.
 void badge_button_press_short() {
     leds_boop();
+    if (!badge_boop_radio_cooldown) {
+        badge_boop_radio_cooldown = BADGE_RADIO_BOOP_COOLDOWN;
+        s_boop_radio = 1;
+    }
 }
 
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(4);
+    badge_set_id(8);
 }

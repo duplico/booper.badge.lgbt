@@ -13,7 +13,7 @@
 #include "badge.h"
 
 #define RADIO_MSG_TYPE_BEACON 1
-#define RADIO_MSG_TYPE_PAIR 2
+#define RADIO_MSG_TYPE_BOOP 2
 #define RADIO_MSG_TYPE_ACK 3
 
 #define RADIO_PROTO_VER 1
@@ -54,6 +54,7 @@ typedef void rfm75_tx_callback_fn(uint8_t ack);
 rfm75_rx_callback_fn radio_rx_done;
 rfm75_tx_callback_fn radio_tx_done;
 void radio_init(uint16_t addr);
+void radio_boop(uint8_t badge_id, uint8_t seq);
 void radio_interval();
 void radio_event_beacon();
 
