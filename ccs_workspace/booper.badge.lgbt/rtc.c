@@ -69,7 +69,7 @@ __interrupt void RTC_ISR(void) {
         f_time_loop = 1;
 
         // Handle long pressing of buttons.
-        if (button_state == 1) { // Not already long pressed
+        if (button_state) {
             rtc_button_csecs++;
             if (rtc_button_csecs == BUTTON_LONG_PRESS_CSECS) {
                 f_button_press_long = 1;

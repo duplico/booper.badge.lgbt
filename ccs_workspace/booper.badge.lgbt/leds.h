@@ -32,12 +32,14 @@ typedef struct {
     uint8_t length;
 } eye_anim_t;
 
+extern uint16_t leds_brightness;
 extern uint16_t leds_scan_speed;
 
 #define LEDS_QUEERDAR_NEWBADGE 0
 #define LEDS_QUEERDAR_OLDBADGE 1
 #define LEDS_QUEERDAR_PAIRBADGE 2
 
+void leds_next_brightness();
 void leds_timestep();
 void leds_blink_or_bling();
 void leds_boop();
