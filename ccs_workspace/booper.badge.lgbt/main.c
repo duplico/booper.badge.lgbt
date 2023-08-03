@@ -122,13 +122,13 @@ void dco_software_trim()
 }
 
 /// Prepare to write to FRAM by disabling interrupts and unlocking write access to INFOA.
-inline volatile void fram_unlock() {
+volatile void fram_unlock() {
     __bic_SR_register(GIE);
     SYSCFG0 = FRWPPW | PFWP;
 }
 
 /// Finish writing to FRAM by locking write access to INFOA and enabling interrupts.
-inline volatile void fram_lock() {
+volatile void fram_lock() {
     SYSCFG0 = FRWPPW | DFWP | PFWP;
     __bis_SR_register(GIE);
 }
@@ -285,6 +285,28 @@ int main(void)
     uint8_t s_beacon = 0;
     uint8_t next_blink = 1;
 
+    // If my ID is unassigned, set myself to un-bootstrapped
+    if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
+        if (badge_conf.bootstrapped) {
+            fram_unlock();
+            badge_conf.bootstrapped = 0;
+            fram_lock();
+        }
+    }
+
+    if (!badge_conf.bootstrapped) {
+        // This badge has not been configured yet.
+
+        if (!rfm75_post()) {
+            // Radio appears broken.
+            leds_error_code(BADGE_POST_ERR_NORF);
+        } else if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
+            leds_error_code(BADGE_POST_ERR_NOID);
+        } else {
+            leds_error_code(BADGE_POST_ERR_NONE);
+        }
+    }
+
 	while (1) {
 	    // The 100 Hz loop
 	    if (f_time_loop) {
@@ -293,28 +315,8 @@ int main(void)
 	        // pat pat pat
 	        WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
-	        leds_timestep();
-	    }
-
-	    // The 1 Hz loop
-	    if (f_second) {
-            f_second = 0;
-
-	        if (rtc_seconds % 8 == my_beacon_tick) {
-	            // Time to send a radio beacon
-	            s_beacon = 1;
-	        }
-
-	        if (!next_blink) {
-	            leds_blink_or_bling();
-	            next_blink = rand() % 5; // TODO: Config define for this
-	        } else {
-	            next_blink--;
-	        }
-
-	        if (badge_boop_radio_cooldown) {
-	            badge_boop_radio_cooldown--;
-	        }
+	        if (badge_conf.bootstrapped)
+	            leds_timestep();
 	    }
 
 	    if (f_button_press_long) {
@@ -334,17 +336,44 @@ int main(void)
 	        CAPT_updateUI(&g_uiApp);
 	    }
 
+        // The 1 Hz loop - lower priority
+        if (f_second) {
+            f_second = 0;
+
+            if (!badge_conf.bootstrapped) {
+                continue;
+            }
+
+            if (rtc_seconds % 8 == my_beacon_tick) {
+                // Time to send a radio beacon
+                s_beacon = 1;
+            }
+
+            if (!next_blink) {
+                    leds_blink_or_bling();
+                next_blink = rand() % 5; // TODO: Config define for this
+            } else {
+                next_blink--;
+            }
+
+            if (badge_boop_radio_cooldown) {
+                badge_boop_radio_cooldown--;
+            }
+        }
+
 	    if (s_beacon) {
 	        // It's been 8 seconds, time to process the queerdar.
 	        if (rfm75_tx_avail()) {
 	            s_beacon = 0;
-	            radio_interval();
+	            if (badge_conf.bootstrapped)
+	                radio_interval();
 	        }
 	    }
 
 	    if (s_boop_radio && rfm75_tx_avail()) {
 	        s_boop_radio = 0;
-	        radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
+            if (badge_conf.bootstrapped)
+                radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.

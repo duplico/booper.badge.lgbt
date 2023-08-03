@@ -65,6 +65,9 @@ void badge_update_queerdar_count(uint8_t badges_nearby) {
 
 /// Mark a badge as seen, returning 1 if it's a new badge or 2 if a new uber.
 void badge_set_seen(uint8_t id) {
+    if (!badge_conf.bootstrapped)
+        return;
+
     if (id >= 8*BADGES_SEEN_BUFFER_LEN_BYTES) {
         return; // Invalid ID.
     }
@@ -116,6 +119,14 @@ void badge_button_press_long() {
 
 /// Callback for a short button press.
 void badge_button_press_short() {
+    if (!badge_conf.bootstrapped) {
+        fram_unlock();
+        badge_conf.bootstrapped = 1;
+        fram_lock();
+        leds_queerdar_alert(LEDS_QUEERDAR_OLDBADGE);
+        return;
+    }
+
     leds_boop();
     if (!badge_boop_radio_cooldown) {
         badge_boop_radio_cooldown = BADGE_RADIO_BOOP_COOLDOWN;
@@ -126,5 +137,5 @@ void badge_button_press_short() {
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(11);
+    badge_set_id(12);
 }

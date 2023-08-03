@@ -40,6 +40,7 @@ extern uint16_t leds_scan_speed;
 #define LEDS_QUEERDAR_PAIRBADGE 2
 
 void leds_next_brightness();
+void leds_error_code(uint8_t code);
 void leds_timestep();
 void leds_blink_or_bling();
 void leds_boop();
