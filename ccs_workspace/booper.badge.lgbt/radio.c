@@ -94,19 +94,13 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
 
     switch(msg->msg_type) {
     case RADIO_MSG_TYPE_BOOP:
+        if (msg->badge_id == badge_conf.badge_id)
+            break; // Retransmission of our own message
         leds_boop();
 
         // Also, retransmit if appropriate:
-        if (msg->badge_id != badge_conf.badge_id && msg->msg_payload) {
-            curr_packet_tx.proto_version = RADIO_PROTO_VER;
-            curr_packet_tx.badge_id = msg->badge_id;
-            curr_packet_tx.msg_type = RADIO_MSG_TYPE_BOOP;
-            curr_packet_tx.msg_payload = msg->msg_payload - 1;
-            crc16_append_buffer((uint8_t *)&curr_packet_tx, sizeof(radio_proto_t)-2);
-
-            // Send the boop.
-            rfm75_tx(RFM75_BROADCAST_ADDR, 1, (uint8_t *)&curr_packet_tx,
-                     RFM75_PAYLOAD_SIZE);
+        if (msg->msg_payload) {
+            radio_boop(msg->badge_id, msg->msg_payload-1);
         }
         // Fall through and also handle this as a beacon.
     case RADIO_MSG_TYPE_BEACON:

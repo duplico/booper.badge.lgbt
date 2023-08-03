@@ -208,5 +208,11 @@ eye_anim_frame_t anim_bigspin_frames[] = {
 eye_anim_t anim_new_badge = (eye_anim_t) {
     .frames = anim_bigspin_frames,
     .length = 10,
-    .loop_count = 6,
+    .loop_count = 8,
+};
+
+eye_anim_t anim_seen_badge = (eye_anim_t) {
+    .frames = anim_bigspin_frames,
+    .length = 10,
+    .loop_count = 1,
 };
