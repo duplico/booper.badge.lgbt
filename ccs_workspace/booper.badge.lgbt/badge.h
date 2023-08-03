@@ -36,6 +36,10 @@
 /// Duration of a blink in csec ticks.
 #define BLINK_TICKS 30
 
+#define BADGE_BRIGHTNESS_0 0x00ff
+#define BADGE_BRIGHTNESS_1 0x0900
+#define BADGE_BRIGHTNESS_2 0xf000
+
 /// Badge config struct definition
 typedef struct {
     /// The badge's ID, between 0 and BADGE_ID_UNASSIGNED, inclusive.

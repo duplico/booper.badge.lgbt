@@ -110,7 +110,8 @@ void badge_set_id(uint8_t id) {
 
 /// Callback for a long button press.
 void badge_button_press_long() {
-    button_state = 1; // Allow repeated long presses
+    // Cycle brightness.
+    leds_next_brightness();
 }
 
 /// Callback for a short button press.
@@ -125,5 +126,5 @@ void badge_button_press_short() {
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(6);
+    badge_set_id(11);
 }

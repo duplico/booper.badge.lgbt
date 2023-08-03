@@ -15,7 +15,7 @@
 
 // General configuration of the 7-segs
 /// The standard brightness of the LEDs.
-uint16_t leds_brightness = 0x0fff;
+uint16_t leds_brightness = BADGE_BRIGHTNESS_1;
 
 // Eye animations
 /// The current display configuration of the eyes.
@@ -101,6 +101,21 @@ void do_blink() {
     leds_load_gs();
 }
 
+void leds_next_brightness() {
+    switch(leds_brightness) {
+    case BADGE_BRIGHTNESS_0:
+        leds_brightness = BADGE_BRIGHTNESS_1;
+        break;
+    case BADGE_BRIGHTNESS_1:
+        leds_brightness = BADGE_BRIGHTNESS_2;
+        break;
+    case BADGE_BRIGHTNESS_2:
+        leds_brightness = BADGE_BRIGHTNESS_0;
+        break;
+    }
+    do_blink();
+}
+
 void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
     eye_anim_curr = animation;
     eye_anim_curr_frame = 0;
@@ -146,6 +161,11 @@ void leds_timestep() {
     uint8_t update_eyes = 0;
 
     if (leds_scan_speed) {
+        if (leds_dot_level[scan_dot_curr] > leds_brightness || leds_dot_level[!scan_dot_curr] > leds_brightness) {
+            leds_dot_level[scan_dot_curr] = leds_brightness;
+            leds_dot_level[!scan_dot_curr] = 0;
+        }
+
         // Handle the scan transition
         uint16_t led_scan_step = leds_brightness / leds_scan_speed;
 
