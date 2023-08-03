@@ -157,6 +157,26 @@ void leds_queerdar_alert(uint8_t type) {
     }
 }
 
+void leds_error_code(uint8_t code) {
+    switch(code) {
+    case BADGE_POST_ERR_NONE:
+        leds_eyes_curr[0] = CHAR_VERT_D_OR_O;
+        leds_eyes_curr[1] = CHAR_VERT_K;
+        break;
+    case BADGE_POST_ERR_NOID:
+        leds_eyes_curr[0] = CHAR_VERT_I;
+        leds_eyes_curr[1] = CHAR_VERT_D_OR_O;
+        break;
+    case BADGE_POST_ERR_NORF:
+        leds_eyes_curr[0] = CHAR_VERT_R;
+        leds_eyes_curr[1] = CHAR_VERT_F;
+        break;
+    case BADGE_POST_ERR_FREQ:
+        break;
+    }
+    leds_load_gs();
+}
+
 void leds_timestep() {
     uint8_t update_eyes = 0;
 

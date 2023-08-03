@@ -92,6 +92,9 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
         return;
     }
 
+    if (!badge_conf.bootstrapped)
+        return; // Not ready to play the game yet.
+
     switch(msg->msg_type) {
     case RADIO_MSG_TYPE_BOOP:
         if (msg->badge_id == badge_conf.badge_id)
