@@ -30,6 +30,9 @@
 /// Valid badge ID but indicating it hasn't been assigned by a controller.
 #define BADGE_ID_UNASSIGNED 250
 
+/// The number of seconds allowed between radio boops
+#define BADGE_RADIO_BOOP_COOLDOWN 2
+
 /// Duration of a blink in csec ticks.
 #define BLINK_TICKS 30
 
@@ -49,7 +52,10 @@ extern uint8_t badge_brightness_level;
 extern volatile uint8_t f_time_loop;
 extern volatile uint8_t f_button_press_long;
 extern volatile uint8_t f_second;
+extern uint8_t s_boop_radio;
 extern volatile uint8_t button_state;
+
+extern uint8_t badge_boop_radio_cooldown;
 
 inline volatile void fram_unlock();
 inline volatile void fram_lock();

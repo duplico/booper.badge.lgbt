@@ -107,7 +107,9 @@ void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
 }
 
 void leds_boop() {
-    leds_anim_start(&anim_boop, 0);
+    if (eye_anim_curr != &anim_boop) {
+        leds_anim_start(&anim_boop, 0);
+    }
 }
 
 void leds_newbadge(uint8_t type) {

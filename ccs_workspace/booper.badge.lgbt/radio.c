@@ -16,6 +16,7 @@
 #include "radio.h"
 #include "rfm75.h"
 #include "rtc.h"
+#include "leds.h"
 
 /// An array of all badges and we can currently see.
 badge_info_t ids_in_range[BADGES_IN_SYSTEM] = {0};
@@ -92,11 +93,40 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
     }
 
     switch(msg->msg_type) {
+    case RADIO_MSG_TYPE_BOOP:
+        leds_boop();
+
+        // Also, retransmit if appropriate:
+        if (msg->badge_id != badge_conf.badge_id && msg->msg_payload) {
+            curr_packet_tx.proto_version = RADIO_PROTO_VER;
+            curr_packet_tx.badge_id = msg->badge_id;
+            curr_packet_tx.msg_type = RADIO_MSG_TYPE_BOOP;
+            curr_packet_tx.msg_payload = msg->msg_payload - 1;
+            crc16_append_buffer((uint8_t *)&curr_packet_tx, sizeof(radio_proto_t)-2);
+
+            // Send the boop.
+            rfm75_tx(RFM75_BROADCAST_ADDR, 1, (uint8_t *)&curr_packet_tx,
+                     RFM75_PAYLOAD_SIZE);
+        }
+        // Fall through and also handle this as a beacon.
     case RADIO_MSG_TYPE_BEACON:
         // Handle a beacon.
         radio_handle_beacon(msg->badge_id);
         break;
     }
+}
+
+/// Send a radio message that we've done a boop.
+void radio_boop(uint8_t badge_id, uint8_t seq) {
+    curr_packet_tx.proto_version = RADIO_PROTO_VER;
+    curr_packet_tx.badge_id = badge_id;
+    curr_packet_tx.msg_type = RADIO_MSG_TYPE_BOOP;
+    curr_packet_tx.msg_payload = seq;
+    crc16_append_buffer((uint8_t *)&curr_packet_tx, sizeof(radio_proto_t)-2);
+
+    // Send our boop.
+    rfm75_tx(RFM75_BROADCAST_ADDR, 1, (uint8_t *)&curr_packet_tx,
+             RFM75_PAYLOAD_SIZE);
 }
 
 /// Do our regular radio and queerdar interval actions.

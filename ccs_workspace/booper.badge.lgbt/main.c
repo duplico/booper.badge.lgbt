@@ -48,6 +48,8 @@ volatile uint8_t f_time_loop;
 volatile uint8_t f_button_press_long;
 /// Interrupt flag that ticks every second.
 volatile uint8_t f_second;
+/// Signal to do a radio boop
+uint8_t s_boop_radio = 0;
 
 /// Perform the TI-recommended software trim of the DCO per TI demo code.
 void dco_software_trim()
@@ -309,6 +311,10 @@ int main(void)
 	        } else {
 	            next_blink--;
 	        }
+
+	        if (badge_boop_radio_cooldown) {
+	            badge_boop_radio_cooldown--;
+	        }
 	    }
 
 	    if (f_button_press_long) {
@@ -334,6 +340,11 @@ int main(void)
 	            s_beacon = 0;
 	            radio_interval();
 	        }
+	    }
+
+	    if (s_boop_radio && rfm75_tx_avail()) {
+	        s_boop_radio = 0;
+	        radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.
