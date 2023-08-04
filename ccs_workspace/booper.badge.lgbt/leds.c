@@ -26,6 +26,8 @@ uint16_t leds_brightness = BADGE_BRIGHTNESS_1;
 // Eye animations
 /// The current display configuration of the eyes.
 eye_t leds_eyes_curr[2] = {0, }; // Start all off
+
+#pragma PERSISTENT(leds_eyes_ambient)
 /// The ambient eye display to return to after an animation completes.
 uint8_t leds_eyes_ambient = EYES_NORMAL;
 /// The current animation, or null if there is no current animation.
@@ -377,7 +379,9 @@ void leds_blink_or_bling() {
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1);
         if (rand() % BADGE_FACE_CHANCE_ONE_IN == 0) {
             // Decide to change our ambient face
+            fram_unlock();
             leds_eyes_ambient = rand() % EYES_COUNT;
+            fram_lock();
         }
     } else {
         do_blink();
