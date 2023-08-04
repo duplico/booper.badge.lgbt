@@ -1,8 +1,14 @@
-/*
- * leds.c
- *
- *  Created on: Jul 31, 2023
- *      Author: george
+/// Application-level driver for managing LEDs for booper.badge.lgbt.
+/**
+ ** This module is used for driving the application-specific behavior
+ ** of the LEDs for the badge. For the actual hardware and peripheral
+ ** interface with the TLC5948A LED driver module, see the low-level
+ ** driver, tlc5948a.c and tlc5948a.h.
+ **
+ ** \file leds.c
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #include <stdlib.h>

@@ -1,4 +1,4 @@
-/// App-level driver for HopeRF RFM75 module.
+/// App-level driver for HopeRF RFM75 module for 2023 booper.badge.lgbt.
 /**
  **
  **

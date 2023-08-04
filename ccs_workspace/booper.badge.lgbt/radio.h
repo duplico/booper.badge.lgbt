@@ -1,8 +1,11 @@
-/*
- * radio.h
- *
- *  Created on: Jun 27, 2018
- *      Author: george
+/// App-level header for HopeRF RFM75 module for 2023 booper.badge.lgbt.
+/**
+ **
+ **
+ ** \file radio.h
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2018-2023 George Louthan @duplico. MIT License.
  */
 
 #ifndef RADIO_H_

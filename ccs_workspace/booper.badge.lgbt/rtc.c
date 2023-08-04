@@ -6,20 +6,8 @@
  **
  ** Basically, the RTC generates the main system tick, which is every 10 ms,
  ** or 100 times per second. That centisecond (csec) system tick is then
- ** used to create another, once per second tick, used to keep track of time.
- ** The system seconds timer is calibrated to measure the seconds since noon
- ** on Wednesday, Las Vegas time. Therefore, here are some real example times:
- **
- ** Seconds  |  Real time
- ** ------:  |  :--------
- ** 0        |  Noon Wednesday
- ** 43200    |  Midnight Thursday morning
- ** 86400    |  Noon Thursday
- ** 129600   |  Midnight Friday morning
- ** 172800   |  Noon Friday
- ** 212400   |  11pm Friday (party!)
- ** 216000   |  Midnight Saturday morning
- ** 302400   |  Midnight Monday morning
+ ** used to create another, once per second tick. In this badge design, only
+ ** uptime is tracked; there is no persistent RTC.
  **
  ** \file rtc.c
  ** \author George Louthan

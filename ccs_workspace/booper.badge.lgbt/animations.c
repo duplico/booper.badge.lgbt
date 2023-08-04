@@ -1,8 +1,11 @@
-/*
- * animations.c
- *
- *  Created on: Aug 1, 2023
- *      Author: george
+/// Eye animation definitions for 2023 booper.badge.lgbt.
+/**
+ **
+ **
+ ** \file animations.c
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #include "leds.h"
