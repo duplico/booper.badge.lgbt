@@ -27,9 +27,11 @@
 #include "rtc.h"
 #include "util.h"
 #include "leds.h"
+#include "radio.h"
 
 uint8_t badge_boop_radio_cooldown = 0;
 uint8_t badge_block_radio_game = 0;
+uint8_t long_presses = 0;
 
 #pragma PERSISTENT(badge_conf)
 /// The main persistent badge configuration.
@@ -114,6 +116,7 @@ void badge_set_id(uint8_t id) {
 
 /// Callback for a long button press.
 void badge_button_press_long() {
+    long_presses++;
     // Cycle brightness.
     leds_next_brightness();
 }
@@ -137,7 +140,7 @@ void badge_button_press_short() {
 
 /// Initialize the badge application behavior.
 void badge_init() {
-//    badge_set_id(14); // TODO
+    badge_set_id(15); // TODO
 
     // If my ID is unassigned, set myself to un-bootstrapped
     if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {

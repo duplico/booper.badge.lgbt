@@ -229,6 +229,7 @@ void button_cb(tSensor *pSensor) {
 
     if((pSensor->bSensorTouch == true) && (pSensor->bSensorPrevTouch == false))
     {
+        long_presses = 0;
         // Button press
          button_state = 1;
          rtc_button_csecs = 0;
@@ -237,7 +238,10 @@ void button_cb(tSensor *pSensor) {
     if((pSensor->bSensorTouch == false) && (pSensor->bSensorPrevTouch == true))
     {
         // Button release
-         if (button_state == 1) {
+        if (long_presses == 9) {
+            long_presses = 0;
+            radio_start_calibration();
+        } else if (button_state == 1) {
              // Only fire if it's not being long-pressed.
              badge_button_press_short();
          }
@@ -359,7 +363,7 @@ int main(void)
                                 fram_lock();
                             }
                         }
-                        if (cnt) {
+                        if (cnt || badge_conf.bootstrapped) { // If it's already bootstrapped we only want to try once.
                             // If we got anything at all on our best frequency, conclude our search.
                             fram_unlock();
                             radio_frequency_done = 1;
