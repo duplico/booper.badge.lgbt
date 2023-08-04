@@ -59,12 +59,14 @@ typedef enum {
 #define ONLY_UR (eye_t) {0,0,0,0,0,1,0,0}
 #define ONLY_R  (eye_t) {0,0,0,0,0,0,1,0}
 #define ONLY_LR (eye_t) {0,0,0,0,0,0,0,1}
+#define ONLY_DOT (eye_t) {0,0,0,0,1,0,0,0}
 
 #define CHAR_VERT_D_OR_O (eye_t) {1,1,1,0,0,1,1,1}
 #define CHAR_VERT_K (eye_t) {1,0,1,1,0,1,0,1}
 #define CHAR_VERT_I (eye_t) {0,0,1,0,0,0,0,1}
 #define CHAR_VERT_R (eye_t) {1,1,1,1,0,1,0,1}
-#define CHAR_VERT_F (eye_t) {0,1,1,1,0,0,1,1}
+#define CHAR_VERT_R_LOWER (eye_t) {0,0,0,1,0,0,0,1}
+#define CHAR_VERT_F (eye_t) {0,1,1,1,0,0,0,1}
 
 extern eye_t *EYES_DISP[];
 

@@ -137,5 +137,5 @@ void badge_button_press_short() {
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(12);
+    badge_set_id(14);
 }
