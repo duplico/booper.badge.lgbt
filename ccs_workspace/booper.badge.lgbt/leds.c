@@ -195,7 +195,7 @@ void leds_error_code(uint8_t code) {
 }
 
 /// Display a number [00..100], oriented 90 degrees from our usual angle.
-void leds_show_number(uint8_t number) {
+void leds_show_number(uint8_t number, uint16_t make_temp_ambient) {
     if (number == 100) {
         leds_eyes_curr[0] = (eye_t) {0,1,0,1,0,1,1,1}; // i o
         leds_eyes_curr[1] = (eye_t) {1,1,1,1,0,0,0,0};//      o
@@ -204,6 +204,12 @@ void leds_show_number(uint8_t number) {
         leds_eyes_curr[1] = EYES_DIGITS[number%10];
     }
     leds_load_gs();
+
+    if (make_temp_ambient) {
+        leds_eyes_ambient_temp_ticks = make_temp_ambient;
+        leds_eyes_ambient_temp[0] = leds_eyes_curr[0];
+        leds_eyes_ambient_temp[1] = leds_eyes_curr[1];
+    }
 }
 
 /// Cycle through the LEDs, roughly left to right, to test them all.

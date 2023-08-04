@@ -281,7 +281,7 @@ int main(void)
     // If we have something to show, go ahead and count our badges.
 	if (badge_conf.bootstrapped && badge_conf.badges_seen_count > 1) {
 	    for (uint8_t i=0; i<=(badge_conf.badges_seen_count < 100 ? badge_conf.badges_seen_count : 100); i++) {
-	        leds_show_number(i);
+	        leds_show_number(i, 0);
 	        delay_millis(80);
 	    }
 	    delay_millis(6000);
@@ -312,6 +312,12 @@ int main(void)
     uint8_t my_beacon_tick = badge_conf.badge_id % 8;
     uint8_t s_beacon = 0;
     uint8_t next_blink = 1;
+
+    uint8_t bootstrap_error = BADGE_POST_ERR_NONE;
+    if (badge_conf.badge_id == BADGE_ID_UNASSIGNED)
+        bootstrap_error = BADGE_ID_UNASSIGNED;
+    if (!rfm75_post())
+        bootstrap_error = BADGE_POST_ERR_NORF;
 
     if (!badge_conf.bootstrapped) {
         // Show the POST message
@@ -380,8 +386,11 @@ int main(void)
                             radio_frequency_done = 1;
                             fram_lock();
                             rfm75_write_reg(0x05, radio_frequency);
-                            if (!badge_conf.bootstrapped) {
-                                // frequency calibration completed; display the POST code again.
+
+                            // Display our selected frequency.
+                            leds_show_number(radio_frequency, 400);
+                            if (bootstrap_error) {
+                                // frequency calibration completed; if there was a POST error, show it.
                                 post_display();
                             }
                         } else {
