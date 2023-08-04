@@ -13,7 +13,6 @@
 
 #include <stdint.h>
 #include <msp430.h>
-#include "radio.h"
 
 #define RFM75_PAYLOAD_SIZE sizeof(radio_proto_t)
 #define UNICAST_LSB 0
@@ -129,6 +128,8 @@
 
 typedef void rfm75_rx_callback_fn(uint8_t* data, uint8_t len, uint8_t pipe);
 typedef void rfm75_tx_callback_fn(uint8_t ack);
+
+#include "radio.h"
 
 void rfm75_init(uint16_t unicast_address, rfm75_rx_callback_fn *rx_callback, rfm75_tx_callback_fn *tx_callback);
 uint8_t rfm75_post();

@@ -1,5 +1,4 @@
-#include <msp430.h> 
-/// mini.badge.lgbt 2023 low-level entry point.
+/// booper.badge.lgbt 2023 low-level entry point.
 /**
  ** The main source module is concerned with the basic setup of the MCU and
  ** onboard GPIO and peripherals. It also contains the main program loop of

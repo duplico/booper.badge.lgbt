@@ -47,9 +47,6 @@ extern uint16_t rx_cnt[FREQ_NUM];
 extern uint8_t radio_frequency;
 extern uint8_t radio_frequency_done;
 
-typedef void rfm75_rx_callback_fn(uint8_t* data, uint8_t len, uint8_t pipe);
-typedef void rfm75_tx_callback_fn(uint8_t ack);
-
 rfm75_rx_callback_fn radio_rx_done;
 rfm75_tx_callback_fn radio_tx_done;
 void radio_start_calibration();
