@@ -1,8 +1,11 @@
-/*
- * animations.h
- *
- *  Created on: Aug 1, 2023
- *      Author: george
+/// Animation headers for 2023 booper.badge.lgbt.
+/**
+ **
+ **
+ ** \file animations.h
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #ifndef ANIMATIONS_H_

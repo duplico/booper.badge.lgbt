@@ -1,8 +1,12 @@
-/*
- * eyes.h
- *
- *  Created on: Aug 1, 2023
- *      Author: george
+/// Header for eye layout definitionss for 2023 booper.badge.lgbt.
+/**
+ ** This header file declares the shared arrays and is also used for
+ ** single-eye shapes, which are done in the preprocessor mostly.
+ **
+ ** \file eyes.h
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #ifndef EYES_H_

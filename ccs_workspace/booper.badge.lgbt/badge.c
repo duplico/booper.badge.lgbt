@@ -41,6 +41,7 @@ volatile badge_conf_t badge_conf = (badge_conf_t){
     .badges_seen_count = 1, // I've seen myself.
 };
 
+/// Update the recently seen badges scan display speed.
 void badge_update_queerdar_count(uint8_t badges_nearby) {
     if (badges_nearby > 20)
         leds_scan_speed = 8;

@@ -1,8 +1,13 @@
-/*
- * eyes.c
- *
- *  Created on: Aug 1, 2023
- *      Author: george
+/// Definitions of arrays of eye layouts for 2023 booper.badge.lgbt.
+/**
+ ** This module includes anything that needs to be tied together to
+ ** make a reusable face. See the header file for definitions of
+ ** the single-eye shapes, which are done in the preprocessor mostly.
+ **
+ ** \file eyes.c
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #include "leds.h"

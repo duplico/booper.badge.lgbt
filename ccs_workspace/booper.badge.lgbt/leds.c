@@ -1,8 +1,14 @@
-/*
- * leds.c
- *
- *  Created on: Jul 31, 2023
- *      Author: george
+/// Application-level driver for managing LEDs for booper.badge.lgbt.
+/**
+ ** This module is used for driving the application-specific behavior
+ ** of the LEDs for the badge. For the actual hardware and peripheral
+ ** interface with the TLC5948A LED driver module, see the low-level
+ ** driver, tlc5948a.c and tlc5948a.h.
+ **
+ ** \file leds.c
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #include <stdlib.h>
@@ -49,6 +55,7 @@ uint16_t leds_dot_level[] = {0x0000, 0x0000};
 /// Which eye's scan dot is currently on (and fading out).
 uint8_t scan_dot_curr = 0;
 
+/// Helper function to return what the current ambient eye display should be.
 eye_t eye_ambient(uint8_t eye_index) {
     if (leds_eyes_ambient_temp_ticks) {
         return leds_eyes_ambient_temp[eye_index];
@@ -84,6 +91,7 @@ void leds_load_gs() {
     tlc_set_gs();
 }
 
+/// Blink the eyes.
 void do_blink() {
     eye_blinking = BLINK_TICKS;
     leds_eyes_curr[0] = EYE_OFF;
@@ -101,6 +109,7 @@ void do_blink() {
     leds_load_gs();
 }
 
+/// Cycle through the available brightness levels, one per function call.
 void leds_next_brightness() {
     switch(leds_brightness) {
     case BADGE_BRIGHTNESS_0:
@@ -116,6 +125,7 @@ void leds_next_brightness() {
     do_blink();
 }
 
+/// Start an animation in the eyes, optionally blinking before and after.
 void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
     eye_anim_curr = animation;
     eye_anim_curr_frame = 0;
@@ -134,6 +144,7 @@ void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition) {
     }
 }
 
+/// Display the boop animation.
 void leds_boop() {
     if (eye_anim_curr != &anim_boop) {
         leds_eyes_ambient_temp[0] = HAPPY_RIGHT;
@@ -143,6 +154,7 @@ void leds_boop() {
     }
 }
 
+/// Raise an alert animation on the eyes, based on the `type` flag.
 void leds_queerdar_alert(uint8_t type) {
     switch(type) {
     case LEDS_QUEERDAR_NEWBADGE:
@@ -157,6 +169,7 @@ void leds_queerdar_alert(uint8_t type) {
     }
 }
 
+/// Display a POST error code based on the `code` flag.
 void leds_error_code(uint8_t code) {
     switch(code) {
     case BADGE_POST_ERR_NONE:
@@ -179,6 +192,7 @@ void leds_error_code(uint8_t code) {
     leds_load_gs();
 }
 
+/// Display a number [00..100], oriented 90 degrees from our usual angle.
 void leds_show_number(uint8_t number) {
     if (number == 100) {
         leds_eyes_curr[0] = (eye_t) {0,1,0,1,0,1,1,1}; // i o
@@ -190,6 +204,7 @@ void leds_show_number(uint8_t number) {
     leds_load_gs();
 }
 
+/// Cycle through the LEDs, roughly left to right, to test them all.
 void leds_post_step() {
     static uint8_t eye_index = 0;
     static uint8_t led_index = 0;
@@ -231,6 +246,7 @@ void leds_post_step() {
     }
 }
 
+/// Perform a single timestep of the LED system. Call this at about 100 Hz.
 void leds_timestep() {
     uint8_t update_eyes = 0;
 
@@ -265,7 +281,6 @@ void leds_timestep() {
 
         update_eyes = 1;
     }
-
 
     if (eye_blinking == 1) {
         // Just finished a blink
@@ -343,6 +358,15 @@ void leds_timestep() {
     }
 }
 
+/// Called when it's time for the eyes to blink or animate.
+/**
+ * There's a 1 in `BADGE_ANIM_CHANCE_ONE_IN` chance that it will
+ * choose an eye animation and start that. If it does an animation,
+ * there's a further 1 in `BADGE_FACE_CHANCE_ONE_IN` chance that
+ * it will select new ambient eyes for after the animation finishes.
+ *
+ * Otherwise, it will just blink.
+ */
 void leds_blink_or_bling() {
     // Don't blink or start new animation in the middle of an existing one.
     if (eye_anim_curr)
@@ -360,6 +384,7 @@ void leds_blink_or_bling() {
     }
 }
 
+/// Initialize the LED driver system, including the low-level TLC5948A driver.
 void leds_init() {
     tlc_init();
 

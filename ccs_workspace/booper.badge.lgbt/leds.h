@@ -1,8 +1,14 @@
-/*
- * leds.h
- *
- *  Created on: Jul 31, 2023
- *      Author: george
+/// Application-level LED driver header for booper.badge.lgbt.
+/**
+ ** This module is used for driving the application-specific behavior
+ ** of the LEDs for the badge. For the actual hardware and peripheral
+ ** interface with the TLC5948A LED driver module, see the low-level
+ ** driver, tlc5948a.c and tlc5948a.h.
+ **
+ ** \file leds.h
+ ** \author George Louthan
+ ** \date   2023
+ ** \copyright (c) 2023 George Louthan @duplico. MIT License.
  */
 
 #ifndef LEDS_H_
@@ -10,6 +16,7 @@
 
 #include <stdint.h>
 
+/// A one-byte bitfield struct for every light on our segments.
 typedef struct {
     uint8_t tl : 1;
     uint8_t l : 1;
@@ -21,11 +28,13 @@ typedef struct {
     uint8_t br : 1;
 } eye_t;
 
+/// A frame in an animation, with two eyes and a duration.
 typedef struct {
     eye_t eyes[2];
     uint8_t dur;
 } eye_anim_frame_t;
 
+/// An animation definition pointing to a series of frames.
 typedef struct {
     eye_anim_frame_t *frames;
     uint8_t loop_count;
