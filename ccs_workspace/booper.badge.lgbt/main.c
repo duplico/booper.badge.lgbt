@@ -310,6 +310,7 @@ int main(void)
     if (!badge_conf.bootstrapped) {
         // Show the POST message
         post_display();
+        badge_block_radio_game = 1;
     }
 
 	while (1) {
@@ -392,7 +393,7 @@ int main(void)
                 }
             }
 
-            if (!badge_conf.bootstrapped) {
+            if (badge_block_radio_game) {
                 continue;
             }
 
@@ -417,14 +418,14 @@ int main(void)
 	        // It's been 8 seconds, time to process the queerdar.
 	        if (rfm75_tx_avail()) {
 	            s_beacon = 0;
-	            if (badge_conf.bootstrapped)
+	            if (!badge_block_radio_game)
 	                radio_interval();
 	        }
 	    }
 
 	    if (s_boop_radio && rfm75_tx_avail()) {
 	        s_boop_radio = 0;
-            if (badge_conf.bootstrapped)
+            if (!badge_block_radio_game)
                 radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
 	    }
 
