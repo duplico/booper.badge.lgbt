@@ -262,6 +262,8 @@ void post_display() {
     }
 }
 
+extern eye_anim_t anim_dafuq;
+
 /// Make snafucated
 int main(void)
 {
@@ -382,6 +384,7 @@ int main(void)
                 // Beacon once per second.
                 if (rfm75_tx_avail()) {
                     radio_interval();
+                    leds_anim_start(&anim_dafuq, 0);
                 }
             }
 

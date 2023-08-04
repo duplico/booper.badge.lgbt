@@ -31,18 +31,18 @@ eye_anim_t anim_shifty = (eye_anim_t) {
 eye_anim_frame_t anim_dafuq_frames[] = {
     (eye_anim_frame_t) {
         {CIRCLE_RIGHT, CIRCLE_BIG},
-        80,
+        50,
     },
     (eye_anim_frame_t) {
         {CIRCLE_BIG, CIRCLE_LEFT},
-        80,
+        50,
     },
 };
 
 eye_anim_t anim_dafuq = (eye_anim_t) {
     .frames = anim_dafuq_frames,
     .length = 2,
-    .loop_count = 4,
+    .loop_count = 0,
 };
 
 eye_anim_frame_t anim_happytoggle_frames[] = {

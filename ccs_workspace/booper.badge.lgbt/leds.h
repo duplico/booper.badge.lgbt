@@ -54,6 +54,7 @@ void leds_error_code(uint8_t code);
 void leds_show_number(uint8_t number);
 void leds_timestep();
 void leds_blink_or_bling();
+void leds_anim_start(eye_anim_t *animation, uint8_t blink_transition);
 void leds_boop();
 void leds_queerdar_alert(uint8_t type);
 void leds_init();
