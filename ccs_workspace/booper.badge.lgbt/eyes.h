@@ -62,6 +62,7 @@ typedef enum {
 #define ONLY_DOT (eye_t) {0,0,0,0,1,0,0,0}
 
 #define CHAR_VERT_D_OR_O (eye_t) {1,1,1,0,0,1,1,1}
+#define CHAR_VERT_D_LOWER (eye_t) {1,0,0,1,0,1,1,1}
 #define CHAR_VERT_K (eye_t) {1,0,1,1,0,1,0,1}
 #define CHAR_VERT_I (eye_t) {0,0,1,0,0,0,0,1}
 #define CHAR_VERT_R (eye_t) {1,1,1,1,0,1,0,1}
@@ -72,8 +73,8 @@ typedef enum {
 #define NUMBER_ONE   CHAR_VERT_I
 #define NUMBER_TWO   (eye_t) {1,1,0,1,0,0,1,1}
 #define NUMBER_THREE (eye_t) {1,1,0,1,0,1,1,0}
-#define NUMBER_FOUR  (eye_t) {1,0,1,1,0,0,0,1}
-#define NUMBER_FIVE  (eye_t) {1,1,0,1,0,0,1,1}
+#define NUMBER_FOUR  (eye_t) {1,0,1,1,0,1,0,0}
+#define NUMBER_FIVE  (eye_t) {0,1,1,1,0,1,1,0}
 #define NUMBER_SIX   (eye_t) {0,1,1,1,0,1,1,1}
 #define NUMBER_SEVEN (eye_t) {1,1,0,0,0,1,0,0}
 #define NUMBER_EIGHT (eye_t) {1,1,1,1,0,1,1,1}
