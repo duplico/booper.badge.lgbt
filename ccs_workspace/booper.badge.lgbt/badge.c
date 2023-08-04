@@ -29,6 +29,7 @@
 #include "leds.h"
 
 uint8_t badge_boop_radio_cooldown = 0;
+uint8_t badge_block_radio_game = 0;
 
 #pragma PERSISTENT(badge_conf)
 /// The main persistent badge configuration.
@@ -65,7 +66,7 @@ void badge_update_queerdar_count(uint8_t badges_nearby) {
 
 /// Mark a badge as seen, returning 1 if it's a new badge or 2 if a new uber.
 void badge_set_seen(uint8_t id) {
-    if (!badge_conf.bootstrapped)
+    if (badge_block_radio_game)
         return;
 
     if (id >= 8*BADGES_SEEN_BUFFER_LEN_BYTES) {
@@ -137,5 +138,5 @@ void badge_button_press_short() {
 /// Initialize the badge application behavior.
 void badge_init() {
     // TODO: badge init
-    badge_set_id(12);
+    badge_set_id(14);
 }

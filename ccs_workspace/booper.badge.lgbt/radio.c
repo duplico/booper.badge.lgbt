@@ -26,9 +26,9 @@ radio_proto_t curr_packet_tx;
 uint16_t rx_cnt[FREQ_NUM] = {0,};
 
 #pragma PERSISTENT(radio_frequency)
-uint8_t radio_frequency = FREQ_MIN + FREQ_NUM / 2;
+uint8_t radio_frequency = FREQ_MIN; // Our target will be FREQ_MIN + FREQ_NUM / 2
 #pragma PERSISTENT(radio_frequency_done)
-uint8_t radio_frequency_done = 1; // TODO
+uint8_t radio_frequency_done = 0;
 
 /// Current count of badges in range, not including ourself.
 uint8_t radio_badges_in_range = 0;
@@ -40,7 +40,7 @@ uint8_t validate(radio_proto_t *msg, uint8_t len) {
     }
 
     // Check for bad ID:
-    if (msg->badge_id >= BADGES_IN_SYSTEM && msg->badge_id != BADGE_ID_UNASSIGNED) // TODO: Base?
+    if (msg->badge_id >= BADGES_IN_SYSTEM && msg->badge_id != BADGE_ID_UNASSIGNED)
         return 0;
 
     // Finally, verify the CRC:
@@ -79,10 +79,21 @@ void radio_tx_done(uint8_t ack) {
     }
 }
 
+void radio_start_calibration() {
+    fram_unlock();
+    radio_frequency_done = 0;
+    radio_frequency = FREQ_MIN;
+    fram_lock();
+
+    for (uint8_t i=0; i<FREQ_NUM; i++) {
+        rx_cnt[FREQ_MIN + i] = 0;
+    }
+    rfm75_write_reg(0x05, radio_frequency);
+}
+
 void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
     radio_proto_t *msg = (radio_proto_t *) data;
 
-    // TODO: frequency setting:
     if (!radio_frequency_done) {
         rx_cnt[radio_frequency - FREQ_MIN]++;
     }

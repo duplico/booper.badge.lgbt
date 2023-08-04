@@ -172,9 +172,52 @@ void leds_error_code(uint8_t code) {
         leds_eyes_curr[1] = CHAR_VERT_F;
         break;
     case BADGE_POST_ERR_FREQ:
+        leds_eyes_curr[0] = CHAR_VERT_F;
+        leds_eyes_curr[1] = CHAR_VERT_R_LOWER;
         break;
     }
     leds_load_gs();
+}
+
+void leds_post_step() {
+    static uint8_t eye_index = 0;
+    static uint8_t led_index = 0;
+
+    leds_eyes_curr[!eye_index] = EYE_OFF;
+    switch(led_index) {
+    case 0:
+        leds_eyes_curr[eye_index] = ONLY_L;
+        break;
+    case 1:
+        leds_eyes_curr[eye_index] = ONLY_UL;
+        break;
+    case 2:
+        leds_eyes_curr[eye_index] = ONLY_LL;
+        break;
+    case 3:
+        leds_eyes_curr[eye_index] = ONLY_M;
+        break;
+    case 4:
+        leds_eyes_curr[eye_index] = ONLY_UR;
+        break;
+    case 5:
+        leds_eyes_curr[eye_index] = ONLY_LR;
+        break;
+    case 6:
+        leds_eyes_curr[eye_index] = ONLY_R;
+        break;
+    case 7:
+        leds_eyes_curr[eye_index] = ONLY_DOT;
+        break;
+    }
+
+    leds_load_gs();
+
+    led_index++;
+    if (led_index > 7) {
+        eye_index = !eye_index;
+        led_index = 0;
+    }
 }
 
 void leds_timestep() {

@@ -245,6 +245,19 @@ void button_cb(tSensor *pSensor) {
     }
 }
 
+void post_display() {
+    if (!rfm75_post()) {
+        // Radio appears broken.
+        leds_error_code(BADGE_POST_ERR_NORF);
+    } else if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
+        leds_error_code(BADGE_POST_ERR_NOID);
+    } else if (!radio_frequency_done) {
+        leds_error_code(BADGE_POST_ERR_FREQ);
+    } else {
+        leds_error_code(BADGE_POST_ERR_NONE);
+    }
+}
+
 /// Make snafucated
 int main(void)
 {
@@ -295,16 +308,9 @@ int main(void)
     }
 
     if (!badge_conf.bootstrapped) {
-        // This badge has not been configured yet.
-
-        if (!rfm75_post()) {
-            // Radio appears broken.
-            leds_error_code(BADGE_POST_ERR_NORF);
-        } else if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
-            leds_error_code(BADGE_POST_ERR_NOID);
-        } else {
-            leds_error_code(BADGE_POST_ERR_NONE);
-        }
+        // Show the POST message
+        post_display();
+        badge_block_radio_game = 1;
     }
 
 	while (1) {
@@ -340,7 +346,54 @@ int main(void)
         if (f_second) {
             f_second = 0;
 
-            if (!badge_conf.bootstrapped) {
+            if (!radio_frequency_done) {
+                leds_post_step();
+                // Still calibrating our radio frequency.
+                static uint8_t radio_calibration_freq_seconds_left = 8;
+                if (!radio_calibration_freq_seconds_left) {
+                    // Done with a frequency.
+                    fram_unlock();
+                    radio_frequency++;
+                    fram_lock();
+
+                    if (radio_frequency == FREQ_MIN+FREQ_NUM) {
+                        // Just finished the last frequency. Decide which is the best.
+                        uint16_t cnt = 0;
+                        for (uint8_t i=FREQ_MIN; i<FREQ_MIN+FREQ_NUM; i++) {
+                            if (rx_cnt[i-FREQ_MIN] > cnt) {
+                                // New best frequency
+                                cnt = rx_cnt[i-FREQ_MIN];
+                                fram_unlock();
+                                radio_frequency = i;
+                                fram_lock();
+                            }
+                        }
+                        if (cnt) {
+                            // If we got anything at all on our best frequency, conclude our search.
+                            fram_unlock();
+                            radio_frequency_done = 1;
+                            fram_lock();
+                            rfm75_write_reg(0x05, radio_frequency);
+                            if (!badge_conf.bootstrapped) {
+                                // frequency calibration completed; display the POST code again.
+                                post_display();
+                            }
+                        } else {
+                            // Nothing received - start over.
+                            fram_unlock();
+                            radio_frequency = FREQ_MIN;
+                            fram_lock();
+                        }
+                    }
+                    rfm75_write_reg(0x05, radio_frequency);
+                    radio_calibration_freq_seconds_left = 8; // TODO: define for this
+                } else {
+                    // Decrement seconds left on the current frequency.
+                    radio_calibration_freq_seconds_left--;
+                }
+            }
+
+            if (badge_block_radio_game) {
                 continue;
             }
 
@@ -365,14 +418,14 @@ int main(void)
 	        // It's been 8 seconds, time to process the queerdar.
 	        if (rfm75_tx_avail()) {
 	            s_beacon = 0;
-	            if (badge_conf.bootstrapped)
+	            if (!badge_block_radio_game)
 	                radio_interval();
 	        }
 	    }
 
 	    if (s_boop_radio && rfm75_tx_avail()) {
 	        s_boop_radio = 0;
-            if (badge_conf.bootstrapped)
+            if (!badge_block_radio_game)
                 radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
 	    }
 

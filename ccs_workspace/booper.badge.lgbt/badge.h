@@ -58,6 +58,7 @@ typedef struct {
 } badge_conf_t;
 
 extern volatile badge_conf_t badge_conf;
+extern uint8_t badge_block_radio_game;
 
 extern uint8_t badge_brightness_level;
 extern volatile uint8_t f_time_loop;
