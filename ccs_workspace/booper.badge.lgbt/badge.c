@@ -39,6 +39,7 @@ volatile badge_conf_t badge_conf = (badge_conf_t){
     .badge_id = BADGE_ID_UNASSIGNED,
     .badges_seen = {0,},
     .badges_seen_count = 1, // I've seen myself.
+    .bootstrapped = 1, // The frequency reference boards are always considered bootstrapped.
 };
 
 /// Update the recently seen badges scan display speed.
@@ -105,8 +106,8 @@ void badge_set_id(uint8_t id) {
         fram_unlock();
 
         badge_conf.badge_id = id;
-        unset_id_buf(old_id, badge_conf.badges_seen);
-        set_id_buf(badge_conf.badge_id, badge_conf.badges_seen);
+        unset_id_buf(old_id, (uint8_t *) badge_conf.badges_seen);
+        set_id_buf(badge_conf.badge_id, (uint8_t *) badge_conf.badges_seen);
 
         fram_lock();
     }
@@ -138,17 +139,5 @@ void badge_button_press_short() {
 
 /// Initialize the badge application behavior.
 void badge_init() {
-    badge_set_id(3); // TODO
 
-    // If my ID is unassigned, set myself to un-bootstrapped
-    if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
-        if (badge_conf.bootstrapped) {
-            fram_unlock();
-            badge_conf.bootstrapped = 0;
-            fram_lock();
-        }
-    }
-
-    // Re-seed PRNG.
-    srand(badge_conf.badge_id*100 + badge_conf.badges_seen_count);
 }

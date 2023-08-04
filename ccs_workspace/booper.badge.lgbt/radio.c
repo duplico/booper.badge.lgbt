@@ -26,9 +26,9 @@ radio_proto_t curr_packet_tx;
 uint16_t rx_cnt[FREQ_NUM] = {0,};
 
 #pragma PERSISTENT(radio_frequency)
-uint8_t radio_frequency = FREQ_MIN; // Our target will be FREQ_MIN + FREQ_NUM / 2
+uint8_t radio_frequency = FREQ_MIN + FREQ_NUM / 2; // Reference frequency selection
 #pragma PERSISTENT(radio_frequency_done)
-uint8_t radio_frequency_done = 0;
+uint8_t radio_frequency_done = 1; // Reference badge
 
 /// Current count of badges in range, not including ourself.
 uint8_t radio_badges_in_range = 0;
@@ -155,18 +155,6 @@ void radio_boop(uint8_t badge_id, uint8_t seq) {
  * this function has MANY side effects. Use rfm75_tx_avail() for this.
  */
 void radio_interval() {
-    for (uint16_t i=0; i<BADGES_IN_SYSTEM; i++) {
-        if (ids_in_range[i].intervals_left) {
-            // Currently in range.
-            ids_in_range[i].intervals_left--;
-            if (!ids_in_range[i].intervals_left) {
-                // Just aged out.
-                radio_badges_in_range--;
-                badge_update_queerdar_count(radio_badges_in_range);
-            }
-        }
-    }
-
     // Also, at each radio interval, we do need to do a beacon.
     curr_packet_tx.proto_version = RADIO_PROTO_VER;
     curr_packet_tx.badge_id = badge_conf.badge_id;

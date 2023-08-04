@@ -278,15 +278,6 @@ int main(void)
     // Mid-level drivers initialization
     leds_init();
 
-    // If we have something to show, go ahead and count our badges.
-	if (badge_conf.bootstrapped && badge_conf.badges_seen_count > 1) {
-	    for (uint8_t i=0; i<=(badge_conf.badges_seen_count < 100 ? badge_conf.badges_seen_count : 100); i++) {
-	        leds_show_number(i);
-	        delay_millis(80);
-	    }
-	    delay_millis(6000);
-	}
-
 	// Application-level drivers initialization
     rtc_init();
 	radio_init(badge_conf.badge_id);
@@ -309,16 +300,6 @@ int main(void)
     // Set up WDT, and we're off to see the wizard.
     WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
-    uint8_t my_beacon_tick = badge_conf.badge_id % 8;
-    uint8_t s_beacon = 0;
-    uint8_t next_blink = 1;
-
-    if (!badge_conf.bootstrapped) {
-        // Show the POST message
-        post_display();
-        badge_block_radio_game = 1;
-    }
-
 	while (1) {
 	    // The 100 Hz loop
 	    if (f_time_loop) {
@@ -327,8 +308,7 @@ int main(void)
 	        // pat pat pat
 	        WDTCTL = WDTPW | WDTSSEL__ACLK | WDTIS__32K | WDTCNTCL; // 1 second WDT
 
-	        if (badge_conf.bootstrapped)
-	            leds_timestep();
+	        leds_timestep();
 	    }
 
 	    if (f_button_press_long) {
@@ -397,42 +377,18 @@ int main(void)
                     // Decrement seconds left on the current frequency.
                     radio_calibration_freq_seconds_left--;
                 }
-            }
-
-            if (badge_block_radio_game) {
-                continue;
-            }
-
-            if (rtc_seconds % 8 == my_beacon_tick) {
-                // Time to send a radio beacon
-                s_beacon = 1;
-            }
-
-            if (!next_blink) {
-                    leds_blink_or_bling();
-                next_blink = rand() % BADGE_SECS_PER_BLINK_AVG;
             } else {
-                next_blink--;
+                // Radio frequency IS done:
+                // Beacon once per second.
+                if (rfm75_tx_avail()) {
+                    radio_interval();
+                }
             }
 
-            if (badge_boop_radio_cooldown) {
-                badge_boop_radio_cooldown--;
-            }
         }
 
-	    if (s_beacon) {
-	        // It's been 8 seconds, time to process the queerdar.
-	        if (rfm75_tx_avail()) {
-	            s_beacon = 0;
-	            if (!badge_block_radio_game)
-	                radio_interval();
-	        }
-	    }
-
-	    if (s_boop_radio && rfm75_tx_avail()) {
+	    if (s_boop_radio) {
 	        s_boop_radio = 0;
-            if (!badge_block_radio_game)
-                radio_boop(badge_conf.badge_id, BADGE_BOOP_RADIO_HOPS);
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.
