@@ -47,6 +47,7 @@ uint8_t validate(radio_proto_t *msg, uint8_t len) {
     return (crc16_check_buffer((uint8_t *) msg, len-2));
 }
 
+/// Called when a valid queerdar beacon is detected.
 void radio_handle_beacon(uint16_t id) {
     // We've received a radio beacon.
     if (id == BADGE_ID_UNASSIGNED) {
@@ -78,6 +79,15 @@ void radio_tx_done(uint8_t ack) {
     }
 }
 
+/// Start a radio frequency calibration.
+/**
+ * Note that this will tie up the radio for a while. The app-level
+ * behavior will continue while the radio sweeps through the valid
+ * frequencies and decides which one it hears more valid packets on,
+ * but it will spend most of its time on frequencies that should not be
+ * used. This can be done in the field, but really this calibration
+ * should happen after assembly and prior to shipping.
+ */
 void radio_start_calibration() {
     fram_unlock();
     radio_frequency_done = 0;
@@ -90,6 +100,7 @@ void radio_start_calibration() {
     rfm75_write_reg(0x05, radio_frequency);
 }
 
+/// Callback function for when the RFM75 module receives a valid radio packet.
 void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
     radio_proto_t *msg = (radio_proto_t *) data;
 
@@ -168,6 +179,7 @@ void radio_interval() {
              RFM75_PAYLOAD_SIZE);
 }
 
+/// Initialize the radio module, including the low-level driver.
 void radio_init(uint16_t addr) {
     rfm75_init(addr, &radio_rx_done, &radio_tx_done);
     rfm75_post();

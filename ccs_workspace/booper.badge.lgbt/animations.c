@@ -133,12 +133,6 @@ eye_anim_t *animations[] = {
     &anim_lookaround,
 };
 
-/*       4 (dot)
- *  0 5
- * 1 3 6
- *  2 7
- */
-
 eye_anim_frame_t anim_boop_frames[] = {
    (eye_anim_frame_t) {
        {ONLY_M, ONLY_L},

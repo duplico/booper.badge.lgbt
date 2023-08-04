@@ -16,6 +16,7 @@
 
 #include <stdint.h>
 
+/// A one-byte bitfield struct for every light on our segments.
 typedef struct {
     uint8_t tl : 1;
     uint8_t l : 1;
@@ -27,11 +28,13 @@ typedef struct {
     uint8_t br : 1;
 } eye_t;
 
+/// A frame in an animation, with two eyes and a duration.
 typedef struct {
     eye_t eyes[2];
     uint8_t dur;
 } eye_anim_frame_t;
 
+/// An animation definition pointing to a series of frames.
 typedef struct {
     eye_anim_frame_t *frames;
     uint8_t loop_count;

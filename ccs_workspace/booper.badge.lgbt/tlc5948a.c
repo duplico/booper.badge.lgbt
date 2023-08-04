@@ -108,6 +108,10 @@ void tlc_set_fun() {
  ** look consistent across brightness correction levels. We still
  ** retain the ability to do per-color dot correction with the
  ** preprocessor defines that start with TLC_DC.
+ **
+ ** Note that with the current configuration for booper.badge.lgbt for
+ ** 2023, TLC_DC is the max dot-correct level of 0x7f, so the only
+ ** truly valid values of `mult` are 0 and 1, here..
  */
 void tlc_stage_dc_mult(uint8_t mult) {
     for (uint8_t i=0; i<15; i+=3) {
