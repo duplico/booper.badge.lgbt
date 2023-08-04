@@ -24,7 +24,7 @@
 
 /// Number of possible badges in the system
 #define BADGES_IN_SYSTEM 120
-// TODO: This isn't great:
+
 /// Number of bytes in the bitfield of all badge IDs
 #define BADGES_SEEN_BUFFER_LEN_BYTES BADGES_IN_SYSTEM / 8 + 1
 /// Valid badge ID but indicating it hasn't been assigned by a controller.
@@ -44,6 +44,13 @@
 #define BADGE_POST_ERR_NOID 1
 #define BADGE_POST_ERR_NORF 2
 #define BADGE_POST_ERR_FREQ 3
+
+#define BADGE_RADIO_CALIBRATION_SECS_PER_FREQ 8
+#define BADGE_SECS_PER_BLINK_AVG 5
+#define BADGE_BOOP_RADIO_HOPS 10
+#define BADGE_BOOP_FACE_LEN_CSECS 800
+#define BADGE_ANIM_CHANCE_ONE_IN 8
+#define BADGE_FACE_CHANCE_ONE_IN 8
 
 /// Badge config struct definition
 typedef struct {

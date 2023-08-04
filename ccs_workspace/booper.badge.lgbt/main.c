@@ -298,15 +298,6 @@ int main(void)
     uint8_t s_beacon = 0;
     uint8_t next_blink = 1;
 
-    // If my ID is unassigned, set myself to un-bootstrapped
-    if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
-        if (badge_conf.bootstrapped) {
-            fram_unlock();
-            badge_conf.bootstrapped = 0;
-            fram_lock();
-        }
-    }
-
     if (!badge_conf.bootstrapped) {
         // Show the POST message
         post_display();
@@ -349,7 +340,7 @@ int main(void)
             if (!radio_frequency_done) {
                 leds_post_step();
                 // Still calibrating our radio frequency.
-                static uint8_t radio_calibration_freq_seconds_left = 8;
+                static uint8_t radio_calibration_freq_seconds_left = BADGE_RADIO_CALIBRATION_SECS_PER_FREQ;
                 if (!radio_calibration_freq_seconds_left) {
                     // Done with a frequency.
                     fram_unlock();
@@ -386,7 +377,7 @@ int main(void)
                         }
                     }
                     rfm75_write_reg(0x05, radio_frequency);
-                    radio_calibration_freq_seconds_left = 8; // TODO: define for this
+                    radio_calibration_freq_seconds_left = BADGE_RADIO_CALIBRATION_SECS_PER_FREQ;
                 } else {
                     // Decrement seconds left on the current frequency.
                     radio_calibration_freq_seconds_left--;
@@ -404,7 +395,7 @@ int main(void)
 
             if (!next_blink) {
                     leds_blink_or_bling();
-                next_blink = rand() % 5; // TODO: Config define for this
+                next_blink = rand() % BADGE_SECS_PER_BLINK_AVG;
             } else {
                 next_blink--;
             }
@@ -426,7 +417,7 @@ int main(void)
 	    if (s_boop_radio && rfm75_tx_avail()) {
 	        s_boop_radio = 0;
             if (!badge_block_radio_game)
-                radio_boop(badge_conf.badge_id, 10); // TODO: define for seq=10
+                radio_boop(badge_conf.badge_id, BADGE_BOOP_RADIO_HOPS);
 	    }
 
 	    // Enter sleep mode if we have no unserviced flags.

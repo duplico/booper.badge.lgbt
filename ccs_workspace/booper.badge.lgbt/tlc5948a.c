@@ -99,7 +99,6 @@ void tlc_set_fun() {
     EUSCI_A_SPI_transmitData(TLC_EUSCI_BASE, TLC_THISISFUN);
 }
 
-// TODO: This only works with a 1 or 0 right now.
 /// Stage global brightness into dot correct if different from default.
 /**
  ** This is designed to give us a greater range of hardware brightness
@@ -122,10 +121,10 @@ void tlc_stage_dc_mult(uint8_t mult) {
 void tlc_stage_blank(uint8_t blank) {
     if (blank) {
         fun_base[17] |= BIT7;
-        fun_base[16] &= ~BIT1; // TODO
+        fun_base[16] &= ~BIT1;
     } else {
         fun_base[17] &= ~BIT7;
-        fun_base[16] |= BIT1; // TODO
+        fun_base[16] |= BIT1;
     }
 }
 
@@ -171,7 +170,7 @@ void tlc_init() {
     ini.clockPhase = EUSCI_A_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT;
     ini.clockPolarity = EUSCI_A_SPI_CLOCKPOLARITY_INACTIVITY_LOW;
     ini.clockSourceFrequency = SMCLK_RATE_HZ;
-    ini.desiredSpiClock = 1000000; // TODO: I reduced this
+    ini.desiredSpiClock = 1000000;
     ini.msbFirst = EUSCI_A_SPI_MSB_FIRST;
     ini.selectClockSource = EUSCI_A_SPI_CLOCKSOURCE_SMCLK;
     ini.spiMode = EUSCI_A_SPI_3PIN;
@@ -191,8 +190,6 @@ void tlc_init() {
     tlc_set_gs();
     // Send our initial function data:
     tlc_set_fun();
-    // And our initial grayscale data: // TODO
-    tlc_set_gs();
 }
 
 /// SPI interrupt service routine for the peripheral connected to the LED driver.

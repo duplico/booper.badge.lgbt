@@ -137,6 +137,14 @@ void badge_button_press_short() {
 
 /// Initialize the badge application behavior.
 void badge_init() {
-    // TODO: badge init
-    badge_set_id(14);
+//    badge_set_id(14); // TODO
+
+    // If my ID is unassigned, set myself to un-bootstrapped
+    if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
+        if (badge_conf.bootstrapped) {
+            fram_unlock();
+            badge_conf.bootstrapped = 0;
+            fram_lock();
+        }
+    }
 }

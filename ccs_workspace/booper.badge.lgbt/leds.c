@@ -138,7 +138,7 @@ void leds_boop() {
     if (eye_anim_curr != &anim_boop) {
         leds_eyes_ambient_temp[0] = HAPPY_RIGHT;
         leds_eyes_ambient_temp[1] = HAPPY_LEFT;
-        leds_eyes_ambient_temp_ticks = 800; // TODO: define for this.
+        leds_eyes_ambient_temp_ticks = BADGE_BOOP_FACE_LEN_CSECS;
         leds_anim_start(&anim_boop, 0);
     }
 }
@@ -152,7 +152,7 @@ void leds_queerdar_alert(uint8_t type) {
         leds_anim_start(&anim_seen_badge, 1);
         break;
     case LEDS_QUEERDAR_PAIRBADGE:
-        // TODO: Implement
+        // Not implemented
         break;
     }
 }
@@ -322,7 +322,6 @@ void leds_timestep() {
         // Are we temp-ambient?
         if (leds_eyes_ambient_temp_ticks == 1) {
             leds_eyes_ambient_temp_ticks = 0;
-            // TODO: do we need to do anything here?
         } else if (leds_eyes_ambient_temp_ticks) {
             leds_eyes_ambient_temp_ticks--;
         }
@@ -338,10 +337,10 @@ void leds_blink_or_bling() {
     if (eye_anim_curr)
         return;
 
-    if (rand() % 8 == 0) { // TODO: values
+    if (rand() % BADGE_ANIM_CHANCE_ONE_IN == 0) {
         // Make an animated face!
         leds_anim_start(animations[rand() % ANIMATION_COUNT], 1);
-        if (rand() % 8 == 0) { // TODO: values
+        if (rand() % BADGE_FACE_CHANCE_ONE_IN == 0) {
             // Decide to change our ambient face
             leds_eyes_ambient = rand() % EYES_COUNT;
         }

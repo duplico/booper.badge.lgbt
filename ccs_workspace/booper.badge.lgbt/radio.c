@@ -50,7 +50,6 @@ uint8_t validate(radio_proto_t *msg, uint8_t len) {
 void radio_handle_beacon(uint16_t id) {
     // We've received a radio beacon.
     if (id == BADGE_ID_UNASSIGNED) {
-        // TODO: Handle unassigned.
         return;
     }
     // Here, the ID is valid.
@@ -103,7 +102,7 @@ void radio_rx_done(uint8_t* data, uint8_t len, uint8_t pipe) {
         return;
     }
 
-    if (!badge_conf.bootstrapped)
+    if (badge_block_radio_game)
         return; // Not ready to play the game yet.
 
     switch(msg->msg_type) {
@@ -151,7 +150,6 @@ void radio_interval() {
             ids_in_range[i].intervals_left--;
             if (!ids_in_range[i].intervals_left) {
                 // Just aged out.
-                // TODO: handle aging out
                 radio_badges_in_range--;
                 badge_update_queerdar_count(radio_badges_in_range);
             }
