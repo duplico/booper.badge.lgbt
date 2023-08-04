@@ -108,9 +108,6 @@ void badge_set_id(uint8_t id) {
         set_id_buf(badge_conf.badge_id, badge_conf.badges_seen);
 
         fram_lock();
-
-        // Re-seed PRNG.
-        srand(badge_conf.badge_id);
     }
 }
 
@@ -140,7 +137,7 @@ void badge_button_press_short() {
 
 /// Initialize the badge application behavior.
 void badge_init() {
-    badge_set_id(15); // TODO
+    badge_set_id(3); // TODO
 
     // If my ID is unassigned, set myself to un-bootstrapped
     if (badge_conf.badge_id == BADGE_ID_UNASSIGNED) {
@@ -150,4 +147,7 @@ void badge_init() {
             fram_lock();
         }
     }
+
+    // Re-seed PRNG.
+    srand(badge_conf.badge_id*100 + badge_conf.badges_seen_count);
 }
