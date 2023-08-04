@@ -42,6 +42,7 @@ extern uint16_t leds_scan_speed;
 void leds_post_step();
 void leds_next_brightness();
 void leds_error_code(uint8_t code);
+void leds_show_number(uint8_t number);
 void leds_timestep();
 void leds_blink_or_bling();
 void leds_boop();

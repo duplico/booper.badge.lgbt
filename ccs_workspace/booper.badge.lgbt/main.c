@@ -38,6 +38,7 @@
 #include "radio.h"
 #include "rfm75.h"
 #include "leds.h"
+#include "util.h"
 
 /// Current button state (1 for pressed, 2 for long-pressed, 0 not pressed).
 volatile uint8_t button_state;
@@ -275,10 +276,21 @@ int main(void)
 
 	__bis_SR_register(GIE);
 
-	// Mid-level drivers initialization
-	rtc_init();
+    // Mid-level drivers initialization
+    leds_init();
+
+    // If we have something to show, go ahead and count our badges.
+	if (badge_conf.bootstrapped && badge_conf.badges_seen_count > 1) {
+	    for (uint8_t i=0; i<=(badge_conf.badges_seen_count < 100 ? badge_conf.badges_seen_count : 100); i++) {
+	        leds_show_number(i);
+	        delay_millis(80);
+	    }
+	    delay_millis(6000);
+	}
+
+	// Application-level drivers initialization
+    rtc_init();
 	radio_init(badge_conf.badge_id);
-	leds_init();
 
 	// CapTIvate initialization and startup
     MAP_CAPT_initUI(&g_uiApp);
