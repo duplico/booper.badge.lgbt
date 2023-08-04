@@ -165,7 +165,7 @@ void leds_error_code(uint8_t code) {
         break;
     case BADGE_POST_ERR_NOID:
         leds_eyes_curr[0] = CHAR_VERT_I;
-        leds_eyes_curr[1] = CHAR_VERT_D_OR_O;
+        leds_eyes_curr[1] = CHAR_VERT_D_LOWER;
         break;
     case BADGE_POST_ERR_NORF:
         leds_eyes_curr[0] = CHAR_VERT_R;
