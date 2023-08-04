@@ -179,6 +179,17 @@ void leds_error_code(uint8_t code) {
     leds_load_gs();
 }
 
+void leds_show_number(uint8_t number) {
+    if (number == 100) {
+        leds_eyes_curr[0] = (eye_t) {0,1,0,1,0,1,1,1}; // i o
+        leds_eyes_curr[1] = (eye_t) {1,1,1,1,0,0,0,0};//      o
+    } else {
+        leds_eyes_curr[0] = EYES_DIGITS[number/10];
+        leds_eyes_curr[1] = EYES_DIGITS[number%10];
+    }
+    leds_load_gs();
+}
+
 void leds_post_step() {
     static uint8_t eye_index = 0;
     static uint8_t led_index = 0;
