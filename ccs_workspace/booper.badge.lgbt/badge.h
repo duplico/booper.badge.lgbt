@@ -76,6 +76,8 @@ extern volatile uint8_t button_state;
 
 extern uint8_t badge_boop_radio_cooldown;
 
+extern uint8_t long_presses;
+
 volatile void fram_unlock();
 volatile void fram_lock();
 

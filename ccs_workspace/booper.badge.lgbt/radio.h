@@ -52,6 +52,7 @@ typedef void rfm75_tx_callback_fn(uint8_t ack);
 
 rfm75_rx_callback_fn radio_rx_done;
 rfm75_tx_callback_fn radio_tx_done;
+void radio_start_calibration();
 void radio_init(uint16_t addr);
 void radio_boop(uint8_t badge_id, uint8_t seq);
 void radio_interval();
