@@ -105,8 +105,8 @@ void badge_set_id(uint8_t id) {
         fram_unlock();
 
         badge_conf.badge_id = id;
-        unset_id_buf(old_id, badge_conf.badges_seen);
-        set_id_buf(badge_conf.badge_id, badge_conf.badges_seen);
+        unset_id_buf(old_id, (uint8_t *) badge_conf.badges_seen);
+        set_id_buf(badge_conf.badge_id, (uint8_t *) badge_conf.badges_seen);
 
         fram_lock();
     }
