@@ -1,4 +1,4 @@
-import sys
+import subprocess
 import os
 import click
 
@@ -13,6 +13,46 @@ def program_badge():
     pass
 
 @click.command()
+@click.argument('id', type=int)
+def flash_infoa(id):
+    id_hex = '%02X' % id
+    with open('.infoa.tmp.txt', 'w') as infoa:
+        print(INFOA_TXT.replace('FA', id_hex, 1), file=infoa)
+        print('q', file=infoa)
+    subprocess.run(
+        [
+            'msp430flasher',
+            '-e',
+            'ERASE_SEGMENT',
+            '-v',
+            '-w',
+            '.infoa.tmp.txt',
+            '-i',
+            'TIUSB'
+        ]
+    )
+
+program_badge.add_command(flash_infoa)
+
+@click.command()
+@click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.Path(file_okay=True, dir_okay=False, exists=True, readable=True))
+def flash_program(source_txt):
+    subprocess.run(
+        [
+            'msp430flasher',
+            '-e',
+            'ERASE_MAIN',
+            '-v',
+            '-w',
+            source_txt,
+            '-i',
+            'TIUSB'
+        ]
+    )
+
+program_badge.add_command(flash_program)
+
+@click.command()
 @click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.File())
 @click.argument('id', type=int)
 def flash_badge(id, source_txt):
@@ -21,9 +61,8 @@ def flash_badge(id, source_txt):
     if id > 100:
         click.echo("WARNING:\tFlashing this badge with ID over 100")
     click.echo("INFO:\tAttempting to flash badge %03d" % id)
-    # Erase?
-    # Put the INFOA on
-    # Put the code on
+    flash_infoa(id)
+    flash_program(source_txt)
 
 program_badge.add_command(flash_badge)
 
