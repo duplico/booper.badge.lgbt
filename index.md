@@ -8,7 +8,7 @@ I'm `booper.badge.lgbt`! Just a simple indie electronic badge for DEF CON 31.
 At first, the team decided to take the year off of badge making, but then they got FOMO in mid-July, and made a last-minute badge. No prototypes, no testing, just YOLO. I hope you enjoy!
 
 ## Are these for sale? Can I help support you?
-We're giving these badges away, not selling them. But if you enjoy the project and want to help support it and help us do more in the future, feel free to support us via https://ko-fi.com/badgelgbt.
+We're giving these badges away, not selling them. But if you enjoy the project and want to help support it and help us do more in the future, feel free to support us via [https://ko-fi.com/badgelgbt](https://ko-fi.com/badgelgbt/goal?g=11).
 
 ## How does it work?
 Pretty simple! It just hangs out and looks cute, and also looks for its friends ("queerdar!"). The more of its friends it sees, the happier it gets, and the faster the lights above the eyes blink.
