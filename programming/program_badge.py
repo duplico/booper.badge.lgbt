@@ -12,9 +12,7 @@ FA 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 def program_badge():
     pass
 
-@click.command()
-@click.argument('id', type=int)
-def flash_infoa(id):
+def do_flash_infoa(id):
     id_hex = '%02X' % id
     with open('.infoa.tmp.txt', 'w') as infoa:
         print(INFOA_TXT.replace('FA', id_hex, 1), file=infoa)
@@ -23,7 +21,7 @@ def flash_infoa(id):
         [
             'msp430flasher',
             '-e',
-            'ERASE_SEGMENT',
+            'ERASE_ALL',
             '-v',
             '-w',
             '.infoa.tmp.txt',
@@ -32,11 +30,14 @@ def flash_infoa(id):
         ]
     )
 
+@click.command()
+@click.argument('id', type=int)
+def flash_infoa(id):
+    do_flash_infoa(id)
+
 program_badge.add_command(flash_infoa)
 
-@click.command()
-@click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.Path(file_okay=True, dir_okay=False, exists=True, readable=True))
-def flash_program(source_txt):
+def do_flash_program(source_txt):
     subprocess.run(
         [
             'msp430flasher',
@@ -44,16 +45,21 @@ def flash_program(source_txt):
             'ERASE_MAIN',
             '-v',
             '-w',
-            source_txt,
+            str(source_txt),
             '-i',
             'TIUSB'
         ]
     )
 
+@click.command()
+@click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.Path(file_okay=True, dir_okay=False, exists=True, readable=True))
+def flash_program(source_txt):
+    do_flash_program(source_txt)
+
 program_badge.add_command(flash_program)
 
 @click.command()
-@click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.File())
+@click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.Path(file_okay=True, dir_okay=False, exists=True, readable=True))
 @click.argument('id', type=int)
 def flash_badge(id, source_txt):
     if id == 250:
@@ -61,8 +67,8 @@ def flash_badge(id, source_txt):
     if id > 100:
         click.echo("WARNING:\tFlashing this badge with ID over 100")
     click.echo("INFO:\tAttempting to flash badge %03d" % id)
-    flash_infoa(id)
-    flash_program(source_txt)
+    do_flash_infoa(id)
+    do_flash_program(source_txt)
 
 program_badge.add_command(flash_badge)
 
