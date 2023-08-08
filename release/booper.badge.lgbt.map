@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Sat Aug  5 15:26:22 2023
+>> Linked Tue Aug  8 18:10:55 2023
 
 OUTPUT FILE NAME:   <booper.badge.lgbt.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000f78c
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000f798
 
 
 MEMORY CONFIGURATION
@@ -16,7 +16,7 @@ MEMORY CONFIGURATION
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
   INFOA                 00001800   00000200  00000017  000001e9  RWIX
   RAM                   00002000   00001000  000002e3  00000d1d  RWIX
-  FRAM                  0000c400   00003b80  0000361e  00000562  RWIX
+  FRAM                  0000c400   00003b80  0000362a  00000556  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   INT00                 0000ff88   00000002  00000000  00000002  RWIX
@@ -181,146 +181,146 @@ section   page    origin      length       input sections
                   0000c681    00000001     --HOLE-- [fill = 0]
                   0000c682    00000003     rfm75.obj (.const:.string:$P$T4$5)
 
-.text      0    0000c686    00003398     
+.text      0    0000c686    000033a4     
                   0000c686    00000388     leds.obj (.text:leds_post_step)
-                  0000ca0e    0000029e     main.obj (.text:main)
-                  0000ccac    0000025e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorRawCount)
-                  0000cf0a    0000022e     leds.obj (.text:leds_error_code)
-                  0000d138    0000022c     rfm75.obj (.text:rfm75_init)
-                  0000d364    0000021e     leds.obj (.text:leds_timestep)
-                  0000d582    000001c8     captivate_fr2633_family.lib : CAPT_Calibration.o (.text:CAPT_calibrateGain)
-                  0000d74a    0000019c                                 : CAPT_Calibration.o (.text:CAPT_calibrateOffset)
-                  0000d8e6    00000166     leds.obj (.text:do_blink)
-                  0000da4c    0000012e     tlc5948a.obj (.text:TLC_EUSCI_ISR)
-                  0000db7a    000000f2     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_correctInvalidMultiFreqCalibration)
-                  0000dc6c    000000f0                                 : CAPT_EMC.o (.text:CAPT_testConversionFrequencyForNoise)
-                  0000dd5c    000000ea     leds.obj (.text:leds_load_gs)
-                  0000de46    000000dc     leds.obj (.text:leds_show_number)
-                  0000df22    000000d2     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSelfElementProxTouchWithEMC)
-                  0000dff4    000000c0                                 : CAPT_EMC.o (.text:CAPT_resolveMultiFreqSet)
-                  0000e0b4    000000be     main.obj (.text:dco_software_trim)
-                  0000e172    000000bc     rfm75.obj (.text:rfm75_tx)
-                  0000e22e    000000b4     leds.obj (.text:leds_init)
-                  0000e2e2    000000aa     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateElementFilteredValuesWithEMC)
-                  0000e38c    000000a6                                 : CAPT_EMC.o (.text:CAPT_computeRelNoiseComp)
-                  0000e432    000000a6     rfm75.obj (.text:rfm75_deferred_interrupt)
-                  0000e4d8    000000a0     leds.obj (.text:leds_boop)
-                  0000e578    00000098     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_processCycleWithEMC)
-                  0000e610    00000094                                 : CAPT_Calibration.o (.text:CAPT_calibrateSensorWithEMC)
-                  0000e6a4    0000008a     tlc5948a.obj (.text:tlc_init)
-                  0000e72e    00000078     badge.obj (.text:badge_update_queerdar_count)
-                  0000e7a6    00000076     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorWithEMC)
-                  0000e81c    00000070                                 : CAPT_Touch.o (.text:CAPT_testForRecalibration)
-                  0000e88c    0000006e     rts430x_sc_sd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  0000e8fa    0000006a     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_initSensor)
-                  0000e964    0000006a                                 : CAPT_Touch.o (.text:CAPT_processSensor)
-                  0000e9ce    00000066                                 : CAPT_EMC.o (.text:CAPT_updateGlobalFilteredNoiseLevel)
-                  0000ea34    00000060     CAPT_Manager.obj (.text:CAPT_updateUI)
-                  0000ea94    0000005e     radio.obj (.text:radio_interval)
-                  0000eaf2    0000005a     main.obj (.text:button_cb)
-                  0000eb4c    0000005a     leds.obj (.text:leds_blink_or_bling)
-                  0000eba6    00000058     radio.obj (.text:radio_rx_done)
-                  0000ebfe    00000058     rts430x_sc_sd_eabi.lib : div32u.asm.obj (.text)
-                  0000ec56    00000056     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorNoise)
-                  0000ecac    00000054     eusci_a_spi.obj (.text:EUSCI_A_SPI_initMaster)
-                  0000ed00    00000052     rts430x_sc_sd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  0000ed52    0000004e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_preProcessSlider)
-                  0000eda0    0000004c                                 : CAPT_EMC.o (.text:CAPT_getEMCConversionSettings)
-                  0000edec    0000004c     rtc.obj (.text:RTC_ISR)
-                  0000ee38    0000004c     badge.obj (.text:badge_set_seen)
-                  0000ee84    00000048     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_flagAllElementsForReseed)
-                  0000eecc    00000048                                 : CAPT_Touch.o (.text:CAPT_loadCycle)
-                  0000ef14    00000048     main.obj (.text:init_io)
-                  0000ef5c    00000044     CAPT_Manager.obj (.text:CAPT_initUI)
-                  0000efa0    00000044     rfm75.obj (.text:rfm75_enter_prx)
-                  0000efe4    00000044     tlc5948a.obj (.text:tlc_stage_dc_mult)
-                  0000f028    00000040     CAPT_ISR.obj (.text:CAPT_ISR)
-                  0000f068    0000003e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_unloadCycle)
-                  0000f0a6    0000003e     rts430x_sc_sd_eabi.lib : lsl32.asm.obj (.text:l_lsl_const)
-                  0000f0e4    0000003e                            : lsr32.asm.obj (.text:l_lsr_const)
-                  0000f122    0000003c     radio.obj (.text:radio_start_calibration)
-                  0000f15e    0000003c     rfm75.obj (.text:rfm75_post)
-                  0000f19a    0000003a     leds.obj (.text:leds_anim_start)
-                  0000f1d4    00000038     util.obj (.text:crc16_compute)
-                  0000f20c    00000038     main.obj (.text:post_display)
-                  0000f244    00000038     rts430x_sc_sd_eabi.lib : rand.c.obj (.text:rand)
-                  0000f27c    00000036     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorTimeout)
-                  0000f2b2    00000036     rfm75.obj (.text:set_unicast_addr)
-                  0000f2e8    00000034     leds.obj (.text:leds_next_brightness)
-                  0000f31c    00000034     rfm75.obj (.text:rfm75_select_bank)
-                  0000f350    00000032     badge.obj (.text:badge_init)
-                  0000f382    00000032     radio.obj (.text:radio_handle_beacon)
-                  0000f3b4    00000030     util.obj (.text:crc16_check_buffer)
-                  0000f3e4    00000030     rfm75.obj (.text:read_rfm75_cmd_buf)
-                  0000f414    0000002e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_convertAbsToRel)
-                  0000f442    0000002e                                 : CAPT_Touch.o (.text:CAPT_startConversionAndWaitUntilDone)
-                  0000f470    0000002e     badge.obj (.text:badge_button_press_short)
-                  0000f49e    0000002e     leds.obj (.text:eye_ambient)
-                  0000f4cc    0000002e     radio.obj (.text:radio_boop)
-                  0000f4fa    0000002c     rts430x_sc_sd_eabi.lib : div16s.asm.obj (.text)
-                  0000f526    0000002a     main.obj (.text:init_clocks)
-                  0000f550    00000026     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_blockOnFlag)
-                  0000f576    00000026     rfm75.obj (.text:send_rfm75_cmd_buf)
-                  0000f59c    00000026     radio.obj (.text:validate)
-                  0000f5c2    00000024     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_computeJitterFilter)
-                  0000f5e6    00000024     rfm75.obj (.text:rfm75_io_init)
-                  0000f60a    00000022     captivate_fr2633_family.lib : CAPT_Calibration.o (.text:CAPT_calibrateSensor)
-                  0000f62c    00000022     util.obj (.text:delay_millis)
-                  0000f64e    00000022     leds.obj (.text:leds_queerdar_alert)
-                  0000f670    00000020     CAPT_Manager.obj (.text:CAPT_calibrateUI)
-                  0000f690    00000020     captivate_fr2633_family.lib : CAPT_HAL.o (.text:CAPT_init)
-                  0000f6b0    00000020                                 : CAPT_Touch.o (.text:CAPT_testForMaxCountRecalibration)
-                  0000f6d0    00000020     rfm75.obj (.text:RFM_ISR)
-                  0000f6f0    00000020     util.obj (.text:check_id_buf)
-                  0000f710    00000020     rts430x_sc_sd_eabi.lib : mult32_f5hw.asm.obj (.text)
-                  0000f730    00000020     util.obj (.text:set_id_buf)
-                  0000f750    0000001e     util.obj (.text:crc16_append_buffer)
-                  0000f76e    0000001e     radio.obj (.text:radio_init)
-                  0000f78c    0000001c     rts430x_sc_sd_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
-                  0000f7a8    0000001c     tlc5948a.obj (.text:tlc_stage_blank)
-                  0000f7c4    0000001a     rfm75.obj (.text:rfm75_tx_avail)
-                  0000f7de    0000001a     rfm75.obj (.text:rfm75spi_recv_sync)
-                  0000f7f8    0000001a     tlc5948a.obj (.text:tlc_set_fun)
-                  0000f812    0000001a     tlc5948a.obj (.text:tlc_set_gs)
-                  0000f82c    00000018     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_testForNegativeTouchRecalibration)
-                  0000f844    00000018     rfm75.obj (.text:rfm75_read_reg)
-                  0000f85c    00000018     rtc.obj (.text:rtc_init)
-                  0000f874    00000016     rts430x_sc_sd_eabi.lib : div16u.asm.obj (.text)
-                  0000f88a    00000016                            : rand.c.obj (.text:srand)
-                  0000f8a0    00000014     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_getMaxRelThreshold)
-                  0000f8b4    00000014                                 : CAPT_EMC.o (.text:CAPT_getRelNoiseStatusThreshold)
-                  0000f8c8    00000014                                 : CAPT_EMC.o (.text:CAPT_replaceFrequencyWithError)
-                  0000f8dc    00000014     rts430x_sc_sd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  0000f8f0    00000014                            : memset.c.obj (.text:memset)
-                  0000f904    00000014                            : mult16_f5hw.asm.obj (.text)
-                  0000f918    00000014     rfm75.obj (.text:send_rfm75_cmd)
-                  0000f92c    00000012     rts430x_sc_sd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  0000f93e    00000012                            : memcpy.c.obj (.text:memcpy)
-                  0000f950    00000012     rfm75.obj (.text:rfm75_write_reg)
-                  0000f962    00000012     rfm75.obj (.text:rfm75_write_reg_buf)
-                  0000f974    00000010     rfm75.obj (.text:rfm75_get_status)
-                  0000f984    0000000e     main.obj (.text:fram_lock)
-                  0000f992    0000000c     main.obj (.text:fram_unlock)
-                  0000f99e    0000000a     rts430x_sc_sd_eabi.lib : abs.c.obj (.text:abs)
-                  0000f9a8    0000000a     badge.obj (.text:badge_button_press_long)
-                  0000f9b2    0000000a     rts430x_sc_sd_eabi.lib : lsl16.asm.obj (.text)
-                  0000f9bc    0000000a                            : lsr16.asm.obj (.text)
-                  0000f9c6    00000008     eusci_a_spi.obj (.text:EUSCI_A_SPI_receiveData)
-                  0000f9ce    00000008     eusci_a_spi.obj (.text:EUSCI_A_SPI_transmitData)
-                  0000f9d6    00000008     rts430x_sc_sd_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  0000f9de    00000006     captivate_fr2633_family.lib : CAPT_HAL.o (.text:CAPT_clearIFG)
-                  0000f9e4    00000006                                 : CAPT_HAL.o (.text:CAPT_getInterruptVector)
-                  0000f9ea    00000006     crc.obj (.text:CRC_getResult)
-                  0000f9f0    00000006     crc.obj (.text:CRC_set8BitData)
-                  0000f9f6    00000006     crc.obj (.text:CRC_setSeed)
-                  0000f9fc    00000006     eusci_a_spi.obj (.text:EUSCI_A_SPI_clearInterrupt)
-                  0000fa02    00000006     eusci_a_spi.obj (.text:EUSCI_A_SPI_enableInterrupt)
-                  0000fa08    00000006     rts430x_sc_sd_eabi.lib : exit.c.obj (.text:abort)
-                  0000fa0e    00000006     rfm75.obj (.text:rfm75spi_send_sync)
-                  0000fa14    00000004     rts430x_sc_sd_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  0000fa18    00000002                            : _lock.c.obj (.text:_nop)
-                  0000fa1a    00000002                            : startup.c.obj (.text:_system_post_cinit)
-                  0000fa1c    00000002     radio.obj (.text:radio_tx_done)
+                  0000ca0e    000002aa     main.obj (.text:main)
+                  0000ccb8    0000025e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorRawCount)
+                  0000cf16    0000022e     leds.obj (.text:leds_error_code)
+                  0000d144    0000022c     rfm75.obj (.text:rfm75_init)
+                  0000d370    0000021e     leds.obj (.text:leds_timestep)
+                  0000d58e    000001c8     captivate_fr2633_family.lib : CAPT_Calibration.o (.text:CAPT_calibrateGain)
+                  0000d756    0000019c                                 : CAPT_Calibration.o (.text:CAPT_calibrateOffset)
+                  0000d8f2    00000166     leds.obj (.text:do_blink)
+                  0000da58    0000012e     tlc5948a.obj (.text:TLC_EUSCI_ISR)
+                  0000db86    000000f2     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_correctInvalidMultiFreqCalibration)
+                  0000dc78    000000f0                                 : CAPT_EMC.o (.text:CAPT_testConversionFrequencyForNoise)
+                  0000dd68    000000ea     leds.obj (.text:leds_load_gs)
+                  0000de52    000000dc     leds.obj (.text:leds_show_number)
+                  0000df2e    000000d2     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSelfElementProxTouchWithEMC)
+                  0000e000    000000c0                                 : CAPT_EMC.o (.text:CAPT_resolveMultiFreqSet)
+                  0000e0c0    000000be     main.obj (.text:dco_software_trim)
+                  0000e17e    000000bc     rfm75.obj (.text:rfm75_tx)
+                  0000e23a    000000b4     leds.obj (.text:leds_init)
+                  0000e2ee    000000aa     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateElementFilteredValuesWithEMC)
+                  0000e398    000000a6                                 : CAPT_EMC.o (.text:CAPT_computeRelNoiseComp)
+                  0000e43e    000000a6     rfm75.obj (.text:rfm75_deferred_interrupt)
+                  0000e4e4    000000a0     leds.obj (.text:leds_boop)
+                  0000e584    00000098     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_processCycleWithEMC)
+                  0000e61c    00000094                                 : CAPT_Calibration.o (.text:CAPT_calibrateSensorWithEMC)
+                  0000e6b0    0000008a     tlc5948a.obj (.text:tlc_init)
+                  0000e73a    00000078     badge.obj (.text:badge_update_queerdar_count)
+                  0000e7b2    00000076     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorWithEMC)
+                  0000e828    00000070                                 : CAPT_Touch.o (.text:CAPT_testForRecalibration)
+                  0000e898    0000006e     rts430x_sc_sd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  0000e906    0000006a     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_initSensor)
+                  0000e970    0000006a                                 : CAPT_Touch.o (.text:CAPT_processSensor)
+                  0000e9da    00000066                                 : CAPT_EMC.o (.text:CAPT_updateGlobalFilteredNoiseLevel)
+                  0000ea40    00000060     CAPT_Manager.obj (.text:CAPT_updateUI)
+                  0000eaa0    0000005e     radio.obj (.text:radio_interval)
+                  0000eafe    0000005a     main.obj (.text:button_cb)
+                  0000eb58    0000005a     leds.obj (.text:leds_blink_or_bling)
+                  0000ebb2    00000058     radio.obj (.text:radio_rx_done)
+                  0000ec0a    00000058     rts430x_sc_sd_eabi.lib : div32u.asm.obj (.text)
+                  0000ec62    00000056     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorNoise)
+                  0000ecb8    00000054     eusci_a_spi.obj (.text:EUSCI_A_SPI_initMaster)
+                  0000ed0c    00000052     rts430x_sc_sd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  0000ed5e    0000004e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_preProcessSlider)
+                  0000edac    0000004c                                 : CAPT_EMC.o (.text:CAPT_getEMCConversionSettings)
+                  0000edf8    0000004c     rtc.obj (.text:RTC_ISR)
+                  0000ee44    0000004c     badge.obj (.text:badge_set_seen)
+                  0000ee90    00000048     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_flagAllElementsForReseed)
+                  0000eed8    00000048                                 : CAPT_Touch.o (.text:CAPT_loadCycle)
+                  0000ef20    00000048     main.obj (.text:init_io)
+                  0000ef68    00000044     CAPT_Manager.obj (.text:CAPT_initUI)
+                  0000efac    00000044     rfm75.obj (.text:rfm75_enter_prx)
+                  0000eff0    00000044     tlc5948a.obj (.text:tlc_stage_dc_mult)
+                  0000f034    00000040     CAPT_ISR.obj (.text:CAPT_ISR)
+                  0000f074    0000003e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_unloadCycle)
+                  0000f0b2    0000003e     rts430x_sc_sd_eabi.lib : lsl32.asm.obj (.text:l_lsl_const)
+                  0000f0f0    0000003e                            : lsr32.asm.obj (.text:l_lsr_const)
+                  0000f12e    0000003c     radio.obj (.text:radio_start_calibration)
+                  0000f16a    0000003c     rfm75.obj (.text:rfm75_post)
+                  0000f1a6    0000003a     leds.obj (.text:leds_anim_start)
+                  0000f1e0    00000038     util.obj (.text:crc16_compute)
+                  0000f218    00000038     main.obj (.text:post_display)
+                  0000f250    00000038     rts430x_sc_sd_eabi.lib : rand.c.obj (.text:rand)
+                  0000f288    00000036     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_updateSensorTimeout)
+                  0000f2be    00000036     rfm75.obj (.text:set_unicast_addr)
+                  0000f2f4    00000034     leds.obj (.text:leds_next_brightness)
+                  0000f328    00000034     rfm75.obj (.text:rfm75_select_bank)
+                  0000f35c    00000032     badge.obj (.text:badge_init)
+                  0000f38e    00000032     radio.obj (.text:radio_handle_beacon)
+                  0000f3c0    00000030     util.obj (.text:crc16_check_buffer)
+                  0000f3f0    00000030     rfm75.obj (.text:read_rfm75_cmd_buf)
+                  0000f420    0000002e     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_convertAbsToRel)
+                  0000f44e    0000002e                                 : CAPT_Touch.o (.text:CAPT_startConversionAndWaitUntilDone)
+                  0000f47c    0000002e     badge.obj (.text:badge_button_press_short)
+                  0000f4aa    0000002e     leds.obj (.text:eye_ambient)
+                  0000f4d8    0000002e     radio.obj (.text:radio_boop)
+                  0000f506    0000002c     rts430x_sc_sd_eabi.lib : div16s.asm.obj (.text)
+                  0000f532    0000002a     main.obj (.text:init_clocks)
+                  0000f55c    00000026     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_blockOnFlag)
+                  0000f582    00000026     rfm75.obj (.text:send_rfm75_cmd_buf)
+                  0000f5a8    00000026     radio.obj (.text:validate)
+                  0000f5ce    00000024     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_computeJitterFilter)
+                  0000f5f2    00000024     rfm75.obj (.text:rfm75_io_init)
+                  0000f616    00000022     captivate_fr2633_family.lib : CAPT_Calibration.o (.text:CAPT_calibrateSensor)
+                  0000f638    00000022     util.obj (.text:delay_millis)
+                  0000f65a    00000022     leds.obj (.text:leds_queerdar_alert)
+                  0000f67c    00000020     CAPT_Manager.obj (.text:CAPT_calibrateUI)
+                  0000f69c    00000020     captivate_fr2633_family.lib : CAPT_HAL.o (.text:CAPT_init)
+                  0000f6bc    00000020                                 : CAPT_Touch.o (.text:CAPT_testForMaxCountRecalibration)
+                  0000f6dc    00000020     rfm75.obj (.text:RFM_ISR)
+                  0000f6fc    00000020     util.obj (.text:check_id_buf)
+                  0000f71c    00000020     rts430x_sc_sd_eabi.lib : mult32_f5hw.asm.obj (.text)
+                  0000f73c    00000020     util.obj (.text:set_id_buf)
+                  0000f75c    0000001e     util.obj (.text:crc16_append_buffer)
+                  0000f77a    0000001e     radio.obj (.text:radio_init)
+                  0000f798    0000001c     rts430x_sc_sd_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
+                  0000f7b4    0000001c     tlc5948a.obj (.text:tlc_stage_blank)
+                  0000f7d0    0000001a     rfm75.obj (.text:rfm75_tx_avail)
+                  0000f7ea    0000001a     rfm75.obj (.text:rfm75spi_recv_sync)
+                  0000f804    0000001a     tlc5948a.obj (.text:tlc_set_fun)
+                  0000f81e    0000001a     tlc5948a.obj (.text:tlc_set_gs)
+                  0000f838    00000018     captivate_fr2633_family.lib : CAPT_Touch.o (.text:CAPT_testForNegativeTouchRecalibration)
+                  0000f850    00000018     rfm75.obj (.text:rfm75_read_reg)
+                  0000f868    00000018     rtc.obj (.text:rtc_init)
+                  0000f880    00000016     rts430x_sc_sd_eabi.lib : div16u.asm.obj (.text)
+                  0000f896    00000016                            : rand.c.obj (.text:srand)
+                  0000f8ac    00000014     captivate_fr2633_family.lib : CAPT_EMC.o (.text:CAPT_getMaxRelThreshold)
+                  0000f8c0    00000014                                 : CAPT_EMC.o (.text:CAPT_getRelNoiseStatusThreshold)
+                  0000f8d4    00000014                                 : CAPT_EMC.o (.text:CAPT_replaceFrequencyWithError)
+                  0000f8e8    00000014     rts430x_sc_sd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  0000f8fc    00000014                            : memset.c.obj (.text:memset)
+                  0000f910    00000014                            : mult16_f5hw.asm.obj (.text)
+                  0000f924    00000014     rfm75.obj (.text:send_rfm75_cmd)
+                  0000f938    00000012     rts430x_sc_sd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  0000f94a    00000012                            : memcpy.c.obj (.text:memcpy)
+                  0000f95c    00000012     rfm75.obj (.text:rfm75_write_reg)
+                  0000f96e    00000012     rfm75.obj (.text:rfm75_write_reg_buf)
+                  0000f980    00000010     rfm75.obj (.text:rfm75_get_status)
+                  0000f990    0000000e     main.obj (.text:fram_lock)
+                  0000f99e    0000000c     main.obj (.text:fram_unlock)
+                  0000f9aa    0000000a     rts430x_sc_sd_eabi.lib : abs.c.obj (.text:abs)
+                  0000f9b4    0000000a     badge.obj (.text:badge_button_press_long)
+                  0000f9be    0000000a     rts430x_sc_sd_eabi.lib : lsl16.asm.obj (.text)
+                  0000f9c8    0000000a                            : lsr16.asm.obj (.text)
+                  0000f9d2    00000008     eusci_a_spi.obj (.text:EUSCI_A_SPI_receiveData)
+                  0000f9da    00000008     eusci_a_spi.obj (.text:EUSCI_A_SPI_transmitData)
+                  0000f9e2    00000008     rts430x_sc_sd_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000f9ea    00000006     captivate_fr2633_family.lib : CAPT_HAL.o (.text:CAPT_clearIFG)
+                  0000f9f0    00000006                                 : CAPT_HAL.o (.text:CAPT_getInterruptVector)
+                  0000f9f6    00000006     crc.obj (.text:CRC_getResult)
+                  0000f9fc    00000006     crc.obj (.text:CRC_set8BitData)
+                  0000fa02    00000006     crc.obj (.text:CRC_setSeed)
+                  0000fa08    00000006     eusci_a_spi.obj (.text:EUSCI_A_SPI_clearInterrupt)
+                  0000fa0e    00000006     eusci_a_spi.obj (.text:EUSCI_A_SPI_enableInterrupt)
+                  0000fa14    00000006     rts430x_sc_sd_eabi.lib : exit.c.obj (.text:abort)
+                  0000fa1a    00000006     rfm75.obj (.text:rfm75spi_send_sync)
+                  0000fa20    00000004     rts430x_sc_sd_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  0000fa24    00000002                            : _lock.c.obj (.text:_nop)
+                  0000fa26    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  0000fa28    00000002     radio.obj (.text:radio_tx_done)
 
 .bss       0    00002204    0000003f     UNINITIALIZED
                   00002204    00000010     (.common:B1_E00_Tuning)
@@ -431,7 +431,7 @@ MODULE SUMMARY
     .\
        leds.obj                     3436    0         26     
        rfm75.obj                    1452    89        16     
-       main.obj                     1146    0         6      
+       main.obj                     1158    0         6      
        tlc5948a.obj                 588     20        72     
        radio.obj                    408     0         143    
        badge.obj                    302     0         23     
@@ -440,7 +440,7 @@ MODULE SUMMARY
        rtc.obj                      100     2         8      
        eyes.obj                     0       0         42     
     +--+----------------------------+-------+---------+---------+
-       Total:                       7664    111       468    
+       Total:                       7676    111       468    
                                                              
     .\captivate\ADVANCED\
        CAPT_Manager.obj             196     0         0      
@@ -516,7 +516,7 @@ MODULE SUMMARY
        Stack:                       0       0         160    
        Linker Generated:            0       538       0      
     +--+----------------------------+-------+---------+---------+
-       Grand Total:                 13208   683       761    
+       Grand Total:                 13220   683       761    
 
 
 LINKER GENERATED COPY TABLES
@@ -624,7 +624,7 @@ address   name
 00000672  BAKMEM9                                
 00000673  BAKMEM9_H                              
 00000672  BAKMEM9_L                              
-0000fa08  C$$EXIT                                
+0000fa14  C$$EXIT                                
 00000b20  CAPIE                                  
 00000b21  CAPIE_H                                
 00000b20  CAPIE_L                                
@@ -634,46 +634,46 @@ address   name
 00000b24  CAPIV                                  
 00000b25  CAPIV_H                                
 00000b24  CAPIV_L                                
-0000f028  CAPT_ISR                               
-0000f550  CAPT_blockOnFlag                       
-0000d582  CAPT_calibrateGain                     
-0000d74a  CAPT_calibrateOffset                   
-0000f60a  CAPT_calibrateSensor                   
-0000e610  CAPT_calibrateSensorWithEMC            
-0000f670  CAPT_calibrateUI                       
-0000f9de  CAPT_clearIFG                          
-0000f5c2  CAPT_computeJitterFilter               
-0000e38c  CAPT_computeRelNoiseComp               
-0000f414  CAPT_convertAbsToRel                   
-0000db7a  CAPT_correctInvalidMultiFreqCalibration
-0000ee84  CAPT_flagAllElementsForReseed          
-0000eda0  CAPT_getEMCConversionSettings          
-0000f9e4  CAPT_getInterruptVector                
-0000f8a0  CAPT_getMaxRelThreshold                
-0000f8b4  CAPT_getRelNoiseStatusThreshold        
-0000f690  CAPT_init                              
-0000e8fa  CAPT_initSensor                        
-0000ef5c  CAPT_initUI                            
-0000eecc  CAPT_loadCycle                         
-0000ed52  CAPT_preProcessSlider                  
-0000e578  CAPT_processCycleWithEMC               
-0000e964  CAPT_processSensor                     
-0000f8c8  CAPT_replaceFrequencyWithError         
-0000dff4  CAPT_resolveMultiFreqSet               
-0000f442  CAPT_startConversionAndWaitUntilDone   
-0000dc6c  CAPT_testConversionFrequencyForNoise   
-0000f6b0  CAPT_testForMaxCountRecalibration      
-0000f82c  CAPT_testForNegativeTouchRecalibration 
-0000e81c  CAPT_testForRecalibration              
-0000f068  CAPT_unloadCycle                       
-0000e2e2  CAPT_updateElementFilteredValuesWithEMC
-0000e9ce  CAPT_updateGlobalFilteredNoiseLevel    
-0000df22  CAPT_updateSelfElementProxTouchWithEMC 
-0000ec56  CAPT_updateSensorNoise                 
-0000ccac  CAPT_updateSensorRawCount              
-0000f27c  CAPT_updateSensorTimeout               
-0000e7a6  CAPT_updateSensorWithEMC               
-0000ea34  CAPT_updateUI                          
+0000f034  CAPT_ISR                               
+0000f55c  CAPT_blockOnFlag                       
+0000d58e  CAPT_calibrateGain                     
+0000d756  CAPT_calibrateOffset                   
+0000f616  CAPT_calibrateSensor                   
+0000e61c  CAPT_calibrateSensorWithEMC            
+0000f67c  CAPT_calibrateUI                       
+0000f9ea  CAPT_clearIFG                          
+0000f5ce  CAPT_computeJitterFilter               
+0000e398  CAPT_computeRelNoiseComp               
+0000f420  CAPT_convertAbsToRel                   
+0000db86  CAPT_correctInvalidMultiFreqCalibration
+0000ee90  CAPT_flagAllElementsForReseed          
+0000edac  CAPT_getEMCConversionSettings          
+0000f9f0  CAPT_getInterruptVector                
+0000f8ac  CAPT_getMaxRelThreshold                
+0000f8c0  CAPT_getRelNoiseStatusThreshold        
+0000f69c  CAPT_init                              
+0000e906  CAPT_initSensor                        
+0000ef68  CAPT_initUI                            
+0000eed8  CAPT_loadCycle                         
+0000ed5e  CAPT_preProcessSlider                  
+0000e584  CAPT_processCycleWithEMC               
+0000e970  CAPT_processSensor                     
+0000f8d4  CAPT_replaceFrequencyWithError         
+0000e000  CAPT_resolveMultiFreqSet               
+0000f44e  CAPT_startConversionAndWaitUntilDone   
+0000dc78  CAPT_testConversionFrequencyForNoise   
+0000f6bc  CAPT_testForMaxCountRecalibration      
+0000f838  CAPT_testForNegativeTouchRecalibration 
+0000e828  CAPT_testForRecalibration              
+0000f074  CAPT_unloadCycle                       
+0000e2ee  CAPT_updateElementFilteredValuesWithEMC
+0000e9da  CAPT_updateGlobalFilteredNoiseLevel    
+0000df2e  CAPT_updateSelfElementProxTouchWithEMC 
+0000ec62  CAPT_updateSensorNoise                 
+0000ccb8  CAPT_updateSensorRawCount              
+0000f288  CAPT_updateSensorTimeout               
+0000e7b2  CAPT_updateSensorWithEMC               
+0000ea40  CAPT_updateUI                          
 000001c0  CRCDI                                  
 000001c2  CRCDIRB                                
 000001c3  CRCDIRB_H                              
@@ -686,9 +686,9 @@ address   name
 000001c6  CRCRESR                                
 000001c7  CRCRESR_H                              
 000001c6  CRCRESR_L                              
-0000f9ea  CRC_getResult                          
-0000f9f0  CRC_set8BitData                        
-0000f9f6  CRC_setSeed                            
+0000f9f6  CRC_getResult                          
+0000f9fc  CRC_set8BitData                        
+0000fa02  CRC_setSeed                            
 00000180  CSCTL0                                 
 00000181  CSCTL0_H                               
 00000180  CSCTL0_L                               
@@ -716,11 +716,11 @@ address   name
 00000190  CSCTL8                                 
 00000191  CSCTL8_H                               
 00000190  CSCTL8_L                               
-0000f9fc  EUSCI_A_SPI_clearInterrupt             
-0000fa02  EUSCI_A_SPI_enableInterrupt            
-0000ecac  EUSCI_A_SPI_initMaster                 
-0000f9c6  EUSCI_A_SPI_receiveData                
-0000f9ce  EUSCI_A_SPI_transmitData               
+0000fa08  EUSCI_A_SPI_clearInterrupt             
+0000fa0e  EUSCI_A_SPI_enableInterrupt            
+0000ecb8  EUSCI_A_SPI_initMaster                 
+0000f9d2  EUSCI_A_SPI_receiveData                
+0000f9da  EUSCI_A_SPI_transmitData               
 000021e6  EYES_BIGHAPPY_VAL                      
 000021e8  EYES_BIG_VAL                           
 000021ea  EYES_DAFUQ_VAL                         
@@ -871,7 +871,7 @@ address   name
 000004ca  RESLO                                  
 000004cb  RESLO_H                                
 000004ca  RESLO_L                                
-0000f6d0  RFM_ISR                                
+0000f6dc  RFM_ISR                                
 0000030c  RTCCNT                                 
 0000030d  RTCCNT_H                               
 0000030c  RTCCNT_L                               
@@ -884,7 +884,7 @@ address   name
 00000308  RTCMOD                                 
 00000309  RTCMOD_H                               
 00000308  RTCMOD_L                               
-0000edec  RTC_ISR                                
+0000edf8  RTC_ISR                                
 00000100  SFRIE1                                 
 00000101  SFRIE1_H                               
 00000100  SFRIE1_L                               
@@ -975,7 +975,7 @@ address   name
 00000460  TA3EX0                                 
 0000046e  TA3IV                                  
 00000450  TA3R                                   
-0000da4c  TLC_EUSCI_ISR                          
+0000da58  TLC_EUSCI_ISR                          
 00000510  UCA0ABCTL                              
 00000506  UCA0BRW                                
 00000507  UCA0BRW_H                              
@@ -1095,10 +1095,10 @@ address   name
 0000c61a  __TI_CINIT_Warm                        
 0000c608  __TI_Handler_Table_Base                
 0000c60e  __TI_Handler_Table_Limit               
-0000f9d6  __TI_ISR_TRAP                          
-0000ed00  __TI_auto_init_nobinit_nopinit_hold_wdt
-0000e88c  __TI_decompress_lzss                   
-0000f92c  __TI_decompress_none                   
+0000f9e2  __TI_ISR_TRAP                          
+0000ed0c  __TI_auto_init_nobinit_nopinit_hold_wdt
+0000e898  __TI_decompress_lzss                   
+0000f938  __TI_decompress_none                   
 0000ffd8  __TI_int40                             
 0000ffda  __TI_int41                             
 0000ffdc  __TI_int42                             
@@ -1121,58 +1121,58 @@ address   name
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
-0000f8dc  __TI_zero_init_nomemset                
+0000f8e8  __TI_zero_init_nomemset                
 ffffffff  __c_args__                             
-0000f4fa  __mspabi_divi                          
-0000f874  __mspabi_divu                          
-0000ebfe  __mspabi_divul                         
-0000f904  __mspabi_mpyi_f5hw                     
-0000f710  __mspabi_mpyl_f5hw                     
-0000f4fa  __mspabi_remi                          
-0000f874  __mspabi_remu                          
-0000ebfe  __mspabi_remul                         
-0000f9b2  __mspabi_slli                          
-0000f0de  __mspabi_slll_1                        
-0000f0ba  __mspabi_slll_10                       
-0000f0b6  __mspabi_slll_11                       
-0000f0b2  __mspabi_slll_12                       
-0000f0ae  __mspabi_slll_13                       
-0000f0aa  __mspabi_slll_14                       
-0000f0a6  __mspabi_slll_15                       
-0000f0da  __mspabi_slll_2                        
-0000f0d6  __mspabi_slll_3                        
-0000f0d2  __mspabi_slll_4                        
-0000f0ce  __mspabi_slll_5                        
-0000f0ca  __mspabi_slll_6                        
-0000f0c6  __mspabi_slll_7                        
-0000f0c2  __mspabi_slll_8                        
-0000f0be  __mspabi_slll_9                        
-0000f9bc  __mspabi_srli                          
-0000f11c  __mspabi_srll_1                        
-0000f0f8  __mspabi_srll_10                       
-0000f0f4  __mspabi_srll_11                       
-0000f0f0  __mspabi_srll_12                       
-0000f0ec  __mspabi_srll_13                       
-0000f0e8  __mspabi_srll_14                       
-0000f0e4  __mspabi_srll_15                       
-0000f118  __mspabi_srll_2                        
-0000f114  __mspabi_srll_3                        
-0000f110  __mspabi_srll_4                        
-0000f10c  __mspabi_srll_5                        
-0000f108  __mspabi_srll_6                        
-0000f104  __mspabi_srll_7                        
-0000f100  __mspabi_srll_8                        
-0000f0fc  __mspabi_srll_9                        
-0000f78c  _c_int00_noargs                        
+0000f506  __mspabi_divi                          
+0000f880  __mspabi_divu                          
+0000ec0a  __mspabi_divul                         
+0000f910  __mspabi_mpyi_f5hw                     
+0000f71c  __mspabi_mpyl_f5hw                     
+0000f506  __mspabi_remi                          
+0000f880  __mspabi_remu                          
+0000ec0a  __mspabi_remul                         
+0000f9be  __mspabi_slli                          
+0000f0ea  __mspabi_slll_1                        
+0000f0c6  __mspabi_slll_10                       
+0000f0c2  __mspabi_slll_11                       
+0000f0be  __mspabi_slll_12                       
+0000f0ba  __mspabi_slll_13                       
+0000f0b6  __mspabi_slll_14                       
+0000f0b2  __mspabi_slll_15                       
+0000f0e6  __mspabi_slll_2                        
+0000f0e2  __mspabi_slll_3                        
+0000f0de  __mspabi_slll_4                        
+0000f0da  __mspabi_slll_5                        
+0000f0d6  __mspabi_slll_6                        
+0000f0d2  __mspabi_slll_7                        
+0000f0ce  __mspabi_slll_8                        
+0000f0ca  __mspabi_slll_9                        
+0000f9c8  __mspabi_srli                          
+0000f128  __mspabi_srll_1                        
+0000f104  __mspabi_srll_10                       
+0000f100  __mspabi_srll_11                       
+0000f0fc  __mspabi_srll_12                       
+0000f0f8  __mspabi_srll_13                       
+0000f0f4  __mspabi_srll_14                       
+0000f0f0  __mspabi_srll_15                       
+0000f124  __mspabi_srll_2                        
+0000f120  __mspabi_srll_3                        
+0000f11c  __mspabi_srll_4                        
+0000f118  __mspabi_srll_5                        
+0000f114  __mspabi_srll_6                        
+0000f110  __mspabi_srll_7                        
+0000f10c  __mspabi_srll_8                        
+0000f108  __mspabi_srll_9                        
+0000f798  _c_int00_noargs                        
 000021f6  _lock                                  
-0000fa18  _nop                                   
+0000fa24  _nop                                   
 0000fffe  _reset_vector                          
 00002f60  _stack                                 
-0000fa1a  _system_post_cinit                     
-0000fa14  _system_pre_init                       
+0000fa26  _system_post_cinit                     
+0000fa20  _system_pre_init                       
 000021f8  _unlock                                
-0000fa08  abort                                  
-0000f99e  abs                                    
+0000fa14  abort                                  
+0000f9aa  abs                                    
 000020d8  anim_bigspin_frames                    
 000021a4  anim_boop                              
 0000214a  anim_boop_frames                       
@@ -1195,24 +1195,24 @@ ffffffff  __c_args__
 00002120  animations                             
 000021e0  badge_block_radio_game                 
 000021df  badge_boop_radio_cooldown              
-0000f9a8  badge_button_press_long                
-0000f470  badge_button_press_short               
+0000f9b4  badge_button_press_long                
+0000f47c  badge_button_press_short               
 00001800  badge_conf                             
-0000f350  badge_init                             
-0000ee38  badge_set_seen                         
-0000e72e  badge_update_queerdar_count            
+0000f35c  badge_init                             
+0000ee44  badge_set_seen                         
+0000e73a  badge_update_queerdar_count            
 0000c61a  bank0_init_data                        
-0000eaf2  button_cb                              
+0000eafe  button_cb                              
 00002236  button_state                           
-0000f6f0  check_id_buf                           
-0000f750  crc16_append_buffer                    
-0000f3b4  crc16_check_buffer                     
-0000f1d4  crc16_compute                          
+0000f6fc  check_id_buf                           
+0000f75c  crc16_append_buffer                    
+0000f3c0  crc16_check_buffer                     
+0000f1e0  crc16_compute                          
 00002224  curr_packet_tx                         
-0000e0b4  dco_software_trim                      
-0000f62c  delay_millis                           
-0000d8e6  do_blink                               
-0000f49e  eye_ambient                            
+0000e0c0  dco_software_trim                      
+0000f638  delay_millis                           
+0000d8f2  do_blink                               
+0000f4aa  eye_ambient                            
 00002237  eye_anim_blink_transition              
 0000213e  eye_anim_curr                          
 00002238  eye_anim_curr_frame                    
@@ -1223,8 +1223,8 @@ ffffffff  __c_args__
 000021d3  f_rfm75_interrupt                      
 0000223c  f_second                               
 0000223d  f_time_loop                            
-0000f984  fram_lock                              
-0000f992  fram_unlock                            
+0000f990  fram_lock                              
+0000f99e  fram_unlock                            
 00002078  fun_base                               
 0000223e  g_bConvCounterFlag                     
 0000223f  g_bConvTimerFlag                       
@@ -1237,85 +1237,85 @@ ffffffff  __c_args__
 00002230  g_pHighestNoiseElement                 
 0000212e  g_uiApp                                
 00002000  ids_in_range                           
-0000f526  init_clocks                            
-0000ef14  init_io                                
-0000f19a  leds_anim_start                        
-0000eb4c  leds_blink_or_bling                    
-0000e4d8  leds_boop                              
+0000f532  init_clocks                            
+0000ef20  init_io                                
+0000f1a6  leds_anim_start                        
+0000eb58  leds_blink_or_bling                    
+0000e4e4  leds_boop                              
 0000213c  leds_brightness                        
 000021cc  leds_dot_level                         
-0000cf0a  leds_error_code                        
+0000cf16  leds_error_code                        
 00001816  leds_eyes_ambient                      
 000021fe  leds_eyes_ambient_temp                 
 00002140  leds_eyes_ambient_temp_ticks           
 00002200  leds_eyes_curr                         
-0000e22e  leds_init                              
-0000dd5c  leds_load_gs                           
-0000f2e8  leds_next_brightness                   
+0000e23a  leds_init                              
+0000dd68  leds_load_gs                           
+0000f2f4  leds_next_brightness                   
 0000c686  leds_post_step                         
-0000f64e  leds_queerdar_alert                    
+0000f65a  leds_queerdar_alert                    
 00002144  leds_scan_speed                        
-0000de46  leds_show_number                       
-0000d364  leds_timestep                          
+0000de52  leds_show_number                       
+0000d370  leds_timestep                          
 000021e1  long_presses                           
 0000ca0e  main                                   
-0000f93e  memcpy                                 
-0000f8f0  memset                                 
+0000f94a  memcpy                                 
+0000f8fc  memset                                 
 00002174  payload                                
-0000f20c  post_display                           
+0000f218  post_display                           
 00002149  radio_badges_in_range                  
-0000f4cc  radio_boop                             
+0000f4d8  radio_boop                             
 00001814  radio_frequency                        
 00001815  radio_frequency_done                   
-0000f382  radio_handle_beacon                    
-0000f76e  radio_init                             
-0000ea94  radio_interval                         
-0000eba6  radio_rx_done                          
-0000f122  radio_start_calibration                
-0000fa1c  radio_tx_done                          
-0000f244  rand                                   
-0000f3e4  read_rfm75_cmd_buf                     
-0000e432  rfm75_deferred_interrupt               
-0000efa0  rfm75_enter_prx                        
-0000f974  rfm75_get_status                       
-0000d138  rfm75_init                             
-0000f5e6  rfm75_io_init                          
-0000f15e  rfm75_post                             
-0000f844  rfm75_read_reg                         
+0000f38e  radio_handle_beacon                    
+0000f77a  radio_init                             
+0000eaa0  radio_interval                         
+0000ebb2  radio_rx_done                          
+0000f12e  radio_start_calibration                
+0000fa28  radio_tx_done                          
+0000f250  rand                                   
+0000f3f0  read_rfm75_cmd_buf                     
+0000e43e  rfm75_deferred_interrupt               
+0000efac  rfm75_enter_prx                        
+0000f980  rfm75_get_status                       
+0000d144  rfm75_init                             
+0000f5f2  rfm75_io_init                          
+0000f16a  rfm75_post                             
+0000f850  rfm75_read_reg                         
 00002232  rfm75_rx_done_cb                       
-0000f31c  rfm75_select_bank                      
+0000f328  rfm75_select_bank                      
 000021d2  rfm75_state                            
-0000e172  rfm75_tx                               
-0000f7c4  rfm75_tx_avail                         
+0000e17e  rfm75_tx                               
+0000f7d0  rfm75_tx_avail                         
 00002234  rfm75_tx_done_cb                       
 000021d0  rfm75_unicast_addr                     
-0000f950  rfm75_write_reg                        
-0000f962  rfm75_write_reg_buf                    
-0000f7de  rfm75spi_recv_sync                     
-0000fa0e  rfm75spi_send_sync                     
+0000f95c  rfm75_write_reg                        
+0000f96e  rfm75_write_reg_buf                    
+0000f7ea  rfm75spi_recv_sync                     
+0000fa1a  rfm75spi_send_sync                     
 0000216c  rtc_button_csecs                       
 0000216e  rtc_centiseconds                       
-0000f85c  rtc_init                               
+0000f868  rtc_init                               
 00002170  rtc_seconds                            
 00002156  rx_cnt                                 
 00002202  s_boop_radio                           
 00002146  scan_dot_curr                          
-0000f918  send_rfm75_cmd                         
-0000f576  send_rfm75_cmd_buf                     
-0000f730  set_id_buf                             
-0000f2b2  set_unicast_addr                       
-0000f88a  srand                                  
+0000f924  send_rfm75_cmd                         
+0000f582  send_rfm75_cmd_buf                     
+0000f73c  set_id_buf                             
+0000f2be  set_unicast_addr                       
+0000f896  srand                                  
 0000209a  tlc_gs_data                            
-0000e6a4  tlc_init                               
+0000e6b0  tlc_init                               
 0000219d  tlc_loopback_data_in                   
 0000219c  tlc_loopback_data_out                  
 0000219a  tlc_send_type                          
-0000f7f8  tlc_set_fun                            
-0000f812  tlc_set_gs                             
-0000f7a8  tlc_stage_blank                        
-0000efe4  tlc_stage_dc_mult                      
+0000f804  tlc_set_fun                            
+0000f81e  tlc_set_gs                             
+0000f7b4  tlc_stage_blank                        
+0000eff0  tlc_stage_dc_mult                      
 0000219b  tlc_tx_index                           
-0000f59c  validate                               
+0000f5a8  validate                               
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1907,175 +1907,175 @@ address   name
 0000c61a  bank0_init_data                        
 0000c686  leds_post_step                         
 0000ca0e  main                                   
-0000ccac  CAPT_updateSensorRawCount              
-0000cf0a  leds_error_code                        
-0000d138  rfm75_init                             
-0000d364  leds_timestep                          
-0000d582  CAPT_calibrateGain                     
-0000d74a  CAPT_calibrateOffset                   
-0000d8e6  do_blink                               
-0000da4c  TLC_EUSCI_ISR                          
-0000db7a  CAPT_correctInvalidMultiFreqCalibration
-0000dc6c  CAPT_testConversionFrequencyForNoise   
-0000dd5c  leds_load_gs                           
-0000de46  leds_show_number                       
-0000df22  CAPT_updateSelfElementProxTouchWithEMC 
-0000dff4  CAPT_resolveMultiFreqSet               
-0000e0b4  dco_software_trim                      
-0000e172  rfm75_tx                               
-0000e22e  leds_init                              
-0000e2e2  CAPT_updateElementFilteredValuesWithEMC
-0000e38c  CAPT_computeRelNoiseComp               
-0000e432  rfm75_deferred_interrupt               
-0000e4d8  leds_boop                              
-0000e578  CAPT_processCycleWithEMC               
-0000e610  CAPT_calibrateSensorWithEMC            
-0000e6a4  tlc_init                               
-0000e72e  badge_update_queerdar_count            
-0000e7a6  CAPT_updateSensorWithEMC               
-0000e81c  CAPT_testForRecalibration              
-0000e88c  __TI_decompress_lzss                   
-0000e8fa  CAPT_initSensor                        
-0000e964  CAPT_processSensor                     
-0000e9ce  CAPT_updateGlobalFilteredNoiseLevel    
-0000ea34  CAPT_updateUI                          
-0000ea94  radio_interval                         
-0000eaf2  button_cb                              
-0000eb4c  leds_blink_or_bling                    
-0000eba6  radio_rx_done                          
-0000ebfe  __mspabi_divul                         
-0000ebfe  __mspabi_remul                         
-0000ec56  CAPT_updateSensorNoise                 
-0000ecac  EUSCI_A_SPI_initMaster                 
-0000ed00  __TI_auto_init_nobinit_nopinit_hold_wdt
-0000ed52  CAPT_preProcessSlider                  
-0000eda0  CAPT_getEMCConversionSettings          
-0000edec  RTC_ISR                                
-0000ee38  badge_set_seen                         
-0000ee84  CAPT_flagAllElementsForReseed          
-0000eecc  CAPT_loadCycle                         
-0000ef14  init_io                                
-0000ef5c  CAPT_initUI                            
-0000efa0  rfm75_enter_prx                        
-0000efe4  tlc_stage_dc_mult                      
-0000f028  CAPT_ISR                               
-0000f068  CAPT_unloadCycle                       
-0000f0a6  __mspabi_slll_15                       
-0000f0aa  __mspabi_slll_14                       
-0000f0ae  __mspabi_slll_13                       
-0000f0b2  __mspabi_slll_12                       
-0000f0b6  __mspabi_slll_11                       
-0000f0ba  __mspabi_slll_10                       
-0000f0be  __mspabi_slll_9                        
-0000f0c2  __mspabi_slll_8                        
-0000f0c6  __mspabi_slll_7                        
-0000f0ca  __mspabi_slll_6                        
-0000f0ce  __mspabi_slll_5                        
-0000f0d2  __mspabi_slll_4                        
-0000f0d6  __mspabi_slll_3                        
-0000f0da  __mspabi_slll_2                        
-0000f0de  __mspabi_slll_1                        
-0000f0e4  __mspabi_srll_15                       
-0000f0e8  __mspabi_srll_14                       
-0000f0ec  __mspabi_srll_13                       
-0000f0f0  __mspabi_srll_12                       
-0000f0f4  __mspabi_srll_11                       
-0000f0f8  __mspabi_srll_10                       
-0000f0fc  __mspabi_srll_9                        
-0000f100  __mspabi_srll_8                        
-0000f104  __mspabi_srll_7                        
-0000f108  __mspabi_srll_6                        
-0000f10c  __mspabi_srll_5                        
-0000f110  __mspabi_srll_4                        
-0000f114  __mspabi_srll_3                        
-0000f118  __mspabi_srll_2                        
-0000f11c  __mspabi_srll_1                        
-0000f122  radio_start_calibration                
-0000f15e  rfm75_post                             
-0000f19a  leds_anim_start                        
-0000f1d4  crc16_compute                          
-0000f20c  post_display                           
-0000f244  rand                                   
-0000f27c  CAPT_updateSensorTimeout               
-0000f2b2  set_unicast_addr                       
-0000f2e8  leds_next_brightness                   
-0000f31c  rfm75_select_bank                      
-0000f350  badge_init                             
-0000f382  radio_handle_beacon                    
-0000f3b4  crc16_check_buffer                     
-0000f3e4  read_rfm75_cmd_buf                     
-0000f414  CAPT_convertAbsToRel                   
-0000f442  CAPT_startConversionAndWaitUntilDone   
-0000f470  badge_button_press_short               
-0000f49e  eye_ambient                            
-0000f4cc  radio_boop                             
-0000f4fa  __mspabi_divi                          
-0000f4fa  __mspabi_remi                          
-0000f526  init_clocks                            
-0000f550  CAPT_blockOnFlag                       
-0000f576  send_rfm75_cmd_buf                     
-0000f59c  validate                               
-0000f5c2  CAPT_computeJitterFilter               
-0000f5e6  rfm75_io_init                          
-0000f60a  CAPT_calibrateSensor                   
-0000f62c  delay_millis                           
-0000f64e  leds_queerdar_alert                    
-0000f670  CAPT_calibrateUI                       
-0000f690  CAPT_init                              
-0000f6b0  CAPT_testForMaxCountRecalibration      
-0000f6d0  RFM_ISR                                
-0000f6f0  check_id_buf                           
-0000f710  __mspabi_mpyl_f5hw                     
-0000f730  set_id_buf                             
-0000f750  crc16_append_buffer                    
-0000f76e  radio_init                             
-0000f78c  _c_int00_noargs                        
-0000f7a8  tlc_stage_blank                        
-0000f7c4  rfm75_tx_avail                         
-0000f7de  rfm75spi_recv_sync                     
-0000f7f8  tlc_set_fun                            
-0000f812  tlc_set_gs                             
-0000f82c  CAPT_testForNegativeTouchRecalibration 
-0000f844  rfm75_read_reg                         
-0000f85c  rtc_init                               
-0000f874  __mspabi_divu                          
-0000f874  __mspabi_remu                          
-0000f88a  srand                                  
-0000f8a0  CAPT_getMaxRelThreshold                
-0000f8b4  CAPT_getRelNoiseStatusThreshold        
-0000f8c8  CAPT_replaceFrequencyWithError         
-0000f8dc  __TI_zero_init_nomemset                
-0000f8f0  memset                                 
-0000f904  __mspabi_mpyi_f5hw                     
-0000f918  send_rfm75_cmd                         
-0000f92c  __TI_decompress_none                   
-0000f93e  memcpy                                 
-0000f950  rfm75_write_reg                        
-0000f962  rfm75_write_reg_buf                    
-0000f974  rfm75_get_status                       
-0000f984  fram_lock                              
-0000f992  fram_unlock                            
-0000f99e  abs                                    
-0000f9a8  badge_button_press_long                
-0000f9b2  __mspabi_slli                          
-0000f9bc  __mspabi_srli                          
-0000f9c6  EUSCI_A_SPI_receiveData                
-0000f9ce  EUSCI_A_SPI_transmitData               
-0000f9d6  __TI_ISR_TRAP                          
-0000f9de  CAPT_clearIFG                          
-0000f9e4  CAPT_getInterruptVector                
-0000f9ea  CRC_getResult                          
-0000f9f0  CRC_set8BitData                        
-0000f9f6  CRC_setSeed                            
-0000f9fc  EUSCI_A_SPI_clearInterrupt             
-0000fa02  EUSCI_A_SPI_enableInterrupt            
-0000fa08  C$$EXIT                                
-0000fa08  abort                                  
-0000fa0e  rfm75spi_send_sync                     
-0000fa14  _system_pre_init                       
-0000fa18  _nop                                   
-0000fa1a  _system_post_cinit                     
-0000fa1c  radio_tx_done                          
+0000ccb8  CAPT_updateSensorRawCount              
+0000cf16  leds_error_code                        
+0000d144  rfm75_init                             
+0000d370  leds_timestep                          
+0000d58e  CAPT_calibrateGain                     
+0000d756  CAPT_calibrateOffset                   
+0000d8f2  do_blink                               
+0000da58  TLC_EUSCI_ISR                          
+0000db86  CAPT_correctInvalidMultiFreqCalibration
+0000dc78  CAPT_testConversionFrequencyForNoise   
+0000dd68  leds_load_gs                           
+0000de52  leds_show_number                       
+0000df2e  CAPT_updateSelfElementProxTouchWithEMC 
+0000e000  CAPT_resolveMultiFreqSet               
+0000e0c0  dco_software_trim                      
+0000e17e  rfm75_tx                               
+0000e23a  leds_init                              
+0000e2ee  CAPT_updateElementFilteredValuesWithEMC
+0000e398  CAPT_computeRelNoiseComp               
+0000e43e  rfm75_deferred_interrupt               
+0000e4e4  leds_boop                              
+0000e584  CAPT_processCycleWithEMC               
+0000e61c  CAPT_calibrateSensorWithEMC            
+0000e6b0  tlc_init                               
+0000e73a  badge_update_queerdar_count            
+0000e7b2  CAPT_updateSensorWithEMC               
+0000e828  CAPT_testForRecalibration              
+0000e898  __TI_decompress_lzss                   
+0000e906  CAPT_initSensor                        
+0000e970  CAPT_processSensor                     
+0000e9da  CAPT_updateGlobalFilteredNoiseLevel    
+0000ea40  CAPT_updateUI                          
+0000eaa0  radio_interval                         
+0000eafe  button_cb                              
+0000eb58  leds_blink_or_bling                    
+0000ebb2  radio_rx_done                          
+0000ec0a  __mspabi_divul                         
+0000ec0a  __mspabi_remul                         
+0000ec62  CAPT_updateSensorNoise                 
+0000ecb8  EUSCI_A_SPI_initMaster                 
+0000ed0c  __TI_auto_init_nobinit_nopinit_hold_wdt
+0000ed5e  CAPT_preProcessSlider                  
+0000edac  CAPT_getEMCConversionSettings          
+0000edf8  RTC_ISR                                
+0000ee44  badge_set_seen                         
+0000ee90  CAPT_flagAllElementsForReseed          
+0000eed8  CAPT_loadCycle                         
+0000ef20  init_io                                
+0000ef68  CAPT_initUI                            
+0000efac  rfm75_enter_prx                        
+0000eff0  tlc_stage_dc_mult                      
+0000f034  CAPT_ISR                               
+0000f074  CAPT_unloadCycle                       
+0000f0b2  __mspabi_slll_15                       
+0000f0b6  __mspabi_slll_14                       
+0000f0ba  __mspabi_slll_13                       
+0000f0be  __mspabi_slll_12                       
+0000f0c2  __mspabi_slll_11                       
+0000f0c6  __mspabi_slll_10                       
+0000f0ca  __mspabi_slll_9                        
+0000f0ce  __mspabi_slll_8                        
+0000f0d2  __mspabi_slll_7                        
+0000f0d6  __mspabi_slll_6                        
+0000f0da  __mspabi_slll_5                        
+0000f0de  __mspabi_slll_4                        
+0000f0e2  __mspabi_slll_3                        
+0000f0e6  __mspabi_slll_2                        
+0000f0ea  __mspabi_slll_1                        
+0000f0f0  __mspabi_srll_15                       
+0000f0f4  __mspabi_srll_14                       
+0000f0f8  __mspabi_srll_13                       
+0000f0fc  __mspabi_srll_12                       
+0000f100  __mspabi_srll_11                       
+0000f104  __mspabi_srll_10                       
+0000f108  __mspabi_srll_9                        
+0000f10c  __mspabi_srll_8                        
+0000f110  __mspabi_srll_7                        
+0000f114  __mspabi_srll_6                        
+0000f118  __mspabi_srll_5                        
+0000f11c  __mspabi_srll_4                        
+0000f120  __mspabi_srll_3                        
+0000f124  __mspabi_srll_2                        
+0000f128  __mspabi_srll_1                        
+0000f12e  radio_start_calibration                
+0000f16a  rfm75_post                             
+0000f1a6  leds_anim_start                        
+0000f1e0  crc16_compute                          
+0000f218  post_display                           
+0000f250  rand                                   
+0000f288  CAPT_updateSensorTimeout               
+0000f2be  set_unicast_addr                       
+0000f2f4  leds_next_brightness                   
+0000f328  rfm75_select_bank                      
+0000f35c  badge_init                             
+0000f38e  radio_handle_beacon                    
+0000f3c0  crc16_check_buffer                     
+0000f3f0  read_rfm75_cmd_buf                     
+0000f420  CAPT_convertAbsToRel                   
+0000f44e  CAPT_startConversionAndWaitUntilDone   
+0000f47c  badge_button_press_short               
+0000f4aa  eye_ambient                            
+0000f4d8  radio_boop                             
+0000f506  __mspabi_divi                          
+0000f506  __mspabi_remi                          
+0000f532  init_clocks                            
+0000f55c  CAPT_blockOnFlag                       
+0000f582  send_rfm75_cmd_buf                     
+0000f5a8  validate                               
+0000f5ce  CAPT_computeJitterFilter               
+0000f5f2  rfm75_io_init                          
+0000f616  CAPT_calibrateSensor                   
+0000f638  delay_millis                           
+0000f65a  leds_queerdar_alert                    
+0000f67c  CAPT_calibrateUI                       
+0000f69c  CAPT_init                              
+0000f6bc  CAPT_testForMaxCountRecalibration      
+0000f6dc  RFM_ISR                                
+0000f6fc  check_id_buf                           
+0000f71c  __mspabi_mpyl_f5hw                     
+0000f73c  set_id_buf                             
+0000f75c  crc16_append_buffer                    
+0000f77a  radio_init                             
+0000f798  _c_int00_noargs                        
+0000f7b4  tlc_stage_blank                        
+0000f7d0  rfm75_tx_avail                         
+0000f7ea  rfm75spi_recv_sync                     
+0000f804  tlc_set_fun                            
+0000f81e  tlc_set_gs                             
+0000f838  CAPT_testForNegativeTouchRecalibration 
+0000f850  rfm75_read_reg                         
+0000f868  rtc_init                               
+0000f880  __mspabi_divu                          
+0000f880  __mspabi_remu                          
+0000f896  srand                                  
+0000f8ac  CAPT_getMaxRelThreshold                
+0000f8c0  CAPT_getRelNoiseStatusThreshold        
+0000f8d4  CAPT_replaceFrequencyWithError         
+0000f8e8  __TI_zero_init_nomemset                
+0000f8fc  memset                                 
+0000f910  __mspabi_mpyi_f5hw                     
+0000f924  send_rfm75_cmd                         
+0000f938  __TI_decompress_none                   
+0000f94a  memcpy                                 
+0000f95c  rfm75_write_reg                        
+0000f96e  rfm75_write_reg_buf                    
+0000f980  rfm75_get_status                       
+0000f990  fram_lock                              
+0000f99e  fram_unlock                            
+0000f9aa  abs                                    
+0000f9b4  badge_button_press_long                
+0000f9be  __mspabi_slli                          
+0000f9c8  __mspabi_srli                          
+0000f9d2  EUSCI_A_SPI_receiveData                
+0000f9da  EUSCI_A_SPI_transmitData               
+0000f9e2  __TI_ISR_TRAP                          
+0000f9ea  CAPT_clearIFG                          
+0000f9f0  CAPT_getInterruptVector                
+0000f9f6  CRC_getResult                          
+0000f9fc  CRC_set8BitData                        
+0000fa02  CRC_setSeed                            
+0000fa08  EUSCI_A_SPI_clearInterrupt             
+0000fa0e  EUSCI_A_SPI_enableInterrupt            
+0000fa14  C$$EXIT                                
+0000fa14  abort                                  
+0000fa1a  rfm75spi_send_sync                     
+0000fa20  _system_pre_init                       
+0000fa24  _nop                                   
+0000fa26  _system_post_cinit                     
+0000fa28  radio_tx_done                          
 0000ffd8  __TI_int40                             
 0000ffda  __TI_int41                             
 0000ffdc  __TI_int42                             

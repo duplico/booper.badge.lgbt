@@ -401,7 +401,7 @@ int main(void)
                         }
                     }
                     rfm75_write_reg(0x05, radio_frequency);
-                    radio_calibration_freq_seconds_left = BADGE_RADIO_CALIBRATION_SECS_PER_FREQ;
+                    radio_calibration_freq_seconds_left = badge_conf.bootstrapped ? BADGE_RADIO_CALIBRATION_SECS_PER_FREQ : BADGE_RADIO_CALIBRATION_SECS_PER_FREQ_INITIAL;
                 } else {
                     // Decrement seconds left on the current frequency.
                     radio_calibration_freq_seconds_left--;
