@@ -5,17 +5,25 @@ import click
 # In the following, FA is the badge ID, and 0E is the frequency.
 INFOA_TXT = """@1800
 FA 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-00 00 01 00 0E 00 00"""
+00 00 01 00 0E XX 00"""
 # TODO: needs a `q` by itself on the last line
 
 @click.group()
 def program_badge():
     pass
 
-def do_flash_infoa(id):
+def do_flash_infoa(id, freq=None, infoa_base=INFOA_TXT):
     id_hex = '%02X' % id
+    my_infoa = infoa_base
+    my_infoa = my_infoa.replace('FA', id_hex, 1)
+    if freq is not None:
+        freq_hex = '%02X' % freq
+        my_infoa = my_infoa.replace('XX', '01', 1)
+        my_infoa = my_infoa.replace('0E', freq_hex)
+    else:
+        my_infoa = my_infoa.replace('XX', '00')
     with open('.infoa.tmp.txt', 'w') as infoa:
-        print(INFOA_TXT.replace('FA', id_hex, 1), file=infoa)
+        print(my_infoa, file=infoa)
         print('q', file=infoa)
     subprocess.run(
         [
@@ -26,14 +34,17 @@ def do_flash_infoa(id):
             '-w',
             '.infoa.tmp.txt',
             '-i',
-            'TIUSB'
+            'TIUSB',
+            '-j',
+            'fast'
         ]
     )
 
 @click.command()
 @click.argument('id', type=int)
-def flash_infoa(id):
-    do_flash_infoa(id)
+@click.option('--freq', type=int, default=None)
+def flash_infoa(id, freq):
+    do_flash_infoa(id, freq=freq)
 
 program_badge.add_command(flash_infoa)
 
@@ -47,7 +58,9 @@ def do_flash_program(source_txt):
             '-w',
             str(source_txt),
             '-i',
-            'TIUSB'
+            'TIUSB',
+            '-j',
+            'fast'
         ]
     )
 
@@ -61,13 +74,14 @@ program_badge.add_command(flash_program)
 @click.command()
 @click.option('-i', '--source-txt', default='code_and_cinit.txt', type=click.Path(file_okay=True, dir_okay=False, exists=True, readable=True))
 @click.argument('id', type=int)
-def flash_badge(id, source_txt):
+@click.option('--freq', type=int, default=None)
+def flash_badge(id, source_txt, freq):
     if id == 250:
         click.echo("WARNING:\tFlashing this badge using unassigned ID")
     if id > 100:
         click.echo("WARNING:\tFlashing this badge with ID over 100")
     click.echo("INFO:\tAttempting to flash badge %03d" % id)
-    do_flash_infoa(id)
+    do_flash_infoa(id, freq=freq)
     do_flash_program(source_txt)
 
 program_badge.add_command(flash_badge)
