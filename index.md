@@ -41,4 +41,4 @@ These boards are assembled using Chip Quik Sn42/Bi57.6/Ag0.4 low-temperature lea
 
 Note that tin-bismuth solder can exhibit undesirable thermal properties if contaminated with lead. If you need to rework these boards, please consider doing so in a way that prevents such contamination, either by using a clean tip, avoiding use of lead completely, or thoroughly cleaning the existing solder from the boards before using a different alloy for rework.
 
-A small number of boards were used as prototypes as well, and were assembled with 63/37 leaded solder. These boards have a 22 AWG purple wire on the back. All boards with white or black 30 AWG wires on the back are built with the lead-free process.
+A small number of boards were used as prototypes as well, and were assembled with 63/37 leaded solder. These boards have a 22 AWG purple wire on the back. All boards with yellow or black 30 AWG wires on the back are built with the lead-free process.
